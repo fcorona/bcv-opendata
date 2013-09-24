@@ -1,0 +1,52 @@
+Análisis y diseño:
+
+Semana 1:
+	Definición de requerimientos de información (definir el formato y los modelos de información que se usarán en la aplicación).
+
+	establecer un lenguaje ubicuo
+	modelar los conceptos
+
+	definición de los dos datasets principales:
+		encuesta de percepcion ciudadana e informe de indicadores.
+		encuesta de percepción ciudadana:
+			segmentación, publico objetivo, 
+			dato
+			categorias de los datos
+			tipo de los datos
+			valores validos de los datos
+
+		informe de calidad de vida, indicadores
+			segmentación
+			dato
+			fuente
+			tipo de dato
+
+	gapminder
+
+como levantamos requerimientos?
+	preparar una lista de requerimientos basado en lo que hemos charlado y lo que proponemos que se puede hacer:
+	tomar las semanas para refinar esto.
+
+
+Semana 2:
+	Definición de roles y usuarios de la aplicación (establecer mecanismos de acceso a la información y responsabilidades por usuarios).
+
+	definir roles de usuarios:
+		usuarios que consultan datos?
+		usuarios que suben datos?
+		usuarios que administran datos?
+		podemos definir una Persona para cada tipo de usuario? 
+
+
+Semana 3:
+	Definición de módulos y categorías de la aplicación (definir los diferentes componentes que ofrecería la aplicación por sus responsabilidades y funcionalidades).
+
+
+
+Semana 4:
+	Definición de requerimientos específicos por módulo (detallar los requerimientos de cada uno de los módulos que se plantearon en el paso anterior).
+		Roles que interactúan
+		Tipo de información que se maneja
+		Definición de permisos
+		Definición de requerimientos específicos del módulo
+

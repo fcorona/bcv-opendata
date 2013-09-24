@@ -1,0 +1,19 @@
+Casos de uso
+
+usuarios:
+	admin de info
+	ciudadano
+	developer
+
+
+ciudadano
+	consultar el dataset de la encuesta de percepción ciudadana como una tabla
+	consultar el dataset de la encuesta de percepción ciudadana como una grafica
+
+	filtrar la consulta del dataset de la epc por datos demograficos:
+		estrato
+		genero
+		zona
+		edad
+
+	filtrar la consulta del dataset de la epc por categorias y subcategorias
