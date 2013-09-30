@@ -1,13 +1,21 @@
 Casos de uso
 
 usuarios:
-	admin de info
+	administrador
 	ciudadano
-	developer
+	desarrollador
 
+administrador
+	subir info
+	consultar metricas de dataset
+	actualizar dataset
+	crear usuario
+	definir permisos por usuarios
+	certificar dataset de una app, validar que el autor del dataset es quien dice ser.
 
 ciudadano
 	consultar el dataset de la encuesta de percepción ciudadana como una tabla
+	consultar el dataset de la encuesta de percepción ciudadana como csv, excel, pdf
 	consultar el dataset de la encuesta de percepción ciudadana como una grafica
 
 	filtrar la consulta del dataset de la epc por datos demograficos:
@@ -17,3 +25,21 @@ ciudadano
 		edad
 
 	filtrar la consulta del dataset de la epc por categorias y subcategorias
+	
+	graficar variables
+	comparar variables
+	agrupar variables
+	segmentar variables
+	ver apps registradas
+	ver datasets registrados
+
+desarrollador
+	consultar dataset a traves de servicio REST
+	filtrar valores del dataset a traves de servicio REST
+	registrar app para consultar datos.
+	consultar documentación del API
+	crear dataset
+	definir variables del dataset
+	subir información del dataset a partir del app
+	modificar información del dataset a partir del app
+	eliminar información del dataset a partir del app
