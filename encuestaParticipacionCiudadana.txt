@@ -1,0 +1,43 @@
+registro de recorrido
+datos del encuestador
+zonas de la ciudad
+filtros
+	f1, f2, f3, f4, f5, f6, f7
+aspectos generales - clima de opinion
+	ag1, ag2
+calidad de vida
+	cv0, cv1, cv4, cv5
+clima de opinion economica
+	co2, co3, co4, co4a
+alimentación
+	al1, al2
+aspectos sectoriales - educacion
+	e3a, e3, e4, e5, e6
+aspectos sectoriales - salud
+	s1, s2, s3, s4, s5, s6, s7
+aspectos sectoriales - servicios publicos
+	sp1, sp2, sp3, sp4, sp5, sp6, sp7, sp8, sp9, sp10
+equipamentos, vivienda y seguridad en el barrio
+	vs0, vs0a, vs2, vs3, vs4, vs5, vs6, vs6a, vs7, vs7a, vs9, vs10, vs12, vs13, vs14, vs15, vs16, vs17, vs17a, vs18, vs19
+participacion ciudadana
+	pc1, pc2, pc3, pc4, pc5, pc6, pc7, pc8
+responsabilidad, corresponsabilidad y convivencia ciudadana
+	rc1, rc3, rc4, rc5
+discriminacion, equidad y derechos
+	de2
+cultura, recreación y deporte
+	cr1, cr2, cr3, cr4
+movilidad vial
+	mv1, mv2, mv3, mv4, mv6, mv13, mv14, mv20, mv21
+espacio publico
+	ep1
+medio ambiente, cambio climatico y gestion de riesgos
+	ma3, ma4, ma8, ma9, ma12, ma13a, ma13, ma14, ma15, ma16, ma16, ma17
+aspectos gubernamentales - gestion publica
+	gp1_1..gp1_28, gp2_1..gp2_28,  gp3_1..gp3_28
+presentación de resultados
+	pr1, pr2, pr7
+aspectos gubernamentales - calificacion de gestion global
+	gg2, gg3, gg3, gg4, gg6, gg7, gg8
+concejo de la ciudad
+	cc1, cc2, cc3, cc5, cc7, cc8
