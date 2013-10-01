@@ -1,0 +1,40 @@
+notas para la reunión:
+
+formatos para cada uno de los datasets
+
+* Indicadores de calidad de vida
+	estructura del dato:
+	dimension
+		categoria
+			indicador
+
+	este formato está perfecto por que tienen: descripción, unidad de medida, fuente, cobertura, periodicidad
+	el dato es consistente y se encuentra año a año
+
+	tareas
+	debemos hacer, agregar un código a cada indicador.
+
+
+* Encuesta de percepción
+	estructura del dato:
+	categoria
+		variable/dato/valor
+
+	el diccionario de variables contiene la descripción y el código de la pregunta. pero no tiene unidad de medida, o los valores asociados a cada posible respuesta.
+
+	en el consolidado total se encontró que más de 50 variables homologadas presentan inconsistencias:
+		- en un año reciben mas de un dato y en otro un unico dato
+		- algunos años aparecen variables que no estan en el diccionario
+		- es posible que otras variables presenten problemas como la RC1(2012) qué esta mal homologada
+		- esto afecta el proceso de dar trazabilidad a las variables a traves del tiempo, a partir del consolidado.
+
+	tareas:
+		conseguir los diferentes valores(unidades de medida) que pueden tomar las variables para darle significado a los resultados
+		revisar el consolidado para validar y definir que se hará con las variables que presentan inconsistencias.
+
+Presentación de historias de usuario.
+	explicar que es una historia de usuario
+	aprovechar la reunión para preguntar acerca de los diferentes tipos de usuario y que piensan que puede hacer cada uno.
+	mostrar la primera aproximación de los historias de usuario
+
+	tareas, profundizar un poco mas sobre los historias de usuario para poder ir revisando durante el proceso.

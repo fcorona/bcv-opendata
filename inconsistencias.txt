@@ -1,0 +1,96 @@
+preguntas con inconsistencias:
+
+p58: 2005 y 2006 fue de tipo multiple luego entre el 2008 y 2011 cambio a 1 o 2 (si o no)
+
+p63: para el 2012 acepta un unico tipo de dato (1, 2 o 3) sin embargo en 2010, 2009, 2008, 2006 acepta más de uno (ver fila 3386, 5998, 6158, 9742)
+
+p66: en el 2007 y 2006 el dato se comporta como dato único y en el 2005 acepta mas de uno (10978)
+
+p101: hay datos en el 2002, aunque no estan en el banco de preguntas. además el tipo de dato es distinto
+
+p102: mismo problema que el anterior
+
+p109: hay datos en el 2004, aunque no estan en el banco de preguntas
+
+p112: tipo de respuesta del tipo: si, no, no responde. En los años 2002, 2000.
+
+p115: datos en el año 2000 y no esta homologada en el banco de preguntas.
+
+p126: el tipo de datos que aceptaba entre el 2010 y el 2005 era único, ahora acepta múltiple
+
+p129: cambio de tipo de pregunta entre el 2002 y 2000. en 1998 no hay datos aunque aparece en el banco de preguntas
+
+p137: 2005 acepta múltiple, 2006-2008 solo acepta uno.
+
+p151: respuesta de tipo si o no entre el 2012-2004 el 2002 acepta varios valores (16069)
+p152: bis, 2002(15508)
+p153: bis, 2002(15522) llama la atención que el error en estas últimas dos solo se presenta en el intervalo (15508-15522)
+
+p157: necesario revisar la encuesta del 2009 para verificar el tipo de dato que puede ser valido.
+
+p159: en el 2006 no reporta datos y en el 2004 es de unica selección a diferencia de los otros años.
+
+p165: de si o no cambia a multiples en el 2002 (16669)
+
+p166: 2000
+
+169: 2000, 1998
+170: 2000
+173: 2002
+175: 2000, 1998
+176: 2000, 1998
+177: 2000
+179: 2002
+181: 2000, 1998
+182: 2000, 1998
+183: 2000
+187: 2007, 2006, 2005, 2004, 2003
+188: 2002
+201: 2002
+208: 2002
+209: 2006, 2005
+210: 2000
+226: 2002
+228: 2000, 1998
+232: 2000
+236: 2002
+240: 2002
+241: 2002
+242: 2000, 1998
+243: 2000
+246: 2000, 1998
+252: 2000
+257: 2008
+269: 2000
+278: 2003
+282: 2007, 2006, 2005, 2004, 2003, 2002
+290: 2005
+376: 2004
+377: 2004
+428: 2005
+430: 2005
+431: 2005
+589: 2004
+592: 2004
+593: 2000, 1998
+594: 2003, 2002
+602: 2007, 2006, 2005
+606: 2004
+613: 2002
+614: 2002
+616: 2002
+623: 2004
+624: 2007, 2006, 2005, 2004, 2003, 2002
+644: 1999
+645: 1999
+646: 2007, 2006, 2005, 1999
+647: 2008, 2007, 2006, 2005
+649: 1999
+650: 1999
+651: 1999
+654: 1999
+655: 1999
+656: 1999
+667: 2004
+675: 1999
+692: 2006, 2005, 2004, 2003
