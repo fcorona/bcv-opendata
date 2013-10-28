@@ -1,0 +1,26 @@
+{
+	"name": "bcv-opendata",
+  "version": "0.0.1",
+  "author": "codetag <dev@codetag.me>",
+  "contributors": [ 
+    {
+      "name": "Giovanny Beltran",
+      "email": "gio@codetag.me"
+    },
+    {
+      "name": "Cristian rodriguez",
+      "email": "fab7696650@gmail.com"
+    }
+  ],
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fcorona/bcv-opendata.git"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "license": "?",
+  "engines": {
+    "node": ">=0.8.0"
+  }
+}
