@@ -1,0 +1,23 @@
+Enviar un correo a alvaro con las variables que tienen problemas.
+Para poder cuadrar la reunión.
+
+Mantener el mismo formato
+Dimension>categoria>pregunta
+
+usuarios:
+	administrador
+	ciudadano
+	desarrollador
+
+prioridad de la encuesta:
+	las que llevan los 15 años 200.
+	y en la medida de recurrencia
+
+	y de ultimas las que tienen problema
+
+	cada ciudad tiene unas preguntas propias.
+
+David: preguntar donde esta alojada la pag de comovamos?
+
+administrador:
+	
