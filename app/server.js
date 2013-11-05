@@ -54,26 +54,34 @@ app.post('/admin/upload/', function(req, res){
     return years;
   };
 
-  var dimension = {
-    name: '',
-    categories: []
+  var Dimension = function(){
+    return {
+      name: '',
+      categories: []
+    }
   };
-  var category = {
-    name: '',
-    indicators: []
+  var Category = function(){
+    return {
+      name: '',
+      indicators: []
+    }
   };
-  var indicator = {
+  var Indicator = function(){
+    return {
       name: '',
       description: '',
       measureType: '',
       source: '',
       coverage: '',
       period: '',
-      data:[]
+      datas:[]
+    }
   };
-  var data = {
-    year: 0,
-    value: 0
+  var Data = function(){
+    return {
+      year: 0,
+      value: 0
+    }
   };
 
   var parseRowData = function(rows, years){
@@ -111,8 +119,110 @@ app.post('/admin/upload/', function(req, res){
       dimensions.push(crude);
     };
     return dimensions;
-  }
+  };
 
+  var processAlphaValue = function(value){
+    if(value === 'N.D' || value === 'N.D.' || value === ''){
+      return null;
+    }
+    return value;
+  };
+
+  //los valores nulos pueden ser N.D o N.D. o un espacio vacio
+  var processNumericValue = function(value){
+    var decimal = value.lastIndexOf('%');
+    if(value === 'N.D' || value === 'N.D.' || value === ''){
+      return null;
+    }
+    value = value.replace(/\./g,'').replace(',','.');
+    if(decimal!=-1){
+      value.replace('%','');
+    }
+    value = parseFloat(value);
+    return decimal!=-1 ? value/100 : value;
+  };
+  var MEASURE_TYPES = {'Alfabético': processAlphaValue,
+                       'Índice':processNumericValue,
+                       'Numérico':processNumericValue,
+                       'Numérico en Años':processNumericValue,
+                       'Numérico en Kilómetros':processNumericValue,
+                       'Numérico en Metros Cuadrados':processNumericValue,
+                       'Numérico en Micras':processNumericValue,
+                       'Numérico en Toneladas':processNumericValue,
+                       'Porcentual':processNumericValue,
+                       'Tasa':processNumericValue};
+
+  /**
+  * Recibe un arreglo de objetos con datos crudos cargados por el csv,
+  */
+  var processedData = function(){
+    var inform = [];
+    var categories = {};
+    var dimensions = {};
+    var getDimension = function(dimension){
+      if(dimension in dimensions){
+        return dimensions[dimension];
+      }
+      myDimension = Dimension()
+      myDimension.name = dimension;
+      
+      inform.push(myDimension);
+      dimensions[dimension] = myDimension;
+      return myDimension;
+    };
+
+    var getCategory = function(dimension, category){
+      var myDimension = getDimension(dimension);
+      if(category in categories){
+        return categories[category];
+      }
+      var myCategory = Category()
+      myCategory.name = category;
+      myDimension.categories.push(myCategory);
+      categories[category] = myCategory;
+      return myCategory;
+    };
+
+    function pushIndicator(dimension, category, indicator){
+      var myCategory = getCategory(dimension, category);
+      myCategory.indicators.push(indicator);
+
+    };
+    return {
+      inform: inform,
+      pushIndicator: pushIndicator
+    }
+  };
+
+  var transformData = function(parsedData, years){
+    var myProcessedData = processedData();
+    for(var i=0; i<parsedData.length; i++){
+      var crudeData = parsedData[i];
+      var processFunction = MEASURE_TYPES[crudeData.measureType];
+      var processedIndicator = Indicator();
+      processedIndicator.name = crudeData.indicator;
+      processedIndicator.description = crudeData.description;
+      processedIndicator.source = crudeData.source;
+      processedIndicator.coverage = crudeData.coverage;
+      processedIndicator.period = crudeData.period;
+
+      for(var j=0; j<years.length; j++){
+        var year = years[j];
+        var processedValue = Data();
+        processedValue.year = year;
+        processedValue.value = processFunction(crudeData[year]);
+        processedIndicator.datas.push(processedValue);
+      }
+      myProcessedData.pushIndicator(crudeData.dimension,
+                                    crudeData.category,
+                                    processedIndicator);
+    };
+    return myProcessedData.inform;
+  };
+
+  /**
+  * procesa el archivo
+  */
   fs.readFile(req.files.file.path, function (err, data) {
     // node no soporta encoding iso-8859-1
     var iconv = new Iconv('ISO-8859-1', 'UTF-8');
@@ -128,6 +238,21 @@ app.post('/admin/upload/', function(req, res){
     var years = getYears(headers);
     var parsedData = parseRowData(rows, years);
     
+    var transformedData = transformData(parsedData, years);
+    transformedData.forEach(function(dimension){
+      console.log(dimension.name);
+      dimension.categories.forEach(function(category){
+        console.log('\t'+category.name);
+        category.indicators.forEach(function(indicator){
+          console.log('\t\t'+indicator.name);
+          process.stdout.write('\t\t');
+          indicator.datas.forEach(function(data){
+            process.stdout.write(data.year+": "+data.value+" ");
+          });
+          console.log('');
+        });
+      });
+    });
   });
 
   req.flash('info', 'Procesando el archivo.');
