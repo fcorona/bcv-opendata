@@ -1,7 +1,8 @@
 var express = require('express'),
     path = require('path'),
     fs = require('fs'),
-    flash = require('connect-flash');
+    flash = require('connect-flash'),
+    Iconv = require('iconv').Iconv;
 
 var app = express();
 
@@ -30,13 +31,14 @@ app.post('/admin/upload/', function(req, res){
     res.redirect('/admin/upload/');
     return;
   }
-
+  console.log(req.files.file);
   var originalHeaders= ['Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
   var validateHeaders = function(headers){
     if(headers.length < originalHeaders.length){
       return false;
     }
-    for(var i = 0; i < headers; i++){
+    for(var i = 0; i < originalHeaders.length; i++){
+      console.log(headers[i], originalHeaders[i]);
       if(headers[i] != originalHeaders[i]){
         return false;
       }
@@ -47,7 +49,7 @@ app.post('/admin/upload/', function(req, res){
   var getYears = function(headers){
     var years = [];
     for (var i = originalHeaders.length; i < headers.length; i++) {
-      years = parseInt(headers[i]);
+      years.push(parseInt(headers[i]));
     };
     return years;
   };
@@ -111,17 +113,21 @@ app.post('/admin/upload/', function(req, res){
     return dimensions;
   }
 
-  fs.readFile(req.files.file.path, {encoding: 'utf8'}, function (err, data) {
-    var rows = data.split('\r\n');
+  fs.readFile(req.files.file.path, function (err, data) {
+    // node no soporta encoding iso-8859-1
+    var iconv = new Iconv('ISO-8859-1', 'UTF-8');
+    var buffer = iconv.convert(data);
+
+    var rows = buffer.toString('utf8').split('\r\n');
     var headers = rows[0].split(';');
     var validated = validateHeaders(headers);
     if(!validated){
       req.flash('error', 'las cabeceras del archivo no son correctas.');
+      return;
     }
     var years = getYears(headers);
-
     var parsedData = parseRowData(rows, years);
-    console.log(parsedData);
+    
   });
 
   req.flash('info', 'Procesando el archivo.');
