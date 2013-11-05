@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  form(method='POST', enctype="multipart/form-data")
+    label(for='file') Archivo:
+    input#file(type='file', name='file')
+    button(type='submit') Subir
