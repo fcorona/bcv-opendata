@@ -1,7 +1,8 @@
 var express = require('express'),
     path = require('path'),
     flash = require('connect-flash'),
-    admin = require('./routes/admin');
+    admin = require('./routes/admin'),
+    dataset = require('./routes/dataset');
 
 var app = express();
 
@@ -21,8 +22,14 @@ app.use(flash());
 app.get('/', function(req, res){
   res.render('index', {title:'Plataforma de openData'});
 });
+
+//admin views
 app.get('/admin/upload/', admin.uploadFileForm);
 app.post('/admin/upload/', admin.uploadFile);
+
+//view datasets
+app.get('/dataset/:name', dataset.showDataset);
+
 
 
 app.listen(3000);

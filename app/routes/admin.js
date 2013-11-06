@@ -1,11 +1,11 @@
 var fs = require('fs'),
-flash = require('connect-flash'),
-Iconv = require('iconv').Iconv,
-dataset = require('../models/dataset');
+    flash = require('connect-flash'),
+    Iconv = require('iconv').Iconv,
+    dataset = require('../models/dataset');
 
 exports.uploadFileForm = function(req, res){
   res.render('upload', {title:'Plataforma de openData', messages: req.flash()});
-}
+};
 
 exports.uploadFile = function(req, res, next){
   if(req.files.file.headers['content-type']!=='text/csv'){
@@ -108,8 +108,9 @@ var parseRowData = function(rows, years){
   return dimensions;
 };
 
+var nonValueValues = ['N.D', 'N.D.', 'N.A', 'por confirmar', 'ND', ''];
 var processAlphaValue = function(value){
-  if(value === 'N.D' || value === 'N.D.' || value === ''){
+  if(nonValueValues.lastIndexOf(value)!=-1){
     return null;
   }
   return value;
@@ -118,7 +119,7 @@ var processAlphaValue = function(value){
 //los valores nulos pueden ser N.D o N.D. o un espacio vacio
 var processNumericValue = function(value){
   var decimal = value.lastIndexOf('%');
-  if(value === 'N.D' || value === 'N.D.' || value === ''){
+  if(nonValueValues.lastIndexOf(value)!=-1){
     return null;
   }
   value = value.replace(/\./g,'').replace(',','.');
@@ -208,7 +209,7 @@ var transformData = function(parsedData, years){
       var year = years[j];
       var processedValue = Data();
       processedValue.year = year;
-      processedValue.value = processFunction(crudeData[year]);
+      processedValue.value = processFunction(crudeData[year].trim());
       processedIndicator.datas.push(processedValue);
     }
     myProcessedData.pushIndicator(crudeData.dimension,

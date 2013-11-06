@@ -1,0 +1,45 @@
+extends layout
+
+block content
+  ul
+    each dimension in data
+      li
+        h2= dimension.name
+
+        ul
+          each category in dimension.categories
+            li
+              h3= category.name
+
+              ul
+                each indicator in category.indicators
+                  li
+                    h4= indicator.name
+                    b descripci&oacute;n: 
+                    span #{indicator.description}
+                    br
+                    b tipo de medida: 
+                    span #{indicator.measureType}
+                    br
+                    b source: 
+                    span #{indicator.source}
+                    br
+                    b cobertura: 
+                    span #{indicator.coverage}
+                    br
+                    b periodicidad: 
+                    span #{indicator.period}
+                    br
+                    b datos: 
+                    table
+                      tr
+                        each data in indicator.datas
+                          th= data.year
+                      tr
+                        each data in indicator.datas
+                          if data.value === null
+                            - data.value = 'N.D'
+                          if data.value!== 'N.D' && indicator.measureType === 'Porcentual'
+                            - data.value = (data.value*100).toPrecision(3) + '%'
+                          td= data.value
+
