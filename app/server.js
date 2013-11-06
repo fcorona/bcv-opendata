@@ -1,6 +1,7 @@
 var express = require('express'),
     path = require('path'),
     fs = require('fs'),
+    mongoose = require('mongoose'),
     flash = require('connect-flash'),
     Iconv = require('iconv').Iconv;
 
@@ -16,11 +17,22 @@ app.use(express.cookieParser('whatever'));
 app.use(express.session({key: 'sid', cookie: { maxAge: 60000 }}));
 app.use(flash());
 
+/*
+* mongo connection
+*/
+mongoose.connect('mongodb://localhost/comovamos');
+var DimensionSchema = new mongoose.Schema({
+    name: String,
+    categories: Array
+});
+var DimensionMongo = mongoose.model('Dimension', DimensionSchema);
 
+/*
+* routing
+*/
 app.get('/', function(req, res){
   res.render('index', {title:'Plataforma de openData'});
 });
-
 app.get('/admin/upload/', function(req, res){
   res.render('upload', {title:'Plataforma de openData', messages: req.flash()});
 });
@@ -166,9 +178,15 @@ app.post('/admin/upload/', function(req, res){
       myDimension = Dimension()
       myDimension.name = dimension;
       
-      inform.push(myDimension);
-      dimensions[dimension] = myDimension;
-      return myDimension;
+      //mongo creation 
+      var dimensionDb = new DimensionMongo(myDimension);
+      dimensionDb.save();
+
+      inform.push(dimensionDb);
+      dimensions[dimension] = dimensionDb;
+
+
+      return dimensionDb;
     };
 
     var getCategory = function(dimension, category){
@@ -196,12 +214,16 @@ app.post('/admin/upload/', function(req, res){
 
   var transformData = function(parsedData, years){
     var myProcessedData = processedData();
+    DimensionMongo.remove(function (err, dimension) {
+      if (err) return handleError(err);
+    });
     for(var i=0; i<parsedData.length; i++){
       var crudeData = parsedData[i];
       var processFunction = MEASURE_TYPES[crudeData.measureType];
       var processedIndicator = Indicator();
       processedIndicator.name = crudeData.indicator;
       processedIndicator.description = crudeData.description;
+      processedIndicator.measureType = crudeData.measureType;
       processedIndicator.source = crudeData.source;
       processedIndicator.coverage = crudeData.coverage;
       processedIndicator.period = crudeData.period;
@@ -239,6 +261,7 @@ app.post('/admin/upload/', function(req, res){
     var parsedData = parseRowData(rows, years);
     
     var transformedData = transformData(parsedData, years);
+
     transformedData.forEach(function(dimension){
       console.log(dimension.name);
       dimension.categories.forEach(function(category){
