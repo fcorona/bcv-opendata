@@ -2,6 +2,7 @@ var express = require('express'),
     path = require('path'),
     flash = require('connect-flash'),
     admin = require('./routes/admin'),
+    api = require('./routes/api'),
     dataset = require('./routes/dataset');
 
 var app = express();
@@ -29,6 +30,10 @@ app.post('/admin/upload/', admin.uploadFile);
 
 //view datasets
 app.get('/dataset/:name/:format?', dataset.showDataset);
+
+//api routes
+app.get('/api/datasets/', api.notImplemented);
+app.get('/api/datasets/:name', api.readDataset);
 
 
 
