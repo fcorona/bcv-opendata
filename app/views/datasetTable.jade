@@ -1,0 +1,39 @@
+extends layout
+
+block content
+
+  table
+    tr
+      th Dimension
+      th Categor&iacute;a
+      th Indicador
+      th Descripci&oacute;n
+      th Unidad de Medida
+      th Fuente
+      th Cobertura
+      th Periodicidad
+      - for (var year = 1998; year <= 2013; year++)
+        th= year
+
+    each dimension in data
+      each category in dimension.categories
+        each indicator in category.indicators
+          tr
+            td= dimension.name
+            td= category.name
+            td= indicator.name
+            td= indicator.description
+            td= indicator.measureType
+            td= indicator.source
+            td= indicator.coverage
+            td= indicator.period
+  
+            each data in indicator.datas
+              if data.value === null
+                - data.value = 'N.D'
+
+              if data.value!== 'N.D' && indicator.measureType === 'Porcentual'
+                - data.value = (data.value*100).toPrecision(3) + '%'
+
+              td= data.value
+

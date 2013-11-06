@@ -28,7 +28,7 @@ app.get('/admin/upload/', admin.uploadFileForm);
 app.post('/admin/upload/', admin.uploadFile);
 
 //view datasets
-app.get('/dataset/:name', dataset.showDataset);
+app.get('/dataset/:name/:format?', dataset.showDataset);
 
 
 

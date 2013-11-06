@@ -3,9 +3,13 @@ var flash = require('connect-flash'),
 
 
 exports.showDataset = function(req, res, next){
+  var renderFormat = {'table': 'datasetTable',
+                      'list': 'dataset'};
+  var format = req.params.format || 'table';
+  format = format in renderFormat ? format : 'table';
   if(req.params.name === 'iicv'){
     dataset.DimensionMongo.find({}, function (err, data){
-      res.render('dataset', {title:'Informe Indicadores de Calidad de Vida', data: data});
+      res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida', data: data});
       return;
     });
   }else{
