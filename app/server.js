@@ -34,6 +34,10 @@ app.get('/dataset/:name/:format?', dataset.showDataset);
 //api routes
 app.get('/api/datasets/', api.notImplemented);
 app.get('/api/datasets/:name', api.readDataset);
+app.get('/api/datasets/:name/:dimension', api.notImplemented);
+app.get('/api/datasets/:name/:dimension/:category', api.notImplemented);
+app.get('/api/datasets/:name/:dimension/:category/:indicator', api.notImplemented);
+app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', api.notImplemented);
 
 
 
