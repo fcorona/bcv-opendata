@@ -39,3 +39,8 @@ exports.readDataset = function(req, res, next){
     res.json({message: 'no existe el dataset '+ req.params.name});
   }
 };
+
+exports.readDatasetDimension = function(req, res, next){
+  exports.readDataset(req, res, next);
+};
+
