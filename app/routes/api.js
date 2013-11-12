@@ -58,7 +58,7 @@ exports.readDatasetDimension = function(req, res, next){
       res.json({message: 'Un error ha ocurrido'});
       return;
     }
-    if(!data.length){
+    if(!data){
       res.json({message: 'no existe la dimensión '+ req.params.dimension});
       return;
     }
