@@ -21,7 +21,7 @@ exports.uploadFile = function(req, res, next){
 };
 
 var originalHeaders= ['Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
-var validateHeaders = function(headers){
+exports.validateHeaders = function(headers){
   if(headers.length < originalHeaders.length){
     return false;
   }
