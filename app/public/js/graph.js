@@ -18,7 +18,7 @@ var createRect = function(value, index){
 var url = '/api/datasets/iicv/Entorno macroeconómico/Producción/Tasa de crecimiento del PIB?key=asdasdas';
 d3.json(url, function(data) {
   var cont = 0;
-  data.datas.forEach(function(d){
-    createRect(d.value*100, cont++);
-  });
+  for(var year in data.datas){
+    createRect(data.datas[year]*100, cont++);
+  }
 });

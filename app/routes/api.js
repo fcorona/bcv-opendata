@@ -55,6 +55,7 @@ exports.readDatasetDimension = function(req, res, next){
   }
   dataset.DimensionMongo.findOne({name:req.params.dimension}, function (err, data){
     if(err){
+      console.log(err);
       res.json({message: 'Un error ha ocurrido'});
       return;
     }
@@ -81,6 +82,7 @@ exports.readDatasetCategory = function(req, res, next){
                               {categories:{'$elemMatch':{name:req.params.category}}},
                               function (err, data){
     if(err){
+      console.log(err);
       res.json({message: 'Un error ha ocurrido'});
       return;
     }
@@ -105,6 +107,7 @@ exports.readDatasetIndicator = function(req, res, next){
                               {categories:{'$elemMatch':{name:req.params.category}}},
                               function (err, data){
     if(err){
+      console.log(err);
       res.json({message: 'Un error ha ocurrido'});
       return;
     }
