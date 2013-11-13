@@ -21,7 +21,7 @@ exports.uploadFile = function(req, res, next){
 };
 
 var originalHeaders= ['Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
-exports.validateHeaders = function(headers){
+var validateHeaders = function(headers){
   if(headers.length < originalHeaders.length){
     return false;
   }
@@ -61,7 +61,7 @@ var Indicator = function(){
     source: '',
     coverage: '',
     period: '',
-    datas:[]
+    datas: {}
   }
 };
 var Data = function(){
@@ -207,10 +207,7 @@ var transformData = function(parsedData, years){
 
     for(var j=0; j<years.length; j++){
       var year = years[j];
-      var processedValue = Data();
-      processedValue.year = year;
-      processedValue.value = processFunction(crudeData[year].trim());
-      processedIndicator.datas.push(processedValue);
+      processedIndicator.datas[year] = processFunction(crudeData[year].trim());
     }
     myProcessedData.pushIndicator(crudeData.dimension,
       crudeData.category,
@@ -236,3 +233,5 @@ var processFile = function (err, data) {
   
   transformData(parsedData, years);
 };
+
+exports.validateHeaders = validateHeaders;

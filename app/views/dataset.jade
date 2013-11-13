@@ -33,13 +33,13 @@ block content
                     b datos: 
                     table
                       tr
-                        each data in indicator.datas
-                          th= data.year
+                        each data, year in indicator.datas
+                          th= year
                       tr
                         each data in indicator.datas
-                          if data.value === null
-                            - data.value = 'N.D'
-                          if data.value!== 'N.D' && indicator.measureType === 'Porcentual'
-                            - data.value = (data.value*100).toPrecision(3) + '%'
-                          td= data.value
+                          if data === null
+                            - data = 'N.D'
+                          if data!== 'N.D' && indicator.measureType === 'Porcentual'
+                            - data = (data*100).toPrecision(3) + '%'
+                          td= data
 
