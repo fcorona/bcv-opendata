@@ -1,8 +1,8 @@
 {
-	"name": "bcv-opendata",
+  "name": "bcv-opendata",
   "version": "0.0.1",
   "author": "codetag <dev@codetag.me>",
-  "contributors": [ 
+  "contributors": [
     {
       "name": "Giovanny Beltran",
       "email": "gio@codetag.me"
@@ -18,10 +18,17 @@
     "url": "https://github.com/fcorona/bcv-opendata.git"
   },
   "dependencies": {
-    "express":">=3.4.3",
-    "jade":">=0.35.0"
+    "express": "~3.4.3",
+    "jade": "~0.35.0",
+    "mongoose": "~3.8.0",
+    "connect-flash": "~0.1.1",
+    "iconv": "~2.0.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-express-server": "~0.4.5",
+    "grunt-contrib-watch": "~0.5.3"
+  },
   "license": "?",
   "engines": {
     "node": ">=0.8.0"
