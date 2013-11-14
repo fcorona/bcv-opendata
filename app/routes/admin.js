@@ -147,14 +147,18 @@ var MEASURE_TYPES = {'Alfabético': processAlphaValue,
 var processedData = function(){
   var inform = [];
   var categories = {};
+  var nCategories = 0;
   var dimensions = {};
+  var nDimensions = 0;
+
   var getDimension = function(dimension){
     if(dimension in dimensions){
       return dimensions[dimension];
     }
     myDimension = Dimension()
     myDimension.name = dimension;
-    
+    myDimension.id = nDimensions++;
+
     //mongo creation 
     var dimensionDb = new dataset.DimensionMongo(myDimension);
     dimensionDb.save();
@@ -173,6 +177,7 @@ var processedData = function(){
     }
     var myCategory = Category()
     myCategory.name = category;
+    myCategory.id = nCategories++;
     myDimension.categories.push(myCategory);
     categories[category] = myCategory;
     return myCategory;
@@ -181,8 +186,8 @@ var processedData = function(){
   function pushIndicator(dimension, category, indicator){
     var myCategory = getCategory(dimension, category);
     myCategory.indicators.push(indicator);
-
   };
+
   return {
     inform: inform,
     pushIndicator: pushIndicator
@@ -194,6 +199,16 @@ var transformData = function(parsedData, years){
   dataset.DimensionMongo.remove(function (err, dimension) {
     if (err) return handleError(err);
   });
+
+  var docYears = [];
+  var datasetDB = new dataset.DatasetMongo(
+    {name: 'iicv', type: 1, dimensions: []});
+  datasetDB.save();
+
+  for(var i = 0; i<years.length; i++){
+    var docYear = {year: years[i]};
+    docYears.push(docYear);
+  };
   for(var i=0; i<parsedData.length; i++){
     var crudeData = parsedData[i];
     var processFunction = MEASURE_TYPES[crudeData.measureType];
@@ -204,15 +219,27 @@ var transformData = function(parsedData, years){
     processedIndicator.source = crudeData.source;
     processedIndicator.coverage = crudeData.coverage;
     processedIndicator.period = crudeData.period;
+    processedIndicator.id = i;
 
     for(var j=0; j<years.length; j++){
       var year = years[j];
-      processedIndicator.datas[year] = processFunction(crudeData[year].trim());
+      var docYear = docYears[j];
+      docYear[i] = processFunction(crudeData[year].trim());
     }
     myProcessedData.pushIndicator(crudeData.dimension,
       crudeData.category,
       processedIndicator);
   };
+
+  for(var i = 0; i<docYears.length; i++){
+    var docYear = docYears[i];
+    docYear.dataset = datasetDB;
+    (new dataset.ValuesMongo(docYear)).save();
+  };
+
+  datasetDB.dimensions = myProcessedData.inform;
+  datasetDB.save();
+
   return myProcessedData.inform;
 };
 

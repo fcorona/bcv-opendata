@@ -7,14 +7,15 @@ mongoose.connect('mongodb://localhost/comovamos');
 
 var DatasetSchema = new mongoose.Schema({
   name: {type: String, index: true},
-  tipo: Number,
-  dimensions: Array
+  type: Number,
+  dimensions: {type: [Schema.ObjectId], ref: 'DimensionSchema'}
 });
 
 //??
 var DimensionSchema = new mongoose.Schema({
   name: String,
-  categories: Array
+  categories: Array,
+  id: Number
 });
 
 //??
@@ -38,8 +39,10 @@ var ValuesSchema = new mongoose.Schema({
   sector: Number,
   zona: Number,
   edad: Number,
-  sexo: Number
-  
+  sexo: Number  
+},
+{
+  strict: false
 });
 
 exports.DimensionMongo = mongoose.model('Dimension', DimensionSchema);
