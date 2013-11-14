@@ -53,7 +53,7 @@ exports.readDatasetDimension = function(req, res, next){
     res.json({message: 'no existe el dataset '+ req.params.name});
     return;
   }
-  dataset.DimensionMongo.findOne({name:req.params.dimension}, function (err, data){
+  dataset.DimensionMongo.findOne({id:req.params.dimension}, {'id':1, '_id':0, name:1, categories:1},function (err, data){
     if(err){
       console.log(err);
       res.json({message: 'Un error ha ocurrido'});
@@ -63,7 +63,8 @@ exports.readDatasetDimension = function(req, res, next){
       res.json({message: 'no existe la dimensión '+ req.params.dimension});
       return;
     }
-    res.json({dataset:'Informe Indicadores de Calidad de Vida', dimension: req.params.dimension, categories: data.categories});
+    data.dataset = 'Informe Indicadores de Calidad de Vida';
+    res.json(data);
   });
 
 };
@@ -77,7 +78,7 @@ exports.readDatasetCategory = function(req, res, next){
     return;
   }
 
-  dataset.DimensionMongo.findOne({name:req.params.dimension, 
+  dataset.DimensionMongo.findOne({id:req.params.dimension, 
                                categories:{'$elemMatch':{name:req.params.category}}},
                               {categories:{'$elemMatch':{name:req.params.category}}},
                               function (err, data){
