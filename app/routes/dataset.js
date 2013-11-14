@@ -11,8 +11,11 @@ exports.showDataset = function(req, res, next){
   
   if(req.params.name === 'iicv'){
     dataset.DimensionMongo.find({}, function (err, data){
-      res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida', data: data});
-      return;
+      dataset.ValuesMongo.find({}, function(err2, data2){
+        res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida', data: data, data2: data2});
+        return;
+      })
+
     });
   }else{
     res.send('bad request');

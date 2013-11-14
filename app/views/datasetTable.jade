@@ -28,7 +28,8 @@ block content
             td= indicator.coverage
             td= indicator.period
   
-            each data in indicator.datas
+            each data in data2
+              - data = data.get(indicator.id)
               if data === null
                 - data = 'N.D'
 
