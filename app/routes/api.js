@@ -53,7 +53,7 @@ exports.readDatasetDimension = function(req, res, next){
     res.json({message: 'no existe el dataset '+ req.params.name});
     return;
   }
-  dataset.DimensionMongo.findOne({id:req.params.dimension}, {'id':1, '_id':0, name:1, categories:1},function (err, data){
+  dataset.DimensionMongo.findOne({id:req.params.dimension}, {'id':1, '_id':0, name:1, categories:1}, function (err, data){
     if(err){
       console.log(err);
       res.json({message: 'Un error ha ocurrido'});
@@ -79,8 +79,8 @@ exports.readDatasetCategory = function(req, res, next){
   }
 
   dataset.DimensionMongo.findOne({id:req.params.dimension, 
-                               categories:{'$elemMatch':{name:req.params.category}}},
-                              {categories:{'$elemMatch':{name:req.params.category}}},
+                               categories:{'$elemMatch':{id:parseInt(req.params.category)}}},
+                              {categories:{'$elemMatch':{id:parseInt(req.params.category)}}},
                               function (err, data){
     if(err){
       console.log(err);
@@ -103,23 +103,37 @@ exports.readDatasetIndicator = function(req, res, next){
     res.json({message: 'no existe el dataset '+ req.params.name});
     return;
   }
-  dataset.DimensionMongo.findOne({name:req.params.dimension, 
-                               categories:{'$elemMatch':{name:req.params.category}}},
-                              {categories:{'$elemMatch':{name:req.params.category}}},
+  dataset.DimensionMongo.findOne({id:req.params.dimension, 
+                               categories:{'$elemMatch':{id: parseInt(req.params.category)}}},
+                              {categories:{'$elemMatch':{id: parseInt(req.params.category)}}},
                               function (err, data){
     if(err){
       console.log(err);
       res.json({message: 'Un error ha ocurrido'});
       return;
     }
+    if(!data){
+      res.json({message: 'no existe la categoria '+ req.params.category});
+      return;
+    }
     var indicators = data.categories[0].indicators;
     for(var i = 0; i< indicators.length; i++){
       var indicator = indicators[i];
-      if(indicator.name === req.params.indicator){
+      if(indicator.id === parseInt(req.params.indicator)){
         indicator.dataset = 'Informe Indicadores de Calidad de Vida';
         indicator.dimension = req.params.dimension;
         indicator.category = req.params.category;
-        res.json(indicator);
+        var query = {year: 1, '_id': 0};
+        query[indicator.id + ''] = 1;
+        dataset.ValuesMongo.find({}, query, function(err, data2){
+          indicator.datas = {};
+          for (var j = 0; j < data2.length; j++) {
+            var value = data2[j];
+            indicator.datas[value.year] = value.getValue(''+indicator.id);
+          };
+          res.json(indicator);
+          return;
+        });
         return;
       }
     }
