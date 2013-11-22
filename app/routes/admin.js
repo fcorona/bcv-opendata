@@ -145,11 +145,9 @@ var MEASURE_TYPES = {'Alfabético': processAlphaValue,
 * Recibe un arreglo de objetos con datos crudos cargados por el csv,
 */
 var processedData = function(){
-  var inform = [];
   var categories = {};
   var nCategories = 0;
   var dimensions = {};
-  var nDimensions = 0;
 
   var getDimension = function(dimension){
     if(dimension in dimensions){
@@ -157,13 +155,11 @@ var processedData = function(){
     }
     myDimension = Dimension()
     myDimension.name = dimension;
-    myDimension.id = nDimensions++;
 
     //mongo creation 
     var dimensionDb = new dataset.DimensionMongo(myDimension);
     dimensionDb.save();
 
-    inform.push(dimensionDb);
     dimensions[dimension] = dimensionDb;
 
 
@@ -189,7 +185,6 @@ var processedData = function(){
   };
 
   return {
-    inform: inform,
     pushIndicator: pushIndicator
   }
 };
@@ -226,6 +221,7 @@ var transformData = function(parsedData, years){
       var docYear = docYears[j];
       docYear[i] = processFunction(crudeData[year].trim());
     }
+    crudeData.dataset = datasetDB;
     myProcessedData.pushIndicator(crudeData.dimension,
       crudeData.category,
       processedIndicator);
@@ -236,11 +232,6 @@ var transformData = function(parsedData, years){
     docYear.dataset = datasetDB;
     (new dataset.ValuesMongo(docYear)).save();
   };
-
-  datasetDB.dimensions = myProcessedData.inform;
-  datasetDB.save();
-
-  return myProcessedData.inform;
 };
 
 var processFile = function (err, data) {

@@ -1,21 +1,23 @@
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
+    Schema = mongoose.Schema,
+    autoIncrement = require('mongoose-auto-increment');
 /*
 * mongo connection
 */
-mongoose.connect('mongodb://localhost/comovamos');
+var connection = mongoose.connect('mongodb://localhost/comovamos');
+
+autoIncrement.initialize(connection);
 
 var DatasetSchema = new mongoose.Schema({
   name: {type: String, index: true},
-  type: Number,
-  dimensions: {type: [Schema.ObjectId], ref: 'DimensionSchema'}
+  type: Number
 });
 
 //??
 var DimensionSchema = new mongoose.Schema({
   name: String,
   categories: Array,
-  id: Number
+  dataset: {type: Schema.ObjectId, ref: 'DimensionSchema'}
 });
 
 //??
@@ -44,6 +46,9 @@ var ValuesSchema = new mongoose.Schema({
 {
   strict: false
 });
+
+
+DimensionSchema.plugin(autoIncrement.plugin, { model: 'Dimension', field: 'dimensionId' });
 
 exports.DimensionMongo = mongoose.model('Dimension', DimensionSchema);
 

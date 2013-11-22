@@ -12,7 +12,7 @@ var validateKey = function(key){
 
 var parseKey = function(key, res){
   
-  if(key === undefined){
+  if(key === undefined){  
     res.json({message: 'No se ha enviado un <key> para validar la transacción.'});
     return;
   }
@@ -49,11 +49,7 @@ exports.readDataset = function(req, res, next){
 exports.readDatasetDimension = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
-  if(!req.params.name === 'iicv'){
-    res.json({message: 'no existe el dataset '+ req.params.name});
-    return;
-  }
-  dataset.DimensionMongo.findOne({id:req.params.dimension}, {'id':1, '_id':0, name:1, categories:1}, function (err, data){
+  dataset.DimensionMongo.findOne({dimensionId:req.params.dimension}, {'dimensionId':1, '_id':0, name:1, categories:1}, function (err, data){
     if(err){
       console.log(err);
       res.json({message: 'Un error ha ocurrido'});
