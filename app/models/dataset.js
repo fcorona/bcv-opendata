@@ -17,7 +17,7 @@ var DatasetSchema = new mongoose.Schema({
 var DimensionSchema = new mongoose.Schema({
   name: String,
   categories: Array,
-  dataset: {type: Schema.ObjectId, ref: 'DimensionSchema'}
+  dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
 });
 
 //??

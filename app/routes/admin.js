@@ -149,7 +149,7 @@ var processedData = function(){
   var nCategories = 0;
   var dimensions = {};
 
-  var getDimension = function(dimension){
+  var getDimension = function(datasetId, dimension){
     if(dimension in dimensions){
       return dimensions[dimension];
     }
@@ -158,6 +158,7 @@ var processedData = function(){
 
     //mongo creation 
     var dimensionDb = new dataset.DimensionMongo(myDimension);
+    dimensionDb.dataset = datasetId;
     dimensionDb.save();
 
     dimensions[dimension] = dimensionDb;
@@ -166,8 +167,8 @@ var processedData = function(){
     return dimensionDb;
   };
 
-  var getCategory = function(dimension, category){
-    var myDimension = getDimension(dimension);
+  var getCategory = function(datasetId, dimension, category){
+    var myDimension = getDimension(datasetId, dimension);
     if(category in categories){
       return categories[category];
     }
@@ -179,8 +180,8 @@ var processedData = function(){
     return myCategory;
   };
 
-  function pushIndicator(dimension, category, indicator){
-    var myCategory = getCategory(dimension, category);
+  function pushIndicator(datasetId, dimension, category, indicator){
+    var myCategory = getCategory(datasetId, dimension, category);
     myCategory.indicators.push(indicator);
   };
 
@@ -221,8 +222,7 @@ var transformData = function(parsedData, years){
       var docYear = docYears[j];
       docYear[i] = processFunction(crudeData[year].trim());
     }
-    crudeData.dataset = datasetDB;
-    myProcessedData.pushIndicator(crudeData.dimension,
+    myProcessedData.pushIndicator(datasetDB['_id'], crudeData.dimension,
       crudeData.category,
       processedIndicator);
   };

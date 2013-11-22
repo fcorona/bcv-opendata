@@ -29,19 +29,26 @@ exports.notImplemented = function(req, res, next){
   res.json({message: 'not implemented yet'});
 };
 
+
 exports.readDataset = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
-  if(!req.params.name === 'iicv'){
-    res.json({message: 'no existe el dataset '+ req.params.name});
-    return;
-  }
-  dataset.DimensionMongo.find({}, function (err, data){
+  dataset.DatasetMongo.findOne({name: req.params.name}, {'__v': 0}, function (err, data){
     if(err){
-      res.json({message: 'Un error ha ocurrido'});
+      res.json(500, {message: 'Un error ha ocurrido'});
       return;
     }
-    res.json({title:'Informe Indicadores de Calidad de Vida', dimensions: data});
+    if(!data){
+      res.json(404, {message: 'no existe el dataset '+ req.params.name});
+      return;
+    }
+    dataset.DimensionMongo.find({dataset:data}, {'dimensionId':1, '_id': 0, 'name': 1}, {sort: {dimensionId: 1}}, function(err, dimensions){
+      var jsonResponse = data.toJSON();
+      jsonResponse.dimensions = dimensions;
+      delete jsonResponse['_id'];
+      res.json(jsonResponse);
+      return;
+    });
   });
 
 };
