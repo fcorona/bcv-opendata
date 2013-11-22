@@ -32,7 +32,7 @@ app.post('/admin/upload/', admin.uploadFile);
 app.get('/dataset/:name/:format?', dataset.showDataset);
 
 //api routes
-app.get('/api/datasets/', api.notImplemented);
+app.get('/api/datasets/', api.listDataset);
 app.get('/api/datasets/:name', api.readDataset);
 app.get('/api/dimensions/:dimension', api.readDatasetDimension);
 app.get('/api/datasets/:name/:dimension/:category', api.readDatasetCategory);

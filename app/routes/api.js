@@ -24,11 +24,31 @@ var parseKey = function(key, res){
   return true;
 }
 
+var getFullURL = function(req){
+  return req.protocol + "://" + req.get('host');
+}
+
 
 exports.notImplemented = function(req, res, next){
   res.json({message: 'not implemented yet'});
 };
 
+exports.listDataset = function(req, res, next){
+  if(!parseKey(req.query.key, res)) return;
+
+  dataset.DatasetMongo.find({}, {'__v': 0, '_id': 0}, function (err, data){
+    if(err){
+      res.json(500, {message: 'Un error ha ocurrido'});
+      return;
+    }
+    var jsonResponse = data;
+    for(var i = 0; i < jsonResponse.length; i++){
+      jsonResponse[i] = jsonResponse[i].toJSON();
+      jsonResponse[i].href = getFullURL(req) + '/api/datasets/' + jsonResponse[i].name + '?key=' + req.query.key;
+    }
+    res.json(jsonResponse);
+  });
+}
 
 exports.readDataset = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
