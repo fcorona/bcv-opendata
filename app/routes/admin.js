@@ -146,7 +146,6 @@ var MEASURE_TYPES = {'Alfabético': processAlphaValue,
 */
 var processedData = function(){
   var categories = {};
-  var nCategories = 0;
   var dimensions = {};
 
   var getDimension = function(datasetId, dimension){
@@ -174,8 +173,14 @@ var processedData = function(){
     }
     var myCategory = Category()
     myCategory.name = category;
-    myCategory.id = nCategories++;
-    myDimension.categories.push(myCategory);
+
+    //mongo creation
+    var categoryDb = new dataset.CategoryMongo(myCategory);
+    categoryDb.dataset = datasetId;
+    categoryDb.dimension = myDimension['_id'];
+    categoryDb.save();
+    
+    //myDimension.categories.push(myCategory);
     categories[category] = myCategory;
     return myCategory;
   };

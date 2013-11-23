@@ -16,14 +16,14 @@ var DatasetSchema = new mongoose.Schema({
 //??
 var DimensionSchema = new mongoose.Schema({
   name: String,
-  categories: Array,
   dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
 });
 
 //??
 var CategorySchema = new mongoose.Schema({
   name: String,
-  indicators: Array
+  dimension: {type: Schema.ObjectId, ref: 'DimensionSchema'},
+  dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
 });
 
 //??
@@ -49,8 +49,11 @@ var ValuesSchema = new mongoose.Schema({
 
 
 DimensionSchema.plugin(autoIncrement.plugin, { model: 'Dimension', field: 'dimensionId' });
+CategorySchema.plugin(autoIncrement.plugin, { model: 'Category', field: 'categoryId' });
 
 exports.DimensionMongo = mongoose.model('Dimension', DimensionSchema);
+exports.CategoryMongo = mongoose.model('Category', CategorySchema);
+
 
 exports.DatasetMongo = mongoose.model('Dataset', DatasetSchema);
 exports.ValuesMongo = mongoose.model('Values', ValuesSchema);
