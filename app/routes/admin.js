@@ -181,13 +181,22 @@ var processedData = function(){
     categoryDb.save();
     
     //myDimension.categories.push(myCategory);
-    categories[category] = myCategory;
-    return myCategory;
+    categories[category] = categoryDb;
+    return categoryDb;
   };
 
-  function pushIndicator(datasetId, dimension, category, indicator){
+  function pushIndicator(datasetId, dimension, category, indicator, crudeData, processFunction, callback){
     var myCategory = getCategory(datasetId, dimension, category);
-    myCategory.indicators.push(indicator);
+
+    var indicatorDb = new dataset.DataMongo(indicator);
+    indicatorDb.category = myCategory['_id'];
+    indicatorDb.dimension = myCategory.dimension;
+    indicatorDb.dataset = myCategory.dataset;
+    indicatorDb.save(function(err, instance){
+      callback(instance, crudeData, processFunction);
+    });
+
+    return indicatorDb;
   };
 
   return {
@@ -205,11 +214,23 @@ var transformData = function(parsedData, years){
   var datasetDB = new dataset.DatasetMongo(
     {name: 'iicv', type: 1, dimensions: []});
   datasetDB.save();
+  var remainingIndicators = parsedData.length;
 
   for(var i = 0; i<years.length; i++){
     var docYear = {year: years[i]};
     docYears.push(docYear);
   };
+
+  var persistYear = function(){
+    for(var i = 0; i<docYears.length; i++){
+      var docYear = docYears[i];
+      docYear.dataset = datasetDB;
+      (new dataset.ValuesMongo(docYear)).save();
+    };
+  };
+
+
+
   for(var i=0; i<parsedData.length; i++){
     var crudeData = parsedData[i];
     var processFunction = MEASURE_TYPES[crudeData.measureType];
@@ -220,23 +241,27 @@ var transformData = function(parsedData, years){
     processedIndicator.source = crudeData.source;
     processedIndicator.coverage = crudeData.coverage;
     processedIndicator.period = crudeData.period;
-    processedIndicator.id = i;
 
-    for(var j=0; j<years.length; j++){
-      var year = years[j];
-      var docYear = docYears[j];
-      docYear[i] = processFunction(crudeData[year].trim());
-    }
     myProcessedData.pushIndicator(datasetDB['_id'], crudeData.dimension,
       crudeData.category,
-      processedIndicator);
+      processedIndicator,
+      crudeData,
+      processFunction,
+      function(instance, crudeYears, processFunction){
+        for(var j=0; j<years.length; j++){
+          var year = years[j];
+          var docYear = docYears[j];
+          docYear[instance['_id']] = processFunction(crudeYears[year].trim());
+        }
+        if(--remainingIndicators==0){
+          persistYear();
+        }; 
+      });
+
+    
   };
 
-  for(var i = 0; i<docYears.length; i++){
-    var docYear = docYears[i];
-    docYear.dataset = datasetDB;
-    (new dataset.ValuesMongo(docYear)).save();
-  };
+  
 };
 
 var processFile = function (err, data) {

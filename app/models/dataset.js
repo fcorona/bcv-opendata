@@ -30,8 +30,14 @@ var CategorySchema = new mongoose.Schema({
 //puede ser un indicador o una pregunta
 var DataSchema = new mongoose.Schema({
   name: String,
-  id: {type: Number, index: true}
-
+  description: String,
+  measureType: String,
+  source: String,
+  coverage: String,
+  period: String,
+  category: {type: Schema.ObjectId, ref: 'CategorySchema'},
+  dimension: {type: Schema.ObjectId, ref: 'DimensionSchema'},
+  dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
 });
 
 var ValuesSchema = new mongoose.Schema({
@@ -48,12 +54,17 @@ var ValuesSchema = new mongoose.Schema({
 });
 
 
-DimensionSchema.plugin(autoIncrement.plugin, { model: 'Dimension', field: 'dimensionId' });
-CategorySchema.plugin(autoIncrement.plugin, { model: 'Category', field: 'categoryId' });
+exports.DatasetMongo = mongoose.model('Dataset', DatasetSchema);
 
+DimensionSchema.plugin(autoIncrement.plugin, { model: 'Dimension', field: 'dimensionId' });
 exports.DimensionMongo = mongoose.model('Dimension', DimensionSchema);
+
+CategorySchema.plugin(autoIncrement.plugin, { model: 'Category', field: 'categoryId' });
 exports.CategoryMongo = mongoose.model('Category', CategorySchema);
 
+DataSchema.plugin(autoIncrement.plugin, 'Data');
+exports.DataMongo = mongoose.model('Data', DataSchema);
 
-exports.DatasetMongo = mongoose.model('Dataset', DatasetSchema);
+
+
 exports.ValuesMongo = mongoose.model('Values', ValuesSchema);
