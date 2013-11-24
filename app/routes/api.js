@@ -64,6 +64,10 @@ exports.readDataset = function(req, res, next){
     }
     dataset.DimensionMongo.find({dataset:data}, {'dimensionId':1, '_id': 0, 'name': 1}, {sort: {dimensionId: 1}}, function(err, dimensions){
       var jsonResponse = data.toJSON();
+      for(var i = 0; i < dimensions.length; i++){
+        dimensions[i] = dimensions[i].toJSON();
+        dimensions[i].href = getFullURL(req) + '/api/dimensions/' + dimensions[i].dimensionId + '?key=' + req.query.key;
+      }
       jsonResponse.dimensions = dimensions;
       delete jsonResponse['_id'];
       res.json(jsonResponse);
@@ -76,18 +80,28 @@ exports.readDataset = function(req, res, next){
 exports.readDatasetDimension = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
-  dataset.DimensionMongo.findOne({dimensionId:req.params.dimension}, {'dimensionId':1, '_id':0, name:1, categories:1}, function (err, data){
+  dataset.DimensionMongo.findOne({dimensionId:req.params.dimension}, {'__v': 0}, function (err, dimension){
     if(err){
       console.log(err);
-      res.json({message: 'Un error ha ocurrido'});
+      res.json(500, {message: 'Un error ha ocurrido'});
       return;
     }
-    if(!data){
-      res.json({message: 'no existe la dimensión '+ req.params.dimension});
+    if(!dimension){
+      res.json(404, {message: 'no existe la dimensión '+ req.params.dimension});
       return;
     }
-    data.dataset = 'Informe Indicadores de Calidad de Vida';
-    res.json(data);
+
+    dataset.CategoryMongo.find({dimension: dimension['_id']}, {'categoryId':1, '_id': 0, 'name': 1}, {sort: {categoryId: 1}}, function(err, categories){
+      var jsonResponse = dimension.toJSON();
+      for(var i = 0; i < categories.length; i++){
+        categories[i] = categories[i].toJSON();
+        categories[i].href = getFullURL(req) + '/api/categories/' + categories[i].categoryId + '?key=' + req.query.key;
+      }
+      jsonResponse.categories = categories;
+      delete jsonResponse['_id'];
+      res.json(jsonResponse);
+      return;
+    });
   });
 
 };
@@ -96,25 +110,28 @@ exports.readDatasetDimension = function(req, res, next){
 exports.readDatasetCategory = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
-  if(!req.params.name === 'iicv'){
-    res.json({message: 'no existe el dataset '+ req.params.name});
-    return;
-  }
-
-  dataset.DimensionMongo.findOne({id:req.params.dimension, 
-                               categories:{'$elemMatch':{id:parseInt(req.params.category)}}},
-                              {categories:{'$elemMatch':{id:parseInt(req.params.category)}}},
-                              function (err, data){
+  dataset.CategoryMongo.findOne({categoryId: req.params.category}, {'__v': 0}, function (err, category){
     if(err){
       console.log(err);
-      res.json({message: 'Un error ha ocurrido'});
+      res.json(500, {message: 'Un error ha ocurrido'});
       return;
     }
-    if(!data){
-      res.json({message: 'no existe la categoria '+ req.params.category});
+    if(!category){
+      res.json(404, {message: 'no existe la categoria '+ req.params.category});
       return;
     }
-    res.json({dataset:'Informe Indicadores de Calidad de Vida', dimension: req.params.dimension, category: req.params.category, indicators: data.categories[0].indicators});
+
+    dataset.DataMongo.find({category: category}, {'_id': 1, 'name': 1}, {sort: {'_id':1}}, function(err, datas){
+      var jsonResponse = category.toJSON();
+      for(var i = 0; i < datas.length; i++){
+        datas[i] = datas[i].toJSON();
+        datas[i].href = getFullURL(req) + '/api/datas/' + datas[i]['_id'] + '?key=' + req.query.key;
+      }
+      jsonResponse.datas = datas;
+      delete jsonResponse['_id'];
+      res.json(jsonResponse);
+      return;
+    });
   });
 
 };
@@ -122,45 +139,30 @@ exports.readDatasetCategory = function(req, res, next){
 exports.readDatasetIndicator = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
-  if(!req.params.name === 'iicv'){
-    res.json({message: 'no existe el dataset '+ req.params.name});
-    return;
-  }
-  dataset.DimensionMongo.findOne({id:req.params.dimension, 
-                               categories:{'$elemMatch':{id: parseInt(req.params.category)}}},
-                              {categories:{'$elemMatch':{id: parseInt(req.params.category)}}},
-                              function (err, data){
+  dataset.DataMongo.findOne({'_id':req.params.indicator}, {'__v': 0}, function (err, data){
     if(err){
       console.log(err);
-      res.json({message: 'Un error ha ocurrido'});
+      res.json(500, {message: 'Un error ha ocurrido'});
       return;
     }
     if(!data){
-      res.json({message: 'no existe la categoria '+ req.params.category});
+      res.json(404, {message: 'no existe la data '+ req.params.indicator});
       return;
     }
-    var indicators = data.categories[0].indicators;
-    for(var i = 0; i< indicators.length; i++){
-      var indicator = indicators[i];
-      if(indicator.id === parseInt(req.params.indicator)){
-        indicator.dataset = 'Informe Indicadores de Calidad de Vida';
-        indicator.dimension = req.params.dimension;
-        indicator.category = req.params.category;
-        var query = {year: 1, '_id': 0};
-        query[indicator.id + ''] = 1;
-        dataset.ValuesMongo.find({}, query, function(err, data2){
-          indicator.datas = {};
-          for (var j = 0; j < data2.length; j++) {
-            var value = data2[j];
-            indicator.datas[value.year] = value.getValue(''+indicator.id);
-          };
-          res.json(indicator);
-          return;
-        });
-        return;
-      }
-    }
-    res.json({message: 'no existe el indicador '+ req.params.indicator});
+    var constraints = {year: 1, '_id': 0};
+    constraints[data['_id']] = 1;
+
+    dataset.ValuesMongo.find({dataset: data.dataset}, constraints, {sort: {year: 1}}, function(err, values){
+      var jsonResponse = data.toJSON();
+      jsonResponse.datas = {};
+      for (var i = 0; i < values.length; i++) {
+        var value = values[i];
+        jsonResponse.datas[value.year] = value.getValue(''+data['_id']);
+      };
+      res.json(jsonResponse);
+      return;
+    });
+    
   });
 
 };

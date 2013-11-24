@@ -35,8 +35,8 @@ app.get('/dataset/:name/:format?', dataset.showDataset);
 app.get('/api/datasets/', api.listDataset);
 app.get('/api/datasets/:name', api.readDataset);
 app.get('/api/dimensions/:dimension', api.readDatasetDimension);
-app.get('/api/datasets/:name/:dimension/:category', api.readDatasetCategory);
-app.get('/api/datasets/:name/:dimension/:category/:indicator', api.readDatasetIndicator);
+app.get('/api/categories/:category', api.readDatasetCategory);
+app.get('/api/datas/:indicator', api.readDatasetIndicator);
 app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', api.notImplemented);
 
 
