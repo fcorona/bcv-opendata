@@ -63,8 +63,18 @@ var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
     var cont = 0;
     chart.selectAll('rect').remove();
+    //normaliza la informacion
+    var max = Number.NEGATIVE_INFINITY;
     for(var year in data.datas){
-      createRect(data.datas[year]*100, cont++);
+      if(data.datas[year] > max){
+        max = data.datas[year];
+      }
+    }
+    for(var year in data.datas){
+      cont++;
+      if(data.datas[year]){
+        createRect(data.datas[year]*100/max, cont);
+      }
     }
     d3.select('#dataset').html(data.dataset);
     d3.select('#dimension').html(data.dimension);
