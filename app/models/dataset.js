@@ -45,9 +45,9 @@ var ValuesSchema = new mongoose.Schema({
   dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'},
   
   sector: Number,
-  zona: Number,
-  edad: Number,
-  sexo: Number  
+  zone: Number,
+  age: Number,
+  genre: Number  
 },
 {
   strict: false
