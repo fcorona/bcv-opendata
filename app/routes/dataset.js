@@ -9,15 +9,56 @@ exports.showDataset = function(req, res, next){
   var format = req.params.format || 'table';
   format = format in renderFormat ? format : 'table';
   
-  if(req.params.name === 'iicv'){
-    dataset.DimensionMongo.find({}, function (err, data){
-      dataset.ValuesMongo.find({}, function(err2, data2){
-        res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida', data: data, data2: data2});
-        return;
-      })
+  dataset.DatasetMongo.findOne({}, function (errDataset, foundDataset){
+    foundDataset = foundDataset.toJSON();
+    dataset.DimensionMongo.find({}, function (errDimension, dimensions){
+      foundDataset.dimensions = [];
+      for (var i = dimensions.length - 1; i >= 0; i--) {
+        dimensions[i] = dimensions[i].toJSON();
+        foundDataset.dimensions.push(dimensions[i]);
+      };
+      dataset.CategoryMongo.find({}, function(errCategory, categories){
+        var localCategories = {};
+        for (var i = categories.length - 1; i >= 0; i--) {
+          var localCategory = categories[i].toJSON();
+          if(!(localCategory.dimension in localCategories)){
+            localCategories[localCategory.dimension] = [];
+          }
+          localCategories[localCategory.dimension].push(localCategory);
+          categories[i] = localCategory;
+        };
+        for (var i = dimensions.length - 1; i >= 0; i--) {
+          dimensions[i].categories = localCategories[dimensions[i]['_id']];
+        };
 
+        dataset.DataMongo.find({}, function(errDatas, datas){
+          var localDatas = {};
+          for (var i = datas.length - 1; i >= 0; i--) {
+            var localData = datas[i].toJSON();
+            localData.id = ''+localData['_id'];
+            if(!(localData.category in localDatas)){
+              localDatas[localData.category] = [];
+            }
+            localDatas[localData.category].push(localData);
+            datas[i] = localData;
+          };
+          for (var i = categories.length - 1; i >= 0; i--) {
+            categories[i].indicators = localDatas[categories[i]['_id']];
+          };
+          dataset.ValuesMongo.find({}, function(errDatas, values){
+/*
+            for (vars in values[2]) {
+              console.log(vars);
+            };
+*/
+            console.log(values[2].get('2'));
+            console.log(values[2].getValue('2'));
+            res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida', data: foundDataset, data2: values});
+            return;
+          });
+
+        });
+      });
     });
-  }else{
-    res.send('bad request');
-  }
-};
+  });
+}

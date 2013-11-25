@@ -29,7 +29,7 @@ app.get('/admin/upload/', admin.uploadFileForm);
 app.post('/admin/upload/', admin.uploadFile);
 
 //view datasets
-app.get('/dataset/:name/:format?', dataset.showDataset);
+app.get('/datasets/:name/:format?', dataset.showDataset);
 
 //api routes
 app.get('/api/datasets/', api.listDataset);

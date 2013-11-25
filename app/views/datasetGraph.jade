@@ -2,7 +2,39 @@ extends layout
 
 block content
 
-  p#chart 
+  label(for=datasetSelect) seleccione dataset 
+  select#datasetSelect
+  br
+  label(for=dimensionSelect) seleccione dimension  
+  select#dimensionSelect
+  br
+  label(for=categorySelect) seleccione categor&iacute;a  
+  select#categorySelect
+  br
+  label(for=indicatorSelect) seleccione indicador  
+  select#indicatorSelect
+  br
+  div
+    span.title name: 
+    span#name
+    br
+    span.title description: 
+    span#description
+    br
+    span.title measureType: 
+    span#measureType
+    br
+    span.title source: 
+    span#source
+    br
+    span.title coverage: 
+    span#coverage
+    br
+    span.title period: 
+    span#period
+    br
+
+  p#chart
 
   script(src='http://d3js.org/d3.v3.min.js')
   script(src='/js/graph.js')
