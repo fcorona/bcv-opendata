@@ -264,7 +264,7 @@ var transformData = function(parsedData, years){
   
 };
 
-var processFile = function (err, data) {
+var processFile = function (err, req, data) {
   // node no soporta encoding iso-8859-1
   var iconv = new Iconv('ISO-8859-1', 'UTF-8');
   var buffer = iconv.convert(data);
@@ -273,7 +273,7 @@ var processFile = function (err, data) {
   var headers = rows[0].split(';');
   var validated = validateHeaders(headers);
   if(!validated){
-    req.flash('error', 'las cabeceras del archivo no son correctas.');
+    //req.flash('error', 'las cabeceras del archivo no son correctas.');
     return;
   }
   var years = getYears(headers);
