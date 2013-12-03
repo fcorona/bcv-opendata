@@ -264,7 +264,7 @@ var transformData = function(parsedData, years){
   
 };
 
-var processFile = function (err, req, data) {
+var processFile = function (err, data) {
   // node no soporta encoding iso-8859-1
   var iconv = new Iconv('ISO-8859-1', 'UTF-8');
   var buffer = iconv.convert(data);

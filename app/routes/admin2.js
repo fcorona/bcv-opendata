@@ -4,20 +4,37 @@ var fs = require('fs'),
     dataset = require('../models/dataset');
 
 exports.uploadFileForm = function(req, res){
-  res.render('upload', {title:'Plataforma de openData', messages: req.flash()});
+  res.render('upload2', {title:'Plataforma de openData', messages: req.flash()});
 };
 
 exports.uploadFile = function(req, res, next){
+  if(req.files.dictionary.headers['content-type']!=='text/csv'){
+    req.flash('error', req.files.dictionary.name +' no es un archivo valido, por favor suba un archivo CSV.')
+    res.redirect('/admin/upload2/');
+    return;
+  }
   if(req.files.file.headers['content-type']!=='text/csv'){
     req.flash('error', req.files.file.name +' no es un archivo valido, por favor suba un archivo CSV.')
-    res.redirect('/admin/upload/');
+    res.redirect('/admin/upload2/');
     return;
   }
 
-  fs.readFile(req.files.file.path, processFile);
+  var datasetDB = new dataset.DatasetMongo({name: 'epc', type: 2});
+  datasetDB.save(function(err, instance){
+    
+    fs.readFile(req.files.file.path, function(err, data){
+      processFile(err, data, transformData, instance);
+    });
+
+    fs.readFile(req.files.dictionary.path,  function(err, data){
+      processFile(err, data, transformDictionary, instance);
+    });
+
+  });
+
 
   req.flash('info', 'Procesando el archivo.');
-  res.redirect('/admin/upload/');
+  res.redirect('/admin/upload2/');
 };
 
 var AGES = {
@@ -47,9 +64,8 @@ var ZONES = {
 }
 
 
-var transformData = function(rows, headers){
-  var datasetDB = new dataset.DatasetMongo({name: 'epc', type: 2});
-  datasetDB.save();
+var transformData = function(rows, headers, datasetDB){
+
   var crudeData = function(){
     return {
       year: '',
@@ -96,7 +112,7 @@ var transformData = function(rows, headers){
     });
   }
 
-  var x = Date.now();
+
   var createLot = function(start, end){
     var datas = [];
     for(i = start; i < end; i++) {
@@ -111,12 +127,18 @@ var transformData = function(rows, headers){
   
 };
 
+var transformDictionary = function(rows, headers, datasetDB){
+  for (var i = 1; i < rows.length; i++) {
+    var row = rows[i].split(';');
+    new dataset.DataMongo({name: row[2], description: row[1], dataset: datasetDB}).save();
+  };
+};
 
-var processFile = function (err, data) {
+var processFile = function (err, data, transformFunction, datasetDB) {
   // node no soporta encoding iso-8859-1
   var iconv = new Iconv('ISO-8859-1', 'UTF-8');
   var buffer = iconv.convert(data);
   var rows = buffer.toString('utf8').split('\r\n');
   var headers = rows[0].split(';');
-  transformData(rows, headers);
+  transformFunction(rows, headers, datasetDB);
 };

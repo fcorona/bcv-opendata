@@ -41,13 +41,13 @@ var DataSchema = new mongoose.Schema({
 });
 
 var ValuesSchema = new mongoose.Schema({
-  year: Number,
+  year: {type: Number, index: true},
   dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'},
   
-  sector: Number,
-  zone: Number,
-  age: Number,
-  genre: Number  
+  sector: {type: Number, index: true},
+  zone: {type: Number, index: true},
+  age: {type: Number, index: true},
+  genre: {type: Number , index: true} 
 },
 {
   strict: false

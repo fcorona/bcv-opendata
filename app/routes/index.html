@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>json loading</title>
+</head>
+<body>
+
+  <div id="lista">
+  </div>
+
+	<script>
+  function loadXMLDoc(){
+    var xmlhttp;
+    xmlhttp=new XMLHttpRequest();
+    
+    xmlhttp.onreadystatechange = function(){
+      if(xmlhttp.readyState==4 && xmlhttp.status==200){
+        console.log(xmlhttp.responseText);
+        document.getElementById("lista").innerHTML = xmlhttp.responseText;
+      }
+    }
+    xmlhttp.open("GET","https://api.github.com/events",true);
+    xmlhttp.send();
+    }
+  </script>
+</body>
+</html>

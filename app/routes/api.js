@@ -136,6 +136,67 @@ exports.readDatasetCategory = function(req, res, next){
 
 };
 
+
+var simpleValueStrategy = function(res, data){
+  var constraints = {year: 1, '_id': 0};
+  constraints[data['_id']] = 1;
+
+  dataset.ValuesMongo.find({dataset: data.dataset}, constraints, {sort: {year: 1}}, function(err, values){
+    if(err){
+      console.log(err);
+      return;
+    }
+    var jsonResponse = data.toJSON();
+    jsonResponse.datas = {};
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+      jsonResponse.datas[value.year] = value.getValue(''+data['_id']);
+    };
+    res.json(jsonResponse);
+    return;
+  });
+}
+
+var multipleValueStrategy = function(res, data){
+  var constraints = {year: 1, '_id': 0, 'name': 1};
+  var o = {};
+  o.query = {dataset: data.dataset};
+  o.scope = {name: data.name};
+  //o.scope[data.name] = 1;
+  var name= data.name;
+  o.map = function () { emit(name, 1) };
+  o.reduce = function (k, vals) {
+    var total=0;
+    for (var i = 0; i < vals.length; i++) {
+      total+=vals[i];
+    };
+    return total;
+  };
+  console.log('vamos a hacer algo');
+  dataset.ValuesMongo.mapReduce(o, function (err, results) {
+    console.log(err);
+    console.log('results:', results);
+    res.json({results:results||1});
+  });
+/*
+  dataset.ValuesMongo.find({dataset: data.dataset}, constraints, {sort: {year: 1}}, function(err, values){
+    if(err){
+      console.log(err);
+      return;
+    }
+    var jsonResponse = data.toJSON();
+    jsonResponse.datas = {};
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+      jsonResponse.datas[value.year] = value.getValue(''+data['_id']);
+    };
+    res.json(jsonResponse);
+    return;
+  });
+*/
+}
+
+
 exports.readDatasetIndicator = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
@@ -149,20 +210,17 @@ exports.readDatasetIndicator = function(req, res, next){
       res.json(404, {message: 'no existe la data '+ req.params.indicator});
       return;
     }
-    var constraints = {year: 1, '_id': 0};
-    constraints[data['_id']] = 1;
 
-    dataset.ValuesMongo.find({dataset: data.dataset}, constraints, {sort: {year: 1}}, function(err, values){
-      var jsonResponse = data.toJSON();
-      jsonResponse.datas = {};
-      for (var i = 0; i < values.length; i++) {
-        var value = values[i];
-        jsonResponse.datas[value.year] = value.getValue(''+data['_id']);
-      };
-      res.json(jsonResponse);
-      return;
+    dataset.DatasetMongo.findOne({'_id':data.dataset}, function(err, datasetDB){
+
+      //determine the type of the dataset.
+      if(datasetDB.type==1){
+        simpleValueStrategy(res, data);
+      }else if(datasetDB.type==2){
+        multipleValueStrategy(res, data);
+      }
     });
-    
+
   });
 
 };
