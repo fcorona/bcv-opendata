@@ -4,6 +4,9 @@ var express = require('express'),
     admin = require('./routes/admin'),
     admin2 = require('./routes/admin2'),
     api = require('./routes/api'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategyi,
+    registro = require('./routes/registro')
     dataset = require('./routes/dataset');
 
 var app = express();
@@ -18,6 +21,26 @@ app.use(express.cookieParser('whatever'));
 app.use(express.session({key: 'sid', cookie: {maxAge: 60000}}));
 app.use(flash());
 
+//use of passport
+app.configure(function() {
+    app.use(express.static('public'));
+    app.use(express.cookieParser());
+    app.use(express.bodyParser());
+    app.use(express.session({ secret: 'keyboard cat' }));
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(app.router);
+});
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    User_model.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+//end
 /*
 * routing
 */
@@ -44,7 +67,9 @@ app.get('/api/categories/:category', api.readDatasetCategory);
 app.get('/api/datas/:indicator', api.readDatasetIndicator);
 app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', api.notImplemented);
 
-
+//registro
+app.get('/registro',registro.formulario);
+app.post('/registro', registro.registro);
 
 app.listen(3000);
 console.log('Listening on port 3000');

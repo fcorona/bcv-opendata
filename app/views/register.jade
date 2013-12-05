@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  form(action="/registro" method="POST")
+    label Nombre completo
+    input(type="text" name="name")
+    br
+    label email
+    input(type="email" name="email")
+    br
+    label Contrase&ntilde;a
+    input(type="password" name="pass")
+    br
+    label Repita la contrase&ntilde;a
+    input(type="password" name="repass")
+    br
+    button(type="submit") Registrar
+    p #{msg}
+    if (notpass)
+        p Las contrase&ntilde;as no coinciden
