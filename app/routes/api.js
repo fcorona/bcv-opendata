@@ -25,7 +25,7 @@ var parseKey = function(key, res){
 }
 
 var getFullURL = function(req){
-  return req.protocol + "://" + req.get('host');
+  return req.protocol + '://' + req.get('host');
 }
 
 
@@ -158,23 +158,7 @@ var simpleValueStrategy = function(res, data){
 }
 
 var multipleValueStrategy = function(res, data){
-  //var constraints = {year: 1, '_id': 0, 'name': 1};
-  var o = {};
-  o.query = {};
-  //o.scope = {name: name};
-  //o.scope[data.name] = 1;
   var name= data.name.toLowerCase();
-  o.map = function () { emit(this.year, this.year); };
-  o.reduce = function (k, vals) {
-    // var total=0;
-    // for (var i = 0; i < vals.length; i++) {
-    //   total+=vals[i];
-    // };
-    // return total;
-
-    return vals.length;
-  };
-
   var project =  {year:1};
   project[name] = 1;
   name = '$'+name;
@@ -182,30 +166,23 @@ var multipleValueStrategy = function(res, data){
     $project: project,
     },
     {$group: {
-      '_id': {varValue:name, year:'$year'},
+      '_id': {varValue: name, year: '$year'},
       total: {$sum: 1}
+    }},
+    {$group: {
+      '_id': '$_id.year',
+      values: {
+        $addToSet: {option: '$_id.varValue', total: '$total'}
+      }
+    }},
+    {$sort: {
+      'values': 1
     }},
     function(err, results){
       if (err) console.log(err);
-      res.json({results:results});
+      res.json(results);
     }
   );
-/*
-  dataset.ValuesMongo.find({dataset: data.dataset}, constraints, {sort: {year: 1}}, function(err, values){
-    if(err){
-      console.log(err);
-      return;
-    }
-    var jsonResponse = data.toJSON();
-    jsonResponse.datas = {};
-    for (var i = 0; i < values.length; i++) {
-      var value = values[i];
-      jsonResponse.datas[value.year] = value.getValue(''+data['_id']);
-    };
-    res.json(jsonResponse);
-    return;
-  });
-*/
 }
 
 
