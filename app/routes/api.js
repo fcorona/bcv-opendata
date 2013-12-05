@@ -158,26 +158,38 @@ var simpleValueStrategy = function(res, data){
 }
 
 var multipleValueStrategy = function(res, data){
-  var constraints = {year: 1, '_id': 0, 'name': 1};
+  //var constraints = {year: 1, '_id': 0, 'name': 1};
   var o = {};
-  o.query = {dataset: data.dataset};
-  o.scope = {name: data.name};
+  o.query = {};
+  //o.scope = {name: name};
   //o.scope[data.name] = 1;
-  var name= data.name;
-  o.map = function () { emit(name, 1) };
+  var name= data.name.toLowerCase();
+  o.map = function () { emit(this.year, this.year); };
   o.reduce = function (k, vals) {
-    var total=0;
-    for (var i = 0; i < vals.length; i++) {
-      total+=vals[i];
-    };
-    return total;
+    // var total=0;
+    // for (var i = 0; i < vals.length; i++) {
+    //   total+=vals[i];
+    // };
+    // return total;
+
+    return vals.length;
   };
-  console.log('vamos a hacer algo');
-  dataset.ValuesMongo.mapReduce(o, function (err, results) {
-    console.log(err);
-    console.log('results:', results);
-    res.json({results:results||1});
-  });
+
+  var project =  {year:1};
+  project[name] = 1;
+  name = '$'+name;
+  dataset.ValuesMongo.aggregate({
+    $project: project,
+    },
+    {$group: {
+      '_id': {varValue:name, year:'$year'},
+      total: {$sum: 1}
+    }},
+    function(err, results){
+      if (err) console.log(err);
+      res.json({results:results});
+    }
+  );
 /*
   dataset.ValuesMongo.find({dataset: data.dataset}, constraints, {sort: {year: 1}}, function(err, values){
     if(err){
