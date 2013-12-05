@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
 });
 //metodo para validar el password
 userSchema.methods.validPassword = function (password) {
-    if (password === this.password) {
+    if (password === bcrypt.hashSync(this.password)) {
         return true; 
         } else {
             return false;
