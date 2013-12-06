@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Bienvenido al inicio de sesion
+  form(action="/login" method="POST")
+    label correo:
+    input(type="email" name="username")
+    br
+    label contrase&ntilde;a
+    input(type="password" name="password")
+    button(type="submit") enviar
+  p #{message}
+

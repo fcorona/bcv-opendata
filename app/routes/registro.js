@@ -3,10 +3,6 @@ var mongoose = require('mongoose'),
     model_user = schema.User,
     bcrypt = require('bcrypt-nodejs');
 //se busca si existe el usuario
-function(email){
-    var existe = false;
-    
-    }
 //se guarda el registro del usuario
 exports.registro = function(req,res){
     if(req.body.pass==req.body.repass){

@@ -5,15 +5,17 @@ var express = require('express'),
     admin2 = require('./routes/admin2'),
     api = require('./routes/api'),
     passport = require('passport'),
-    LocalStrategy = require('passport-local').Strategyi,
-    registro = require('./routes/registro')
+    LocalStrategy = require('passport-local').Strategy,
+    registro = require('./routes/registro'),
+    login = require('./routes/login'),
+    schema = require('./models/user'),
+    User_model = schema.User,
     dataset = require('./routes/dataset');
 
 var app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
-
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -31,6 +33,21 @@ app.configure(function() {
     app.use(passport.session());
     app.use(app.router);
 });
+passport.use(new LocalStrategy(function(username, password, done) {
+    User_model.findOne({ email: username }, function(err, userx) {
+        if (err) { 
+            return done(err); 
+        }
+        if (!userx) {
+            return done(null, false, { message: 'Incorrect email.' });
+        }
+        if (!userx.validPassword(password)) {
+            return done(null, false, { message: 'Incorrect password.' });
+        }
+        return done(null, userx);
+      });
+    }
+));
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -70,6 +87,11 @@ app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', api.notImpl
 //registro
 app.get('/registro',registro.formulario);
 app.post('/registro', registro.registro);
+
+//login
+app.post('/login', passport.authenticate('local', { successRedirect: '/',
+                                                    failureRedirect: '/login' }));
+app.get('/login', login.login);
 
 app.listen(3000);
 console.log('Listening on port 3000');
