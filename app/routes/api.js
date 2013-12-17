@@ -235,7 +235,11 @@ exports.readDatasetIndicator = function(req, res, next){
         }else{
           filter.year = {$in:years};
         }
-      };
+      }
+      if(req.query.genre){
+        var genre = req.query.genre.toLowerCase();
+        filter.genre = parseInt(genre) || {'m':1,'f':2}[genre];
+      }
 
       //determine the type of the dataset.
       if(datasetDB.type==1){
