@@ -157,16 +157,15 @@ var simpleValueStrategy = function(res, data){
   });
 }
 
-var multipleValueStrategy = function(res, data){
+var multipleValueStrategy = function(res, data, filter){
   var ini = Date.now();
   var name= data.name.toLowerCase();
   var project =  {year:1};
   project[name] = 1;
   name = '$'+name;
+  console.log(filter);
   dataset.ValuesMongo.aggregate(
-    {$match: {
-      dataset: data.dataset
-    }},
+    {$match: filter},
     {$project: project,
     },
     {$sort: {
@@ -224,11 +223,25 @@ exports.readDatasetIndicator = function(req, res, next){
 
     dataset.DatasetMongo.findOne({'_id':data.dataset}, function(err, datasetDB){
 
+      //read parameters
+      var filter = {dataset: data.dataset};
+      if(req.query.year){
+        var years = req.query.year.split(',');
+        for (var i = 0; i < years.length; i++) {
+          years[i] = parseInt(years[i].trim());
+        };
+        if(years.length==1){
+          filter.year = years[0];
+        }else{
+          filter.year = {$in:years};
+        }
+      };
+
       //determine the type of the dataset.
       if(datasetDB.type==1){
         simpleValueStrategy(res, data);
       }else if(datasetDB.type==2){
-        multipleValueStrategy(res, data);
+        multipleValueStrategy(res, data, filter);
       }
     });
 
