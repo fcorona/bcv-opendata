@@ -240,6 +240,17 @@ exports.readDatasetIndicator = function(req, res, next){
         var genre = req.query.genre.toLowerCase();
         filter.genre = parseInt(genre) || {'m':1,'f':2}[genre];
       }
+      if(req.query.nse){
+        var nses = req.query.nse.split(',');
+        for (var i = 0; i < nses.length; i++) {
+          nses[i] = parseInt(nses[i].trim());
+        };
+        if(nses.length==1){
+          filter.nse = nses[0];
+        }else{
+          filter.nse = {$in:nses};
+        }
+      }
 
       //determine the type of the dataset.
       if(datasetDB.type==1){

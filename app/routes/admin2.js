@@ -63,6 +63,21 @@ var ZONES = {
   'SUR-ORIENTAL': 6
 }
 
+var NIVEL_SOCIO_ECONOMICO = {
+  'Estrato1': 1,
+  'ESTRATO 1': 1,
+  'Estrato2': 2,
+  'ESTRATO 2': 2,
+  'Estrato3': 3,
+  'ESTRATO 3': 3,
+  'Estrato4': 4,
+  'ESTRATO 4': 4,
+  'Estrato5': 5,
+  'ESTRATO 5': 5,
+  'Estrato6': 6,
+  'ESTRATO 6': 6
+}
+
 
 var transformData = function(rows, headers, datasetDB){
 
@@ -83,6 +98,7 @@ var transformData = function(rows, headers, datasetDB){
     var crude = crudeData();
     crude.year = row[8].trim();
     crude.nse = row[9].trim();
+    crude.nse = parseInt(crude.nse) ? crude.nse : NIVEL_SOCIO_ECONOMICO[crude.nse];
     crude.age = row[11].trim();
     crude.age = parseInt(crude.age) ? crude.age : AGES[crude.age];
     crude.genre = row[12].trim();

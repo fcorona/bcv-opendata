@@ -44,7 +44,7 @@ var ValuesSchema = new mongoose.Schema({
   year: {type: Number, index: true},
   dataset: {type: Schema.ObjectId, ref: 'DatasetSchema', index: true,},
   
-  sector: {type: Number, index: true},
+  nse: {type: Number, index: true},
   zone: {type: Number, index: true},
   age: {type: Number, index: true},
   genre: {type: Number , index: true} 
