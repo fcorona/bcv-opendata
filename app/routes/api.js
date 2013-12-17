@@ -158,13 +158,20 @@ var simpleValueStrategy = function(res, data){
 }
 
 var multipleValueStrategy = function(res, data){
+  var ini = Date.now();
   var name= data.name.toLowerCase();
   var project =  {year:1};
   project[name] = 1;
   name = '$'+name;
-  dataset.ValuesMongo.aggregate({
-    $project: project,
+  dataset.ValuesMongo.aggregate(
+    {$match: {
+      dataset: data.dataset
+    }},
+    {$project: project,
     },
+    {$sort: {
+      year: 1
+    }},
     {$group: {
       '_id': {varValue: name, year: '$year'},
       total: {$sum: 1}
@@ -175,12 +182,27 @@ var multipleValueStrategy = function(res, data){
         $addToSet: {option: '$_id.varValue', total: '$total'}
       }
     }},
-    {$sort: {
-      'values': 1
-    }},
     function(err, results){
       if (err) console.log(err);
-      res.json(results);
+      console.log((Date.now()-ini)/1000);
+      var jsonResponse = data.toJSON();
+      var datasByYear = {};
+      for(var i=0; i<results.length; i++){
+        var result = results[i];
+        var valuesByYear = {};
+        for(var j=0; j<result.values.length; j++){
+          var values = result.values[j];
+          if(!values.option || values.option===''){
+            valuesByYear['empty'] = values.total+ (valuesByYear['empty']||0);
+          }else{
+            valuesByYear[values.option] = values.total;
+          }
+        }
+        datasByYear[''+result['_id']] = valuesByYear;
+      }
+      jsonResponse.datas = datasByYear;
+      console.log((Date.now()-ini)/1000);
+      res.json(jsonResponse);
     }
   );
 }

@@ -9,7 +9,7 @@ var connection = mongoose.connect('mongodb://localhost/comovamos');
 autoIncrement.initialize(connection);
 
 var DatasetSchema = new mongoose.Schema({
-  name: {type: String, index: true},
+  name: {type: String, index: true, unique: true},
   type: Number
 });
 
@@ -42,7 +42,7 @@ var DataSchema = new mongoose.Schema({
 
 var ValuesSchema = new mongoose.Schema({
   year: {type: Number, index: true},
-  dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'},
+  dataset: {type: Schema.ObjectId, ref: 'DatasetSchema', index: true,},
   
   sector: {type: Number, index: true},
   zone: {type: Number, index: true},
@@ -53,6 +53,10 @@ var ValuesSchema = new mongoose.Schema({
   strict: false
 });
 
+
+DatasetSchema.virtual('href').get(function () {
+  return 'loq puse';
+});
 
 exports.DatasetMongo = mongoose.model('Dataset', DatasetSchema);
 

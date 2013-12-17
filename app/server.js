@@ -10,7 +10,8 @@ var express = require('express'),
     login = require('./routes/login'),
     schema = require('./models/user'),
     User_model = schema.User,
-    dataset = require('./routes/dataset');
+    dataset = require('./routes/dataset'),
+    baucis = require('baucis');
 
 var app = express();
 
@@ -61,6 +62,12 @@ passport.deserializeUser(function(id, done) {
 /*
 * routing
 */
+app.all('*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
+
 app.get('/', function(req, res){
   res.render('index', {title:'Plataforma de openData'});
 });
@@ -77,6 +84,13 @@ app.post('/admin/upload2/', admin2.uploadFile);
 app.get('/datasets/:name/:format?', dataset.showDataset);
 
 //api routes
+var datasetController = baucis.rest({singular: 'Dataset', plural: 'datasets', select: 'name type', findBy:'name'});
+var dimensionController = baucis.rest({singular: 'Dimension', plural: 'dimensions', select: '-__v -_id'});
+var categoryController = baucis.rest({singular: 'Category', plural: 'categories', selects: '-__v -__id'});
+var dataController = baucis.rest({singular: 'Data', plural: 'datas', selects: '-__v -__id'});
+var valuesController = baucis.rest({singular: 'Values', plural: 'values', selects: '-__v -__id'});
+app.use('/api/v1', baucis({swagger:true}));
+
 app.get('/api/datasets/', api.listDataset);
 app.get('/api/datasets/:name', api.readDataset);
 app.get('/api/dimensions/:dimension', api.readDatasetDimension);
