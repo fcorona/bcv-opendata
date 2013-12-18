@@ -137,11 +137,11 @@ exports.readDatasetCategory = function(req, res, next){
 };
 
 
-var simpleValueStrategy = function(res, data){
+var simpleValueStrategy = function(res, data, filter){
   var constraints = {year: 1, '_id': 0};
   constraints[data['_id']] = 1;
 
-  dataset.ValuesMongo.find({dataset: data.dataset}, constraints, {sort: {year: 1}}, function(err, values){
+  dataset.ValuesMongo.find(filter, constraints, {sort: {year: 1}}, function(err, values){
     if(err){
       console.log(err);
       return;
@@ -225,37 +225,39 @@ exports.readDatasetIndicator = function(req, res, next){
 
       //read parameters
       var filter = {dataset: data.dataset};
+      var transformQueryParameters = function(params, name){
+        var params = params.split(',');
+        for (var i = 0; i < params.length; i++) {
+          params[i] = parseInt(params[i].trim());
+        };
+        if(params.length==1){
+          filter[name] = params[0];
+        }else{
+          filter[name] = {$in:params};
+        }
+      };
+
       if(req.query.year){
-        var years = req.query.year.split(',');
-        for (var i = 0; i < years.length; i++) {
-          years[i] = parseInt(years[i].trim());
-        };
-        if(years.length==1){
-          filter.year = years[0];
-        }else{
-          filter.year = {$in:years};
-        }
-      }
-      if(req.query.genre){
-        var genre = req.query.genre.toLowerCase();
-        filter.genre = parseInt(genre) || {'m':1,'f':2}[genre];
-      }
-      if(req.query.nse){
-        var nses = req.query.nse.split(',');
-        for (var i = 0; i < nses.length; i++) {
-          nses[i] = parseInt(nses[i].trim());
-        };
-        if(nses.length==1){
-          filter.nse = nses[0];
-        }else{
-          filter.nse = {$in:nses};
-        }
+        transformQueryParameters(req.query.year, 'year');
       }
 
       //determine the type of the dataset.
       if(datasetDB.type==1){
-        simpleValueStrategy(res, data);
+        simpleValueStrategy(res, data, filter);
       }else if(datasetDB.type==2){
+        if(req.query.genre){
+          var genre = req.query.genre.toLowerCase();
+          filter.genre = parseInt(genre) || {'m':1,'f':2}[genre];
+        }
+        if(req.query.nse){
+          transformQueryParameters(req.query.nse, 'nse');
+        }
+        if(req.query.age){
+          transformQueryParameters(req.query.age, 'age');
+        }
+        if(req.query.zone){
+          transformQueryParameters(req.query.zone, 'zone');
+        }
         multipleValueStrategy(res, data, filter);
       }
     });

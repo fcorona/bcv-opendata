@@ -6,18 +6,23 @@ exports.showDataset = function(req, res, next){
   var renderFormat = {'table': 'datasetTable',
                       'list': 'dataset',
                       'graph': 'datasetGraph'};
-  var format = req.params.format || 'table';
-  format = format in renderFormat ? format : 'table';
+  var format = req.params.format || 'graph';
+  format = format in renderFormat ? format : 'graph';
+
+  if(format=='graph'){
+    res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida'});
+    return;
+  }
   
-  dataset.DatasetMongo.findOne({}, function (errDataset, foundDataset){
+  dataset.DatasetMongo.findOne({name: req.params.name}, function (errDataset, foundDataset){
     foundDataset = foundDataset.toJSON();
-    dataset.DimensionMongo.find({}, function (errDimension, dimensions){
+    dataset.DimensionMongo.find({dataset: foundDataset}, function (errDimension, dimensions){
       foundDataset.dimensions = [];
       for (var i = dimensions.length - 1; i >= 0; i--) {
         dimensions[i] = dimensions[i].toJSON();
         foundDataset.dimensions.push(dimensions[i]);
       };
-      dataset.CategoryMongo.find({}, function(errCategory, categories){
+      dataset.CategoryMongo.find({dataset: foundDataset}, function(errCategory, categories){
         var localCategories = {};
         for (var i = categories.length - 1; i >= 0; i--) {
           var localCategory = categories[i].toJSON();
@@ -31,7 +36,7 @@ exports.showDataset = function(req, res, next){
           dimensions[i].categories = localCategories[dimensions[i]['_id']];
         };
 
-        dataset.DataMongo.find({}, function(errDatas, datas){
+        dataset.DataMongo.find({dataset: foundDataset}, function(errDatas, datas){
           var localDatas = {};
           for (var i = datas.length - 1; i >= 0; i--) {
             var localData = datas[i].toJSON();
@@ -45,7 +50,7 @@ exports.showDataset = function(req, res, next){
           for (var i = categories.length - 1; i >= 0; i--) {
             categories[i].indicators = localDatas[categories[i]['_id']];
           };
-          dataset.ValuesMongo.find({}, function(errDatas, values){
+          dataset.ValuesMongo.find({dataset: foundDataset}, function(errDatas, values){
 /*
             for (vars in values[2]) {
               console.log(vars);
