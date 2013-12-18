@@ -1,3 +1,4 @@
+var env = require('dotenv'); env.load();
 var express = require('express'),
     path = require('path'),
     flash = require('connect-flash'),
@@ -108,4 +109,4 @@ app.post('/login', passport.authenticate('local', { successRedirect: '/',
 app.get('/login', login.login);
 
 app.listen(process.env.PORT || 3000);
-console.log('Listening on port ' + process.env.PORT || 3000);
+console.log('Listening on port %s', process.env.PORT || 3000);
