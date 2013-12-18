@@ -158,12 +158,10 @@ var simpleValueStrategy = function(res, data, filter){
 }
 
 var multipleValueStrategy = function(res, data, filter){
-  var ini = Date.now();
   var name= data.name.toLowerCase();
   var project =  {year:1};
   project[name] = 1;
   name = '$'+name;
-  console.log(filter);
   dataset.ValuesMongo.aggregate(
     {$match: filter},
     {$project: project,
@@ -183,7 +181,6 @@ var multipleValueStrategy = function(res, data, filter){
     }},
     function(err, results){
       if (err) console.log(err);
-      console.log((Date.now()-ini)/1000);
       var jsonResponse = data.toJSON();
       var datasByYear = {};
       for(var i=0; i<results.length; i++){
@@ -192,15 +189,20 @@ var multipleValueStrategy = function(res, data, filter){
         for(var j=0; j<result.values.length; j++){
           var values = result.values[j];
           if(!values.option || values.option===''){
-            valuesByYear['empty'] = values.total+ (valuesByYear['empty']||0);
+            valuesByYear['empty'] = values.total + (valuesByYear['empty']||0);
+          }if(values.option.indexOf('|')!=-1){
+            var multipleValues = values.option.split('|');
+            for(var k=0; k<multipleValues.length; k++){
+              valuesByYear[multipleValues[k]] = values.total + (valuesByYear[multipleValues[k]]||0);
+            }
           }else{
-            valuesByYear[values.option] = values.total;
+            valuesByYear[values.option] = values.total + (valuesByYear[values.option]||0);
           }
         }
         datasByYear[''+result['_id']] = valuesByYear;
       }
+      jsonResponse.typeResponse = multipleValues ?'multiple':'simple';
       jsonResponse.datas = datasByYear;
-      console.log((Date.now()-ini)/1000);
       res.json(jsonResponse);
     }
   );

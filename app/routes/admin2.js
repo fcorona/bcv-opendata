@@ -94,7 +94,20 @@ var transformData = function(rows, headers, datasetDB){
   var i = 1;
 
   var processData = function(index){
-    var row = rows[index].split(';');
+    //find and replace the ; for , in the "x;y;z" multiple choices
+    var row = rows[index];
+    var multiple = row.indexOf('"');
+    var semicolonRe = new RegExp(';', 'g');
+
+    while(multiple!=-1){
+      var ending = row.indexOf('"', multiple + 1);
+      var substring = row.substring(multiple, ending + 1);
+      row = row.replace(substring, substring.replace(semicolonRe, '|'));
+      multiple = row.indexOf('"', ending+1);
+    };
+    row = row.replace(/\"/g, '');
+
+    var row = row.split(';');
     var crude = crudeData();
     crude.year = row[8].trim();
     crude.nse = row[9].trim();
