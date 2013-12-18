@@ -10,6 +10,10 @@
     {
       "name": "Cristian rodriguez",
       "email": "fab7696650@gmail.com"
+    },
+    {
+      "name": "David Roncancio",
+      "email": "david@roncancio.me"
     }
   ],
   "scripts": {},
@@ -24,10 +28,11 @@
     "mongoose-auto-increment": "~2.1.1",
     "connect-flash": "~0.1.1",
     "iconv": "~2.0.7",
-    "passport":"0.1.x",
-    "passport-local":"0.1.x",
-    "bcrypt-nodejs":"0.0.3",
-    "baucis": "0.9.3"
+    "passport": "0.1.x",
+    "passport-local": "0.1.x",
+    "bcrypt-nodejs": "0.0.3",
+    "baucis": "0.9.3",
+    "dotenv": "~0.2.3"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
