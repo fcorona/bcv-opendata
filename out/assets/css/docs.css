@@ -5,18 +5,19 @@ body {
   min-width: 1100px;
 }
 #header {
-  background: #f1c40f;
-  background: -moz-linear-gradient(top, #f1c40f 0%, #eaa800 100%);
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f1c40f), color-stop(100%, #eaa800));
-  border-bottom: 3px solid #eabb12;
+  background: url('http://www.bogotacomovamos.org/static/img/logo-s23116f47f6.png') no-repeat 1em 10%;
+  
+  border-bottom: 3px solid #00427A;
   display: block;
   position: relative;
   padding: 10px 20px;
+  height: 7em;
 }
 #header h1 {
   font-size: 37px;
   line-height: 46px;
   text-shadow: #aaa 1px 1px 2px;
+  text-indent: -999px;
 }
 #header h1 a {
   color: #333333;
@@ -47,6 +48,9 @@ body {
   top: -1px;
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
   text-decoration: none;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: #00427a;
 }
 #sidebar {
   border-right: 1px solid #cccccc;
@@ -116,7 +120,7 @@ body {
   margin: 15px 0;
 }
 #content a {
-  color: #d08708;
+  color: #5b8c0d;
   text-decoration: none;
 }
 #content a:hover {
