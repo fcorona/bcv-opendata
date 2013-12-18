@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Como Vamos</title>
+
+    <link type="text/css" rel="stylesheet" href="assets/css/reset.css">
+    <link type="text/css" rel="stylesheet" href="http://yandex.st/highlightjs/6.1/styles/sunburst.min.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/docs.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/print.css" media="print">
+    
+
+    <script type="text/javascript" src="assets/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
+    <script type="text/javascript" src="assets/js/lunr.min.js"></script>
+
+    
+
+    <script type="text/javascript">var BASE_URL = "";</script>
+    <script type="text/javascript" src="assets/js/viewer.js"></script>
+
+    
+</head>
+<body>
+    <div id="page">
+        <a name="top" />
+        <header id="header">
+            <h1><a href="">Como Vamos</a></h1>
+        </header>
+        
+
+<div id="sidebar">
+    <form action="search.html"><input id="search" type="text" placeholder="Search" name="q" /></form>
+    <nav id="toc">
+        
+    <ol>
+    
+        <li>
+            <a href="index.html#api-rest-para-bogot-cmo-vamos">API REST para Bogotá Cómo Vamos</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="index.html#introduccin">Introducción</a>
+            
+        </li>
+    
+        <li>
+            <a href="index.html#estructura">Estructura</a>
+            
+        </li>
+    
+        <li>
+            <a href="index.html#informe-de-indicadores-de-calidad-de-vida">Informe de Indicadores de Calidad de Vida</a>
+            
+        </li>
+    
+        <li>
+            <a href="index.html#estructura">Estructura</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="dataset.html#dataset">Dataset</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="dataset.html#listar-datasets">Listar datasets</a>
+            
+        </li>
+    
+        <li>
+            <a href="dataset.html#obtener-dataset">Obtener dataset</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="dimension.html#dimensin">Dimensión</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="dimension.html#obtener-dimensin">Obtener dimensión</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="categoria.html#categora">Categoría</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="categoria.html#obtener-categora">Obtener categoría</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#datos">Datos</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="datos.html#indicadores">Indicadores</a>
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#preguntas">Preguntas</a>
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#obtener-datos">Obtener datos</a>
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#obtener-datos-filtrados">Obtener datos filtrados</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+</ol>
+
+    </nav>
+    
+    <nav id="links">
+        <ul>
+            
+        </ul>
+    </nav>
+    
+</div>
+
+        <div id="content">
+            <h1 id="categor-a">Categoría</h1>
+<p>Una categoría es una agrupación de datos de los informes en subtópicos:</p>
+<pre><code class="lang-json">{
+  &quot;categoryId&quot;: {type: Number, index: true, unique: true},
+  &quot;name&quot;: String,
+  &quot;dataset&quot;: String,
+  &quot;dimension&quot;: String
+}</code></pre>
+<ul>
+<li><strong>categoryId</strong>: es un valor único que identifica a la dimensión.</li>
+<li><strong>name</strong>: el nombre descriptivo de la categoría.</li>
+<li><strong>dataset</strong>: el identificador del dataset al que hace parte esta categoría.</li>
+<li><strong>dimension</strong>: el identificador de la dimensión al que hace parte esta
+categoría.</li>
+</ul>
+<h2 id="obtener-categor-a">Obtener categoría</h2>
+<p><strong>url</strong> GET categories/{categoryId}</p>
+<h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la categoría cuyo identificador es {categoryId}, la categoría es
+retornada junto con los datos(indicadores ó preguntas) que contiene.</p>
+<h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
+<p>GET <a href="http://54.203.249.245/api/categories/0?key=whatever">http://54.203.249.245/api/categories/0?key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;categoryId&quot;: 0,
+  &quot;dimension&quot;: &quot;52b1d45fecdf70df0a000002&quot;,
+  &quot;dataset&quot;: &quot;52b1d45fecdf70df0a000001&quot;,
+  &quot;name&quot;: &quot;Cobertura&quot;,
+  &quot;datas&quot;: [
+    {
+      &quot;_id&quot;: 0,
+      &quot;name&quot;: &quot;Tasa de cobertura bruta en básica primaria&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/0?key=whatever&quot;
+    },
+    {
+      &quot;_id&quot;: 1,
+      &quot;name&quot;: &quot;Tasa de cobertura bruta en preescolar&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/1?key=whatever&quot;
+    },
+    {
+      &quot;_id&quot;: 2,
+      &quot;name&quot;: &quot;Tasa de cobertura bruta en media vocacional&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/2?key=whatever&quot;
+    },
+...
+    {
+      &quot;_id&quot;: 21,
+      &quot;name&quot;: &quot;Tasa de cobertura neta en media vocacional&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/21?key=whatever&quot;
+    }
+  ]
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+
+
+
+
+        </div>
+        <footer id="footer">
+            Powered by <a href="http://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
+            <a href="#top">Back to top</a> - <a href="all.html">Everything on a single page</a>
+            - <a href="?print=1">Print current page</a> - <a href="all.html?print=1">Print all pages</a>
+            
+        </footer>
+    </div>
+</body>
+</html>

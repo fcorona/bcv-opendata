@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <title>Como Vamos</title>
+
+    <link type="text/css" rel="stylesheet" href="assets/css/reset.css">
+    <link type="text/css" rel="stylesheet" href="http://yandex.st/highlightjs/6.1/styles/sunburst.min.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/docs.css">
+    <link type="text/css" rel="stylesheet" href="assets/css/print.css" media="print">
+    
+
+    <script type="text/javascript" src="assets/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
+    <script type="text/javascript" src="assets/js/lunr.min.js"></script>
+
+    
+
+    <script type="text/javascript">var BASE_URL = "";</script>
+    <script type="text/javascript" src="assets/js/viewer.js"></script>
+
+    
+</head>
+<body>
+    <div id="page">
+        <a name="top" />
+        <header id="header">
+            <h1><a href="">Como Vamos</a></h1>
+        </header>
+        
+
+<div id="sidebar">
+    <form action="search.html"><input id="search" type="text" placeholder="Search" name="q" /></form>
+    <nav id="toc">
+        
+    <ol>
+    
+        <li>
+            <a href="index.html#api-rest-para-bogot-cmo-vamos">API REST para Bogotá Cómo Vamos</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="index.html#introduccin">Introducción</a>
+            
+        </li>
+    
+        <li>
+            <a href="index.html#estructura">Estructura</a>
+            
+        </li>
+    
+        <li>
+            <a href="index.html#informe-de-indicadores-de-calidad-de-vida">Informe de Indicadores de Calidad de Vida</a>
+            
+        </li>
+    
+        <li>
+            <a href="index.html#estructura">Estructura</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="dataset.html#dataset">Dataset</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="dataset.html#listar-datasets">Listar datasets</a>
+            
+        </li>
+    
+        <li>
+            <a href="dataset.html#obtener-dataset">Obtener dataset</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="dimension.html#dimensin">Dimensión</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="dimension.html#obtener-dimensin">Obtener dimensión</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="categoria.html#categora">Categoría</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="categoria.html#obtener-categora">Obtener categoría</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#datos">Datos</a>
+            
+                
+    <ol>
+    
+        <li>
+            <a href="datos.html#indicadores">Indicadores</a>
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#preguntas">Preguntas</a>
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#obtener-datos">Obtener datos</a>
+            
+        </li>
+    
+        <li>
+            <a href="datos.html#obtener-datos-filtrados">Obtener datos filtrados</a>
+            
+        </li>
+    
+</ol>
+
+            
+        </li>
+    
+</ol>
+
+    </nav>
+    
+    <nav id="links">
+        <ul>
+            
+        </ul>
+    </nav>
+    
+</div>
+
+        <div id="content">
+            <h1 id="api-rest-para-bogot-c-mo-vamos">API REST para Bogotá Cómo Vamos</h1>
+<h2 id="introducci-n">Introducción</h2>
+<p>Bógota cómo vamos ha recolectado desde el año 1998 información tanto de opinión
+como de indicadores de la ciudad de Bogotá.</p>
+<p>La información recolectada se ha puesto a disposición de la ciudadania en 
+diferentes publicaciones y notas de prensa, los datos abiertos sin embargo son
+una opción para que diferentes desarrolladores puedan usar esta información y
+construir aplicaciones y soluciones que empoderen a la ciudadania.</p>
+<p>En estos documentos se expone como estan estructurados los datos recolectados
+y como se puede acceder a ellos a traves del API.</p>
+<h2 id="estructura">Estructura</h2>
+<p>Existen dos tipos de informes que se generan cada año: los indicadores de
+calidad de vida y la encuesta de participación ciudadana.</p>
+<p>Cada informe se agrupa en un dataset independiente, un dataset no es mas que un
+conjunto de datos organizados.</p>
+<h2 id="informe-de-indicadores-de-calidad-de-vida">Informe de Indicadores de Calidad de Vida</h2>
+<p>El informe de calidad de vida es un conjunto de indicadores de la ciudad
+estructurados en diferentes dimensiones y categorías. Son datos puntuales acerca
+de algún aspecto de la ciudad y pueden ser medidos en porcentajes, tasas,
+números, miles o descriptivos.</p>
+<h2 id="estructura">Estructura</h2>
+
+<h1 id="dataset">Dataset</h1>
+<p>Un dataset agrupa el conjunto de datos de cada informe:</p>
+<pre><code class="lang-json">{
+  &quot;name&quot;: {type: String, index: true, unique: true},
+  &quot;type&quot;: Number
+}</code></pre>
+<ul>
+<li><p><strong>name</strong>: el nombre e identificador del dataset, es una cadena de texto y unico.</p>
+</li>
+<li><p><strong>type</strong>: describe el tipo de informe, 1 para el informe de indicadores y 2 para
+el informe de encuestas.</p>
+</li>
+</ul>
+<p>La diferencia entre un tipo u otro radica en la forma en que son presentados sus
+datos:</p>
+<ul>
+<li><p><strong>tipo 1</strong>: la información es un indicador único y absoluto que se entrega por
+año, no puede ser segmentado.</p>
+</li>
+<li><p><strong>tipo 2</strong>: cada dato es la agregación de la información entregada por varios
+individuos, esta información puede ser segmentada por: genero, edad, nivel
+socioeconomico y zona geografica.</p>
+</li>
+</ul>
+<h2 id="listar-datasets">Listar datasets</h2>
+<p><strong>url</strong> GET datasets</p>
+<h3 id="descripci-n">Descripción</h3>
+<p>Lista todos los datasets registrados en la plataforma.</p>
+<h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
+<p>GET <a href="http://54.203.249.245/api/datasets/?key=whatever">http://54.203.249.245/api/datasets/?key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">[
+
+  {
+    &quot;name&quot;: &quot;iicv&quot;,
+    &quot;type&quot;: 1,
+    &quot;href&quot;: &quot;http://54.203.249.245/api/datasets/iicv?key=whatever&quot;
+  },
+  {
+    &quot;name&quot;: &quot;epc&quot;,
+    &quot;type&quot;: 2,
+    &quot;href&quot;: &quot;http://54.203.249.245/api/datasets/epc?key=whatever&quot;
+  }
+
+]</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+</ul>
+<h2 id="obtener-dataset">Obtener dataset</h2>
+<p><strong>url</strong> GET datasets/{datasetName}</p>
+<h3 id="descripci-n">Descripción</h3>
+<p>Devuelve el dataset cuyo nombre es {datasetName}</p>
+<h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
+<p>GET <a href="http://54.203.249.245/api/datasets/iicv?key=whatever">http://54.203.249.245/api/datasets/iicv?key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;name&quot;: &quot;iicv&quot;,
+  &quot;type&quot;: 1,
+  &quot;dimensions&quot;: [
+    {
+      &quot;dimensionId&quot;: 0,
+      &quot;name&quot;: &quot;Educación&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/dimensions/0?key=whatever&quot;
+    },
+    {
+      &quot;dimensionId&quot;: 1,
+      &quot;name&quot;: &quot;Salud&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/dimensions/1?key=whatever&quot;
+    },
+...
+    {
+      &quot;dimensionId&quot;: 17,
+      &quot;name&quot;: &quot;Demográfica&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/dimensions/17?key=whatever&quot;
+    }
+  ]
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+
+<h1 id="dimensi-n">Dimensión</h1>
+<p>Una dimensión es una subclasificación de la información de los informes en
+tópicos:</p>
+<pre><code class="lang-json">{
+  &quot;dimensionId&quot;: {type: Number, index: true, unique: true},
+  &quot;name&quot;: String,
+  &quot;dataset&quot;: String
+}</code></pre>
+<ul>
+<li><strong>dimensionId</strong>: es un valor único que identifica a la dimensión.</li>
+<li><strong>name</strong>: el nombre descriptivo de la dimensión.</li>
+<li><strong>dataset</strong>: el identificador del dataset al que hace parte esta dimensión.</li>
+</ul>
+<h2 id="obtener-dimensi-n">Obtener dimensión</h2>
+<p><strong>url</strong> GET dimensions/{dimensionId}</p>
+<h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la dimensión cuyo identificador es {dimensionId}, la dimensión es
+retornada junto con las categorías que contiene.</p>
+<h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
+<p>GET <a href="http://54.203.249.245/api/dimensions/0?key=whatever">http://54.203.249.245/api/dimensions/0?key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;dimensionId&quot;: 0,
+  &quot;dataset&quot;: &quot;52b1d45fecdf70df0a000001&quot;,
+  &quot;name&quot;: &quot;Educación&quot;,
+  &quot;categories&quot;: [
+    {
+      &quot;categoryId&quot;: 0,
+      &quot;name&quot;: &quot;Cobertura&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/0?key=whatever&quot;
+    },
+    {
+      &quot;categoryId&quot;: 1,
+      &quot;name&quot;: &quot;Eficiencia Interna&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/1?key=whatever&quot;
+    },
+    {
+      &quot;categoryId&quot;: 2,
+      &quot;name&quot;: &quot;Años promedio de educación&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/2?key=whatever&quot;
+    },
+    {
+      &quot;categoryId&quot;: 3,
+      &quot;name&quot;: &quot;Analfabetismo&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/3?key=whatever&quot;
+    },
+    {
+      &quot;categoryId&quot;: 4,
+      &quot;name&quot;: &quot;Calidad de la Educación&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/4?key=whatever&quot;
+    }
+  ]
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+
+<h1 id="categor-a">Categoría</h1>
+<p>Una categoría es una agrupación de datos de los informes en subtópicos:</p>
+<pre><code class="lang-json">{
+  &quot;categoryId&quot;: {type: Number, index: true, unique: true},
+  &quot;name&quot;: String,
+  &quot;dataset&quot;: String,
+  &quot;dimension&quot;: String
+}</code></pre>
+<ul>
+<li><strong>categoryId</strong>: es un valor único que identifica a la dimensión.</li>
+<li><strong>name</strong>: el nombre descriptivo de la categoría.</li>
+<li><strong>dataset</strong>: el identificador del dataset al que hace parte esta categoría.</li>
+<li><strong>dimension</strong>: el identificador de la dimensión al que hace parte esta
+categoría.</li>
+</ul>
+<h2 id="obtener-categor-a">Obtener categoría</h2>
+<p><strong>url</strong> GET categories/{categoryId}</p>
+<h3 id="descripci-n">Descripción</h3>
+<p>Devuelve la categoría cuyo identificador es {categoryId}, la categoría es
+retornada junto con los datos(indicadores ó preguntas) que contiene.</p>
+<h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
+<p>GET <a href="http://54.203.249.245/api/categories/0?key=whatever">http://54.203.249.245/api/categories/0?key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;categoryId&quot;: 0,
+  &quot;dimension&quot;: &quot;52b1d45fecdf70df0a000002&quot;,
+  &quot;dataset&quot;: &quot;52b1d45fecdf70df0a000001&quot;,
+  &quot;name&quot;: &quot;Cobertura&quot;,
+  &quot;datas&quot;: [
+    {
+      &quot;_id&quot;: 0,
+      &quot;name&quot;: &quot;Tasa de cobertura bruta en básica primaria&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/0?key=whatever&quot;
+    },
+    {
+      &quot;_id&quot;: 1,
+      &quot;name&quot;: &quot;Tasa de cobertura bruta en preescolar&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/1?key=whatever&quot;
+    },
+    {
+      &quot;_id&quot;: 2,
+      &quot;name&quot;: &quot;Tasa de cobertura bruta en media vocacional&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/2?key=whatever&quot;
+    },
+...
+    {
+      &quot;_id&quot;: 21,
+      &quot;name&quot;: &quot;Tasa de cobertura neta en media vocacional&quot;,
+      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/21?key=whatever&quot;
+    }
+  ]
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+
+<h1 id="datos">Datos</h1>
+<p>Los datos recopilan la información puntual de un indicador o una pregunta
+dependiendo del tipo de dataset al que hagan parte, contienen un conjunto de
+valores llamados datas que registra año por año el valor que tuvieron esos datos.</p>
+<h2 id="indicadores">Indicadores</h2>
+<p>Los datos reciben el nombre de indicador para los datasets del tipo 1 como el
+informe de calidad de vida.</p>
+<pre><code class="lang-json">{
+  &quot;id&quot;: {type: Number, index: true, unique: true},
+  &quot;name&quot;: String,
+  &quot;dataset&quot;: String,
+  &quot;dimension&quot;: String,
+  &quot;category&quot;: String,
+  &quot;description&quot;: String,
+  &quot;measureType&quot;: String,
+  &quot;source&quot;: String,
+  &quot;coverage&quot;: String,
+  &quot;period&quot;: String,
+  &quot;datas&quot;: {
+    &quot;year&quot;: &quot;value&quot;
+  }
+}</code></pre>
+<ul>
+<li><strong>id</strong>: es un valor único que identifica al indicador.</li>
+<li><strong>name</strong>: el nombre del indicador.</li>
+<li><strong>dataset</strong>: el identificador del dataset al que hace parte este indicador.</li>
+<li><strong>dimension</strong>: el identificador de la dimensión al que hace parte este
+indicador.</li>
+<li><strong>category</strong>: el identificador de la categoría al que hace parte este
+indicador.</li>
+<li><strong>description</strong>: la descripción del indicador.</li>
+<li><p><strong>measureType</strong>: el tipo de medida que puede tener este indicador: </p>
+<ul>
+<li>Alfabético</li>
+<li>Índice</li>
+<li>Numérico</li>
+<li>Numérico en Años</li>
+<li>Numérico en Kilómetros</li>
+<li>Numérico en Metros Cuadrados</li>
+<li>Numérico en Micras</li>
+<li>Numérico en Toneladas</li>
+<li>Porcentual</li>
+<li>Tasa</li>
+</ul>
+</li>
+<li><p><strong>source</strong>: la fuente oficial de donde fueron recaudados los datos de este
+indicador</p>
+</li>
+<li><p><strong>coverage</strong>: la cobertura del indicador:</p>
+<ul>
+<li>Distrital</li>
+<li>13 areas</li>
+<li>Colombia</li>
+</ul>
+</li>
+<li><p><strong>period</strong>: la periodicidad con la que los datos del indicador son recaudados:</p>
+<ul>
+<li>Anual</li>
+<li>Bianual</li>
+<li>Censo</li>
+</ul>
+</li>
+<li><p><strong>datas</strong>: el conjunto de valores año por año para este indicador.</p>
+</li>
+</ul>
+<h3 id="filtros">Filtros</h3>
+<ul>
+<li>Años: Los indicadores pueden filtrarse para que muestre uno o varios años.</li>
+</ul>
+<h2 id="preguntas">Preguntas</h2>
+<p>Los datos reciben el nombre de preguntas para los datasets del tipo 2 como la
+encuesta de participación ciudadana.</p>
+<pre><code class="lang-json">{
+  &quot;id&quot;: {type: Number, index: true, unique: true},
+  &quot;name&quot;: String,
+  &quot;dataset&quot;: String,
+  &quot;dimension&quot;: String,
+  &quot;category&quot;: String,
+  &quot;description&quot;: String,
+  &quot;measureType&quot;: String,
+  &quot;source&quot;: String,
+  &quot;coverage&quot;: String,
+  &quot;period&quot;: String,
+  &quot;datas&quot;: {
+    &quot;year&quot;: &quot;value&quot;
+  }
+}</code></pre>
+<ul>
+<li><strong>id</strong>: es un valor único que identifica a la pregunta.</li>
+<li><strong>name</strong>: el nombre de la pregunta.</li>
+<li><strong>dataset</strong>: el identificador del dataset al que hace parte esta pregunta.</li>
+<li><strong>description</strong>: la descripción de la pregunta.</li>
+<li><strong>typeResponse</strong>: distingue el tipo de respuesta: &quot;multiple&quot; ó &quot;simple&quot;</li>
+<li><strong>datas</strong>: el conjunto de valores año por año para este indicador, agrupados 
+por valores de respuestas.</li>
+</ul>
+<h3 id="filtros">Filtros</h3>
+<p>Las preguntas tienen una caracterización que permite realizar diferentes tipos
+de filtros según las personas que las contestaron:</p>
+<ul>
+<li><p>Años: Las preguntas pueden filtrarse para que muestre uno o varios años.</p>
+</li>
+<li><p>Género: Las preguntas pueden filtrarse por el género de las personas 
+(Masculino,Femenino).</p>
+</li>
+<li><p>Edad: Las preguntas pueden filtrarse para que muestre las respuestas de las
+personas en un rango de edad.</p>
+</li>
+<li><p>Nivel Socio Economico: Las preguntas pueden filtrarse para que muestre las
+respuestas de las personas con cierto nivel socio economico.</p>
+</li>
+<li><p>Zona: Las preguntas pueden filtrarse para que muestre las respuestas de las
+personas que viven en ciertas zonas de la ciudad.</p>
+</li>
+</ul>
+<h2 id="obtener-datos">Obtener datos</h2>
+<p><strong>url</strong> GET datas/{id}</p>
+<h3 id="descripci-n">Descripción</h3>
+<p>Devuelve el conjunto de datos cuyo identificador es {id}.</p>
+<h3 id="ejemplo-de-solicitud-para-indicadores">Ejemplo de solicitud para indicadores</h3>
+<p>GET <a href="http://54.203.249.245/api/datas/0?key=whatever">http://54.203.249.245/api/datas/0?key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;_id&quot;: 0,
+  &quot;dataset&quot;: &quot;52b1d45fecdf70df0a000001&quot;,
+  &quot;dimension&quot;: &quot;52b1d45fecdf70df0a000002&quot;,
+  &quot;category&quot;: &quot;52b1d45fecdf70df0a000003&quot;,
+  &quot;name&quot;: &quot;Tasa de cobertura bruta en básica primaria&quot;,
+  &quot;description&quot;: &quot;Mide la población matriculada en educación primaria (grados 1º a 5º)  sobre la población de 6 a 10 años&quot;,
+  &quot;measureType&quot;: &quot;Porcentual&quot;,
+  &quot;source&quot;: &quot;Secretaría de Educación del Distrito&quot;,
+  &quot;coverage&quot;: &quot;Distrital&quot;,
+  &quot;period&quot;: &quot;Anual&quot;,
+  &quot;datas&quot;: {
+    &quot;1998&quot;: 0.9490000000000001,
+    &quot;1999&quot;: 1.023,
+    &quot;2000&quot;: 1.0070000000000001,
+    &quot;2001&quot;: 1.022,
+    &quot;2002&quot;: 1.141,
+    &quot;2003&quot;: 1.07,
+    &quot;2004&quot;: 1.062,
+    &quot;2005&quot;: 1.062,
+    &quot;2006&quot;: 1.057,
+    &quot;2007&quot;: 1.0759999999999998,
+    &quot;2008&quot;: 1.088,
+    &quot;2009&quot;: 1.0859999999999999,
+    &quot;2010&quot;: 1.067,
+    &quot;2011&quot;: 1.026,
+    &quot;2012&quot;: 0.972
+  }
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+<h3 id="ejemplo-de-solicitud-para-preguntas">Ejemplo de solicitud para preguntas</h3>
+<p>GET <a href="http://54.203.249.245/api/datas/1004?key=whatever">http://54.203.249.245/api/datas/1004?key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+
+    &quot;_id&quot;: 1004,
+    &quot;name&quot;: &quot;P826&quot;,
+    &quot;description&quot;: &quot;La cantidad de árboles en la ciudad&quot;,
+    &quot;dataset&quot;: &quot;52b11ed3dd0d63aa27000004&quot;,
+    &quot;typeResponse&quot;: &quot;simple&quot;,
+    &quot;datas&quot;: {
+        &quot;1998&quot;: {
+            &quot;empty&quot;: 1524,
+            &quot;&quot;: 1524
+        },
+        &quot;1999&quot;: {
+            &quot;empty&quot;: 1500,
+            &quot;&quot;: 1500
+        },
+        &quot;2000&quot;: {
+            &quot;empty&quot;: 1507,
+            &quot;&quot;: 1507
+        },
+        &quot;2002&quot;: {
+            &quot;empty&quot;: 1516,
+            &quot;&quot;: 1516
+        },
+        &quot;2003&quot;: {
+            &quot;empty&quot;: 1511,
+            &quot;&quot;: 1511
+        },
+        &quot;2004&quot;: {
+            &quot;empty&quot;: 1667,
+            &quot;&quot;: 1667
+        },
+        &quot;2005&quot;: {
+            &quot;empty&quot;: 1663,
+            &quot;&quot;: 1663
+        },
+        &quot;2006&quot;: {
+            &quot;empty&quot;: 1521,
+            &quot;&quot;: 1521
+        },
+        &quot;2007&quot;: {
+            &quot;empty&quot;: 1517,
+            &quot;&quot;: 1517
+        },
+        &quot;2008&quot;: {
+            &quot;1&quot;: 39,
+            &quot;2&quot;: 80,
+            &quot;3&quot;: 190,
+            &quot;4&quot;: 446,
+            &quot;5&quot;: 751
+        },
+        &quot;2009&quot;: {
+            &quot;1&quot;: 109,
+            &quot;2&quot;: 139,
+            &quot;3&quot;: 297,
+            &quot;4&quot;: 402,
+            &quot;5&quot;: 653
+        },
+        &quot;2010&quot;: {
+            &quot;1&quot;: 83,
+            &quot;2&quot;: 150,
+            &quot;3&quot;: 309,
+            &quot;4&quot;: 400,
+            &quot;5&quot;: 571
+        },
+        &quot;2011&quot;: {
+            &quot;1&quot;: 276,
+            &quot;2&quot;: 394,
+            &quot;3&quot;: 563,
+            &quot;4&quot;: 222,
+            &quot;5&quot;: 53
+        },
+        &quot;2012&quot;: {
+            &quot;1&quot;: 538,
+            &quot;2&quot;: 523,
+            &quot;3&quot;: 311,
+            &quot;4&quot;: 109,
+            &quot;5&quot;: 19
+        }
+    }
+
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+<h2 id="obtener-datos-filtrados">Obtener datos filtrados</h2>
+<h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-a-os">Ejemplo de solicitud para preguntas filtrando por años</h3>
+<p>GET <a href="http://54.203.249.245/api/datas/1004?year=2008&amp;key=whatever">http://54.203.249.245/api/datas/1004?year=2008&amp;key=whatever</a></p>
+<p>para mostrar más de un año solo hace falta agregar una coma:
+GET <a href="http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whatever">http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+
+    &quot;_id&quot;: 1004,
+    &quot;name&quot;: &quot;P826&quot;,
+    &quot;description&quot;: &quot;La cantidad de árboles en la ciudad&quot;,
+    &quot;dataset&quot;: &quot;52b11ed3dd0d63aa27000004&quot;,
+    &quot;typeResponse&quot;: &quot;simple&quot;,
+    &quot;datas&quot;: {
+        &quot;2008&quot;: {
+            &quot;1&quot;: 39,
+            &quot;2&quot;: 80,
+            &quot;3&quot;: 190,
+            &quot;4&quot;: 446,
+            &quot;5&quot;: 751
+        }
+    }
+
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+<h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-g-nero">Ejemplo de solicitud para preguntas filtrando por género</h3>
+<p>GET <a href="http://54.203.249.245/api/datas/1004?genre=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?genre=1&amp;key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+
+    &quot;_id&quot;: 1004,
+    &quot;name&quot;: &quot;P826&quot;,
+    &quot;description&quot;: &quot;La cantidad de árboles en la ciudad&quot;,
+    &quot;dataset&quot;: &quot;52b11ed3dd0d63aa27000004&quot;,
+    &quot;typeResponse&quot;: &quot;simple&quot;,
+    &quot;datas&quot;: {
+      ...
+        &quot;2008&quot;: {
+            &quot;1&quot;: 52,
+            &quot;2&quot;: 68,
+            &quot;3&quot;: 139,
+            &quot;4&quot;: 205,
+            &quot;5&quot;: 336
+        },
+      ...
+    }
+
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+<h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-edad">Ejemplo de solicitud para preguntas filtrando por edad</h3>
+<p>GET <a href="http://54.203.249.245/api/datas/1004?age=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?age=1&amp;key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+
+    &quot;_id&quot;: 1004,
+    &quot;name&quot;: &quot;P826&quot;,
+    &quot;description&quot;: &quot;La cantidad de árboles en la ciudad&quot;,
+    &quot;dataset&quot;: &quot;52b11ed3dd0d63aa27000004&quot;,
+    &quot;typeResponse&quot;: &quot;simple&quot;,
+    &quot;datas&quot;: {
+      ...
+        &quot;2008&quot;: {
+          &quot;1&quot;: 10,
+          &quot;2&quot;: 23,
+          &quot;3&quot;: 35,
+          &quot;4&quot;: 89,
+          &quot;5&quot;: 136
+        },
+      ...
+    }
+
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+<h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-nivel-socio-economico">Ejemplo de solicitud para preguntas filtrando por nivel socio economico</h3>
+<p>GET <a href="http://54.203.249.245/api/datas/1004?nse=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?nse=1&amp;key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+
+    &quot;_id&quot;: 1004,
+    &quot;name&quot;: &quot;P826&quot;,
+    &quot;description&quot;: &quot;La cantidad de árboles en la ciudad&quot;,
+    &quot;dataset&quot;: &quot;52b11ed3dd0d63aa27000004&quot;,
+    &quot;typeResponse&quot;: &quot;simple&quot;,
+    &quot;datas&quot;: {
+      ...
+        &quot;2008&quot;: {
+          &quot;1&quot;: 3,
+          &quot;2&quot;: 11,
+          &quot;3&quot;: 26,
+          &quot;4&quot;: 43,
+          &quot;5&quot;: 56
+        },
+      ...
+    }
+
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+<h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-zona">Ejemplo de solicitud para preguntas filtrando por zona</h3>
+<p>GET <a href="http://54.203.249.245/api/datas/1004?zone=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?zone=1&amp;key=whatever</a></p>
+<h4 id="resultado">Resultado</h4>
+<ul>
+<li>HTTP Status: 200 (ok)</li>
+<li>Response Body:</li>
+</ul>
+<pre><code class="lang-json">{
+
+    &quot;_id&quot;: 1004,
+    &quot;name&quot;: &quot;P826&quot;,
+    &quot;description&quot;: &quot;La cantidad de árboles en la ciudad&quot;,
+    &quot;dataset&quot;: &quot;52b11ed3dd0d63aa27000004&quot;,
+    &quot;typeResponse&quot;: &quot;simple&quot;,
+    &quot;datas&quot;: {
+      ...
+        &quot;2008&quot;: {
+          &quot;1&quot;: 4,
+          &quot;2&quot;: 11,
+          &quot;3&quot;: 36,
+          &quot;4&quot;: 83,
+          &quot;5&quot;: 116
+        },
+      ...
+    }
+
+}</code></pre>
+<h4 id="errores">Errores</h4>
+<ul>
+<li>500 Database error</li>
+<li>404 Not found</li>
+</ul>
+
+
+
+
+
+        </div>
+        <footer id="footer">
+            Powered by <a href="http://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
+            <a href="#top">Back to top</a> - <a href="all.html">Everything on a single page</a>
+            - <a href="?print=1">Print current page</a> - <a href="all.html?print=1">Print all pages</a>
+            
+        </footer>
+    </div>
+</body>
+</html>
