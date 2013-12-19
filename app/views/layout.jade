@@ -46,18 +46,24 @@ html
               a(href="http://agar3s.github.io/bcv-opendata/") docs
 
           ul.nav.navbar-nav.navbar-right
-            form.navbar-form(role="form" action="/login" method="POST")
-              div.form-group
-                input.form-control(type="text" placeholder="Email")
-              
-              div.form-group
-                input.form-control(type="password" placeholder="Password")
-              
-              button.btn.btn-success(type="submit") Ingresar
-              a.btn.btn-default(href="/registro") Registrarse
+            if !login
+              form.navbar-form(role="form" action="/login" method="POST")
+                div.form-group
+                  input.form-control(type="text" name="username" placeholder="Email")
+                
+                div.form-group
+                  input.form-control(type="password" name="password" placeholder="Password")
+                
+                button.btn.btn-success(type="submit") Ingresar
+                a.btn.btn-default(href="/registro") Registrarse
+            else
+              li
+                a(href="/profile") Mi perfil
+              li
+                a(href="/logout") Cerrar Sesi&oacute;n
             
 
-    div.container.theme-showcase
+    div.container
       block content
 
     script(src="https://code.jquery.com/jquery.js")

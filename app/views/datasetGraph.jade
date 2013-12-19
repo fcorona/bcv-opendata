@@ -1,37 +1,89 @@
 extends layout
 
 block content
+  div.row
+    h3.col-md-4.text-center Dimensi&oacute;n
+    h3.col-md-4.text-center Categoría
+    h3.col-md-4.text-center Indicador
 
-  label(for=datasetSelect) seleccione dataset 
-  select#datasetSelect
-  br
-  label(for=dimensionSelect) seleccione dimension  
-  select#dimensionSelect
-  br
-  label(for=categorySelect) seleccione categor&iacute;a  
-  select#categorySelect
-  br
-  label(for=indicatorSelect) seleccione indicador  
-  select#indicatorSelect
-  br
-  div
-    label(for=description) descripci&oacute;n: 
-    span#description
-    br
-    label(for=measureType) Tipo de Medida: 
-    span#measureType
-    br
-    label(for=source) fuente: 
-    span#source
-    br
-    label(for=coverage) cobertura: 
-    span#coverage
-    br
-    label(for=period) periodicidad: 
-    span#period
-    br
+  form.form-inline.row(role="form" action="")
+   
+    div.form-group.col-md-4
+      select.form-control.col-md-12#dimensionSelect
+    
+    div.form-group.col-md-4
+      select.form-control#categorySelect
+    
+    div.form-group.col-md-4
+      select.form-control#indicatorSelect
+  
+  div.row
+    div.col-md-4
+      label(for=description) descripci&oacute;n: 
+      span#description 
+      br
+      label(for=measureType) Tipo de Medida: 
+      span#measureType 
+      br
+      label(for=source) fuente: 
+      span#source 
+      br
+      label(for=coverage) cobertura: 
+      span#coverage 
+      br
+      label(for=period) periodicidad: 
+      span#period 
+      br
+      label(for=a1998) 1998:
+      span#a1998
+      br
+      label(for=a1999) 1999:
+      span#a1999
+      br
+      label(for=a2000) 2000:
+      span#a2000
+      br
+      label(for=a2001) 2001:
+      span#a2001
+      br
+      label(for=a2002) 2002:
+      span#a2002
+      br
+      label(for=a2003) 2003:
+      span#a2003
+      br
+      label(for=a2004) 2004:
+      span#a2004
+      br
+      label(for=a2005) 2005:
+      span#a2005
+      br
+      label(for=a2006) 2006:
+      span#a2006
+      br
+      label(for=a2007) 2007:
+      span#a2007
+      br
+      label(for=a2008) 2008:
+      span#a2008
+      br
+      label(for=a2009) 2009:
+      span#a2009
+      br
+      label(for=a2010) 2010:
+      span#a2010
+      br
+      label(for=a2011) 2011:
+      span#a2011
+      br
+      label(for=a2012) 2012:
+      span#a2012
+      br
+      label(for=a2013) 2013:
+      span#a2013
+      br
 
-  p#chart
+    p#chart.col-md-8
 
   script(src='http://d3js.org/d3.v3.min.js')
   script(src='/js/graph.js')

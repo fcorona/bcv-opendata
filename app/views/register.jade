@@ -1,20 +1,29 @@
 extends layout
 
 block content
-  form(action="/registro" method="POST")
-    label Nombre completo
-    input(type="text" name="name")
-    br
-    label email
-    input(type="email" name="email")
-    br
-    label Contrase&ntilde;a
-    input(type="password" name="pass")
-    br
-    label Repita la contrase&ntilde;a
-    input(type="password" name="repass")
-    br
-    button(type="submit") Registrar
+  div.page-header
+    h1 Registro de usuario
+
+  form(role="form" action="/registro" method="POST")
+    div.form-group
+      label(for="name") Nombre completo
+      input.form-control#name(type="text" name="name")
+
+    div.form-group
+      label(for="email") email
+      input.form-control#email(type="email" name="email")
+
+    div.form-group
+      label(for="password") Contrase&ntilde;a
+      input.form-control#password(type="password" name="pass")
+    
+    div.form-group
+      label(for="repassword") Repita la contrase&ntilde;a
+      input.form-control#repassword(type="password" name="repass")
+    
+    button.btn.btn-default(type="submit") Registrar
+    
     p #{msg}
+    
     if (notpass)
-        p Las contrase&ntilde;as no coinciden
+      p Las contrase&ntilde;as no coinciden

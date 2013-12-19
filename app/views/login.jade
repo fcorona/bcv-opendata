@@ -1,13 +1,17 @@
 extends layout
 
 block content
-  h1 Iniciar sesión
-  form(action="/login" method="POST")
-    label correo:
-    input(type="email" name="username")
-    br
-    label contrase&ntilde;a
-    input(type="password" name="password")
-    button(type="submit") enviar
-  p #{message}
+  div.page-header
+    h1 Iniciar sesión
+  
+  form(role="form" action="/login" method="POST")
+    div.form-group
+      label(for="email") correo:
+      input#email.form-control(type="email" name="username" placeholder="ingrese email")
+    
+    div.form-group
+      label(for=password) contrase&ntilde;a
+      input#password.form-control(type="password" name="password" placeholder="contraseña")
 
+    button.btn.btn-default(type="submit") enviar
+  p #{message}

@@ -2,39 +2,40 @@ extends layout
 
 block content
 
-  table
-    tr
-      th Dimension
-      th Categor&iacute;a
-      th Indicador
-      th Descripci&oacute;n
-      th Unidad de Medida
-      th Fuente
-      th Cobertura
-      th Periodicidad
-      - for (var year = 1998; year <= 2013; year++)
-        th= year
+  div.table-responsive
+    table.table.table-striped.table-condensed.table-bordered
+      tr
+        th Dimension
+        th Categor&iacute;a
+        th Indicador
+        th Descripci&oacute;n
+        th Unidad de Medida
+        th Fuente
+        th Cobertura
+        th Periodicidad
+        - for (var year = 1998; year <= 2013; year++)
+          th= year
 
-    each dimension in data.dimensions
-      each category in dimension.categories
-        each indicator in category.indicators
-          tr
-            td= dimension.name
-            td= category.name
-            td= indicator.name
-            td= indicator.description
-            td= indicator.measureType
-            td= indicator.source
-            td= indicator.coverage
-            td= indicator.period
-  
-            each data in data2
-              - data = data.get(indicator.id)
-              if data === null
-                - data = 'N.D'
+      each dimension in data.dimensions
+        each category in dimension.categories
+          each indicator in category.indicators
+            tr
+              td= dimension.name
+              td= category.name
+              td= indicator.name
+              td= indicator.description
+              td= indicator.measureType
+              td= indicator.source
+              td= indicator.coverage
+              td= indicator.period
+    
+              each data in data2
+                - data = data.get(indicator.id)
+                if data === null
+                  - data = 'N.D'
 
-              if data!== 'N.D' && indicator.measureType === 'Porcentual'
-                - data = (data*100).toPrecision(3) + '%'
+                if data!== 'N.D' && indicator.measureType === 'Porcentual'
+                  - data = (data*100).toPrecision(3) + '%'
 
-              td= data
+                td= data
 
