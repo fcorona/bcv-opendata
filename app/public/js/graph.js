@@ -1,20 +1,3 @@
-var chart = d3.select('#chart')
-  .append('svg')
-  .attr('width', 800)
-  .attr('height', 200);
-
-var createRect = function(value, index){
-  chart.append('rect')
-    .style('stroke', 'gray')
-    .style('fill', 'white')
-    .attr('x', index*30)
-    .attr('y', 190-value)
-    .attr('width', 30)
-    .attr('height',value)
-    .on('mouseover', function(){d3.select(this).style('fill', 'aliceblue');})
-    .on('mouseout', function(){d3.select(this).style('fill', 'white');});
-};
-
 d3.select('#dimensionSelect').on('change', function(){
   var dimensionId = d3.select('#dimensionSelect').node().value;
   loadDimension(dimensionId);
@@ -61,21 +44,82 @@ var loadCategory = function(categoryId){
 
 var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
-    var cont = 0;
-    chart.selectAll('rect').remove();
-    //normaliza la informacion
-    var max = Number.NEGATIVE_INFINITY;
+
+    var margin = {top: 20, right: 30, bottom: 30, left: 40},
+      width = 1024 - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
+
+    var y = d3.scale.linear()
+          .range([height, 0]);
+
+    var chart = d3.select("#chart")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom);
+
+    var the_data=[];
+    var the_domain=[];
+
+    chart.selectAll('g').remove();
+
+    the_data=[];
+    the_domain=[];
+
     for(var year in data.datas){
-      if(data.datas[year] > max){
-        max = data.datas[year];
-      }
-    }
-    for(var year in data.datas){
-      cont++;
       if(data.datas[year]){
-        createRect(data.datas[year]*100/max, cont);
+        the_data.push(data.datas[year]);
+        the_domain.push(year);
       }
     }
+
+    var max = d3.max(the_data);
+    y.domain([0, max]);
+
+    var barWidth = 30;
+    var x = d3.scale.ordinal()
+          .domain(the_domain)
+          .rangeRoundBands([0, width - 100], .1);
+
+    var xAxis = d3.svg.axis()
+         .scale(x)
+         .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .ticks(10, "");
+
+    var bar = chart.selectAll("g")
+          .data(the_domain)
+          .enter().append("g")
+          .attr("transform", function(d) { return "translate(" + x(d) + ",0)"; });
+
+    bar.append("rect")
+       .attr("y", function(d) { return y(data.datas[d]) + 225; })
+       .attr("height", function(d) { return height/2 - y(data.datas[d]); })
+       .attr("width", x.rangeBand() - 5);
+
+    bar.append("text")
+       .attr("x", x.rangeBand() / 4)
+       .attr("y", function(d) { return y(data.datas[d]) + 200 ; })
+       .attr("dy", ".75em")
+       .text(function(d) { return Math.round(data.datas[d]*100) / 100; });
+
+
+    chart.append("g")
+         .attr("class", "x axis")
+         .attr("transform", "translate(0," + height + ")")
+         .call(xAxis);
+
+    chart.append("g")
+         .attr("class", "y axis")
+         .call(yAxis)
+         .append("text")
+         .attr("transform", "rotate(-90)")
+         .attr("y", 6)
+         .attr("dy", ".71em")
+         .style("text-anchor", "end")
+         .text(data.measureType);
+
     d3.select('#dataset').html(data.dataset);
     d3.select('#dimension').html(data.dimension);
     d3.select('#category').html(data.category);
