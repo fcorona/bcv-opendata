@@ -100,7 +100,7 @@ app.get('/api/datas/:indicator', api.readDatasetIndicator);
 app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', api.notImplemented);
 
 //registro
-app.get('/registro',registro.formulario);
+app.get('/registro', registro.formulario);
 app.post('/registro', registro.registro);
 
 //login

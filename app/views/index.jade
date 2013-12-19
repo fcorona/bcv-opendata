@@ -1,8 +1,9 @@
 extends layout
 
 block content
-    p Bienvenido #{username}
+
+  div.jumbotron
     if(session_on)
-        p Bienvenido #{username}
+      p Bienvenido #{username}
     else
-        h1 Plataforma de open data para Bogot&aacute; c&oacute;mo vamos?
+      h1 Plataforma de open data para Bogot&aacute; c&oacute;mo vamos

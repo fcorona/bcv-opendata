@@ -2,10 +2,64 @@ doctype 5
 html
   head
     title= title
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="/css/bootstrap.min.css")
+    link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
+    link(rel="stylesheet", href="/css/style.css")
+
 
   body
     if messages && (messages.info || messages.error)
       p= messages.info
       p= messages.error
 
-    block content
+    div.navbar.navbar-default.navbar-fixed-top(role="navigation")
+      div.container
+        div.navbar-header
+          button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-collapse")
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+          
+          a.navbar-brand.logo(href="/") BCV OpenData
+        
+        div.navbar-collapse.collapse
+          ul.nav.navbar-nav
+            li.dropdown
+              a.dropdown-toggle(href="#" data-toggle="dropdown") IICV
+                b.caret
+              ul.dropdown-menu
+                li
+                  a(href="/datasets/iicv/") Gráfica
+                li
+                  a(href="/datasets/iicv/table") Tabla
+                li
+                  a(href="/datasets/iicv/list") Lista
+                li.divider
+                li.dropdown-header API
+                li
+                  a(href="/api/datasets/iicv?key=whatelse") explorar
+                li
+                  a(href="http://agar3s.github.io/bcv-opendata/index.html#informe-de-indicadores-de-calidad-de-vida") documentación
+            li
+              a(href="http://agar3s.github.io/bcv-opendata/") docs
+
+          ul.nav.navbar-nav.navbar-right
+            form.navbar-form(role="form" action="/login" method="POST")
+              div.form-group
+                input.form-control(type="text" placeholder="Email")
+              
+              div.form-group
+                input.form-control(type="password" placeholder="Password")
+              
+              button.btn.btn-success(type="submit") Ingresar
+              a.btn.btn-default(href="/registro") Registrarse
+            
+
+    div.container.theme-showcase
+      block content
+
+    script(src="https://code.jquery.com/jquery.js")
+    script(src="/js/bootstrap.min.js")
+
