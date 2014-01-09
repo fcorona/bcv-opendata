@@ -119,5 +119,21 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+
+//developer
+app.get('/dev/apps', function(req, res){
+  res.render('dev/apps');
+});
+
+app.get('/dev/apps/:id', function(req, res){
+  res.render('dev/view-app');
+});
+
+app.post('/dev/keys/generate', function(req, res){
+  var key = require('generate-key').generateKey(50);
+  res.json({key:key});
+});
+
+
 app.listen(process.env.PORT || 3000);
 console.log('Listening on port %s', process.env.PORT || 3000);
