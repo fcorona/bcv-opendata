@@ -2,19 +2,25 @@ extends ../layout
 
 block content
 
-  h1 Nombre de la app
+  h1= app.name 
 
   h2 detalles
 
+  label P&aacute;gina
+  span= app.url
+  br
+
   label descripci&oacute;n:&nbsp;
-  span descripci&oacute;n de la aplicaci&oacute;n
+  span= app.description
   br
 
   h2 llave de acceso
   label llave:&nbsp;
   span#key sadasda9sd8asdasd0asd
   a.generator(href='#' data-appId='keyasdadoisd') recrear mi llave
+  br
 
+  a(href='/dev/apps/#{app.id}/edit') editar
 
 block scripts
   script(src='/js/dev.js')

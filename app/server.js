@@ -1,18 +1,19 @@
 var env = require('dotenv'); env.load();
 var express = require('express'),
-path = require('path'),
-flash = require('connect-flash'),
-admin = require('./routes/admin'),
-admin2 = require('./routes/admin2'),
-api = require('./routes/api'),
-passport = require('passport'),
-LocalStrategy = require('passport-local').Strategy,
-registro = require('./routes/registro'),
-login = require('./routes/login'),
-schema = require('./models/user'),
-User_model = schema.User,
-dataset = require('./routes/dataset'),
-baucis = require('baucis');
+    path = require('path'),
+    flash = require('connect-flash'),
+    admin = require('./routes/admin'),
+    admin2 = require('./routes/admin2'),
+    api = require('./routes/api'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local').Strategy,
+    registro = require('./routes/registro'),
+    login = require('./routes/login'),
+    schema = require('./models/user'),
+    User_model = schema.User,
+    dataset = require('./routes/dataset'),
+    dev = require('./routes/dev'),
+    baucis = require('baucis');
 
 var app = express();
 
@@ -35,7 +36,6 @@ app.configure(function() {
   app.use(passport.session());
   app.use(function (req, res, next) {
     res.locals.login = req.isAuthenticated();
-    console.log(res.locals.login);
     next();
   });
   app.use(app.router);
@@ -121,18 +121,13 @@ app.get('/logout', function(req, res){
 
 
 //developer
-app.get('/dev/apps', function(req, res){
-  res.render('dev/apps');
-});
-
-app.get('/dev/apps/:id', function(req, res){
-  res.render('dev/view-app');
-});
-
-app.post('/dev/keys/generate', function(req, res){
-  var key = require('generate-key').generateKey(50);
-  res.json({key:key});
-});
+app.get('/dev/apps', dev.apps);
+app.get('/dev/apps/create', dev.formApp);
+app.post('/dev/apps/create', dev.createApp);
+app.get('/dev/apps/:id', dev.viewApp);
+app.get('/dev/apps/:id/edit', dev.editApp);
+app.post('/dev/apps/:id/edit', dev.updateApp);
+app.post('/dev/keys/generate', dev.generateKey);
 
 
 app.listen(process.env.PORT || 3000);

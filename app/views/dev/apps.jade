@@ -2,11 +2,6 @@ extends ../layout
 
 block content
   ul
-    li app1
-      a(href='/dev/apps/1') ver app
-    li app2
-      a(href='/dev/apps/2') ver app
-    li app3
-      a(href='/dev/apps/3') ver app
-    li app4
-      a(href='/dev/apps/4') ver app
+    for app in apps
+      li= app.name
+        a(href='/dev/apps/#{app.id}') ver app

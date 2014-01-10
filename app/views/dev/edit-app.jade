@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  div.page-header
+    h1 Editando #{model.name}
+
+    form(role='form' method='POST')
+      div.form-group
+        label(for='name') Nombre
+        input#name.form-control(type='text' name='name' required value=model.name)
+        if errors.name
+          p.has-error= errors.name
+
+      div.form-group
+        label(for='url') P&aacute;gina web
+        input#url.form-control(type='url' name='url' required value=model.url)
+        if errors.url
+          p.has-error= errors.url
+
+      div.form-group
+        label(for='description') Descripci&oacute;n
+        textarea#description.form-control(name='description' required)= model.description
+        if errors.description
+          p.has-error= errors.description
+
+      div.form-group
+        label(for='tags') Etiquetas
+        input#tags.form-control(type='text' name='tags')
+
+      button.btn.btn-default(type='submit') Crear
