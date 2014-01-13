@@ -31,7 +31,6 @@
     "passport": "0.1.x",
     "passport-local": "0.1.x",
     "bcrypt-nodejs": "0.0.3",
-    "baucis": "0.9.3",
     "dotenv": "~0.2.3",
     "beautiful-docs": "~1.0.3",
     "generate-key": "~0.0.6",

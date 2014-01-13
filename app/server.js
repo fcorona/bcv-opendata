@@ -14,8 +14,7 @@ var express = require('express'),
     dataset = require('./routes/dataset'),
     citizen = require('./routes/citizen'),
     dev = require('./routes/dev'),
-    slashes = require('connect-slashes'),
-    baucis = require('baucis');
+    slashes = require('connect-slashes');
 
 var app = express();
 
@@ -112,12 +111,6 @@ app.post('/registro', registro.registro);
 app.get('/datasets/:name/:format?', dataset.showDataset);
 
 //api routes
-var datasetController = baucis.rest({singular: 'Dataset', plural: 'datasets', select: 'name type', findBy:'name'});
-var dimensionController = baucis.rest({singular: 'Dimension', plural: 'dimensions', select: '-__v -_id'});
-var categoryController = baucis.rest({singular: 'Category', plural: 'categories', selects: '-__v -__id'});
-var dataController = baucis.rest({singular: 'Data', plural: 'datas', selects: '-__v -__id'});
-var valuesController = baucis.rest({singular: 'Values', plural: 'values', selects: '-__v -__id'});
-app.use('/api/v1', baucis({swagger:true}));
 
 app.get('/api/datasets/', api.listDataset);
 app.get('/api/datasets/:name', api.readDataset);
