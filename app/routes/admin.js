@@ -3,56 +3,76 @@ var fs = require('fs'),
     Iconv = require('iconv').Iconv,
     dataset = require('../models/dataset');
 
+
+module.exports = function(app){
+  app.get('/admin/', home);
+  app.get('/admin/datasets/', datasets);
+  app.get('/admin/datasets/:dataset/metrics', metrics);
+
+  app.get('/admin/apps/', apps);
+  app.get('/admin/apps/:appId', viewApp);
+  app.post('/admin/apps/:appId', updateApp);
+
+  app.get('/admin/devs/', developers);
+  app.get('/admin/devs/:devId', viewDeveloper);
+  app.post('/admin/devs/:devId', updateDeveloper);
+
+  app.get('/admin/upload/', uploadFileForm);
+  app.post('/admin/upload/', uploadFile);
+};
+
+
+
 //inicio para admin
-exports.home = function(req, res){
+home = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
 //lista todos los datasets
-exports.datasets = function(req, res){
+datasets = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
 //lista las metricas para un dataset
-exports.metrics = function(req, res){
+metrics = function(req, res){
   res.send(200, {'message': 'not implemented yet, ' + req.params.dataset});
 };
 
 //lista todas las apps registradas
-exports.apps = function(req, res){
+apps = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
 //ver app
-exports.viewApp = function(req, res){
+viewApp = function(req, res){
   res.send(200, {'message': 'not implemented yet. ' + req.params.appId});
 };
 
 //bloquear/desbloquear app
-exports.updateApp = function(req, res){
+updateApp = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
 //lista los desarrolladores
-exports.developers = function(req, res){
+developers = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
 //ver desarrollador
-exports.viewDeveloper = function(req, res){
+viewDeveloper = function(req, res){
   res.send(200, {'message': 'not implemented yet. ' + req.params.devId});
 };
 
 //validar/desvalidar desarrollador
-exports.updateDeveloper = function(req, res){
+updateDeveloper = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
-exports.uploadFileForm = function(req, res){
+uploadFileForm = function(req, res){
   res.render('upload', {title:'Plataforma de openData', messages: req.flash()});
 };
 
-exports.uploadFile = function(req, res, next){
+uploadFile = function(req, res, next){
   if(req.files.file.headers['content-type']!=='text/csv'){
     req.flash('error', req.files.file.name +' no es un archivo valido, por favor suba un archivo CSV.')
     res.redirect('/admin/upload/');

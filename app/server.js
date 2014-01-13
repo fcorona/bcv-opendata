@@ -77,25 +77,10 @@ app.all('*', function(req, res, next) {
 
 
 //admin routes
-app.get('/admin/', admin.home);
-app.get('/admin/datasets/', admin.datasets);
-app.get('/admin/datasets/:dataset/metrics', admin.metrics);
-
-app.get('/admin/apps/', admin.apps);
-app.get('/admin/apps/:appId', admin.viewApp);
-app.post('/admin/apps/:appId', admin.updateApp);
-
-app.get('/admin/devs/', admin.developers);
-app.get('/admin/devs/:devId', admin.viewDeveloper);
-app.post('/admin/devs/:devId', admin.updateDeveloper);
-
-app.get('/admin/upload/', admin.uploadFileForm);
-app.post('/admin/upload/', admin.uploadFile);
-
+admin(app);
   //temporal stuff
 app.get('/admin/upload2/', admin2.uploadFileForm);
 app.post('/admin/upload2/', admin2.uploadFile);
-
 
 //citizen routes
 app.get('/', citizen.home);
