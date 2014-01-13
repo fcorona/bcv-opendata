@@ -12,7 +12,9 @@ var express = require('express'),
     schema = require('./models/user'),
     User_model = schema.User,
     dataset = require('./routes/dataset'),
+    citizen = require('./routes/citizen'),
     dev = require('./routes/dev'),
+    slashes = require('connect-slashes'),
     baucis = require('baucis');
 
 var app = express();
@@ -23,23 +25,22 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.cookieParser('whatever'));
-app.use(express.session({key: 'sid', cookie: {maxAge: 60000}}));
+app.use(express.session({key: 'sid', cookie: {maxAge: 600000}}));
+app.use(slashes());
 app.use(flash());
 
 //use of passport
 app.configure(function() {
-  app.use(express.static('public'));
-  app.use(express.cookieParser());
-  app.use(express.bodyParser());
-  app.use(express.session({ secret: 'keyboard cat' }));
   app.use(passport.initialize());
-  app.use(passport.session());
+  app.use(passport.session({key: 'sid', cookie: {maxAge: 600000}}));
   app.use(function (req, res, next) {
     res.locals.login = req.isAuthenticated();
+    res.locals.user = req.user;
     next();
   });
   app.use(app.router);
 });
+
 passport.use(new LocalStrategy(function(username, password, done) {
   User_model.findOne({ email: username }, function(err, userx) {
     if (err) { 
@@ -75,17 +76,37 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-app.get('/', function(req, res){
-  res.render('index', {title:'Plataforma de openData'});
-});
 
-//admin views
+//admin routes
+app.get('/admin/', admin.home);
+app.get('/admin/datasets/', admin.datasets);
+app.get('/admin/datasets/:dataset/metrics', admin.metrics);
+
+app.get('/admin/apps/', admin.apps);
+app.get('/admin/apps/:appId', admin.viewApp);
+app.post('/admin/apps/:appId', admin.updateApp);
+
+app.get('/admin/devs/', admin.developers);
+app.get('/admin/devs/:devId', admin.viewDeveloper);
+app.post('/admin/devs/:devId', admin.updateDeveloper);
+
 app.get('/admin/upload/', admin.uploadFileForm);
 app.post('/admin/upload/', admin.uploadFile);
 
-//temporal stuff
+  //temporal stuff
 app.get('/admin/upload2/', admin2.uploadFileForm);
 app.post('/admin/upload2/', admin2.uploadFile);
+
+
+//citizen routes
+app.get('/', citizen.home);
+app.get('/datasets/', citizen.datasets);
+app.get('/apps/', citizen.apps);
+app.get('/apps/:appId', citizen.viewApp);
+
+//registro
+app.get('/registro', registro.formulario);
+app.post('/registro', registro.registro);
 
 //view datasets
 app.get('/datasets/:name/:format?', dataset.showDataset);
@@ -105,9 +126,6 @@ app.get('/api/categories/:category', api.readDatasetCategory);
 app.get('/api/datas/:indicator', api.readDatasetIndicator);
 app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', api.notImplemented);
 
-//registro
-app.get('/registro', registro.formulario);
-app.post('/registro', registro.registro);
 
 //login
 app.post('/login', passport.authenticate('local', { successRedirect: '/',

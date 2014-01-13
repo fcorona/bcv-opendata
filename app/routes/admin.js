@@ -3,6 +3,51 @@ var fs = require('fs'),
     Iconv = require('iconv').Iconv,
     dataset = require('../models/dataset');
 
+//inicio para admin
+exports.home = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+//lista todos los datasets
+exports.datasets = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+//lista las metricas para un dataset
+exports.metrics = function(req, res){
+  res.send(200, {'message': 'not implemented yet, ' + req.params.dataset});
+};
+
+//lista todas las apps registradas
+exports.apps = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+//ver app
+exports.viewApp = function(req, res){
+  res.send(200, {'message': 'not implemented yet. ' + req.params.appId});
+};
+
+//bloquear/desbloquear app
+exports.updateApp = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+//lista los desarrolladores
+exports.developers = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+//ver desarrollador
+exports.viewDeveloper = function(req, res){
+  res.send(200, {'message': 'not implemented yet. ' + req.params.devId});
+};
+
+//validar/desvalidar desarrollador
+exports.updateDeveloper = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
 exports.uploadFileForm = function(req, res){
   res.render('upload', {title:'Plataforma de openData', messages: req.flash()});
 };

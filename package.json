@@ -34,7 +34,8 @@
     "baucis": "0.9.3",
     "dotenv": "~0.2.3",
     "beautiful-docs": "~1.0.3",
-    "generate-key": "~0.0.6"
+    "generate-key": "~0.0.6",
+    "connect-slashes": "~1.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
