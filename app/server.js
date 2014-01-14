@@ -13,7 +13,7 @@ var express = require('express'),
     User_model = schema.User,
     dataset = require('./routes/dataset'),
     citizen = require('./routes/citizen'),
-    dev = require('./routes/dev'),
+    developer = require('./routes/dev'),
     slashes = require('connect-slashes');
 
 var app = express();
@@ -117,13 +117,7 @@ app.get('/logout', function(req, res){
 
 
 //developer
-app.get('/dev/apps', dev.apps);
-app.get('/dev/apps/create', dev.formApp);
-app.post('/dev/apps/create', dev.createApp);
-app.get('/dev/apps/:id', dev.viewApp);
-app.get('/dev/apps/:id/edit', dev.editApp);
-app.post('/dev/apps/:id/edit', dev.updateApp);
-app.post('/dev/keys/generate', dev.generateKey);
+developer(app);
 
 
 app.listen(process.env.PORT || 3000);

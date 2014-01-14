@@ -1,6 +1,16 @@
 var apps = require('../models/apps.js');
 
-exports.apps = function(req, res){
+module.exports = function(app){
+  app.get('/dev/apps', apps);
+  app.get('/dev/apps/create', formApp);
+  app.post('/dev/apps/create', createApp);
+  app.get('/dev/apps/:id', viewApp);
+  app.get('/dev/apps/:id/edit', editApp);
+  app.post('/dev/apps/:id/edit', updateApp);
+  app.post('/dev/keys/generate', generateKey);
+}
+
+var apps = function(req, res){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
@@ -16,7 +26,7 @@ exports.apps = function(req, res){
   });
 };
 
-exports.viewApp = function(req, res){
+var viewApp = function(req, res){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
@@ -36,7 +46,7 @@ exports.viewApp = function(req, res){
   });
 };
 
-exports.editApp = function(req, res){
+var editApp = function(req, res){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
@@ -56,7 +66,7 @@ exports.editApp = function(req, res){
   });
 };
 
-exports.updateApp = function(req, res){
+var updateApp = function(req, res){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
@@ -95,7 +105,7 @@ exports.updateApp = function(req, res){
   });
 };
 
-exports.formApp = function(req, res){
+var formApp = function(req, res){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
@@ -105,7 +115,7 @@ exports.formApp = function(req, res){
   res.render('dev/create-app', {model: model, errors: {}});
 };
 
-exports.createApp = function(req, res){
+var createApp = function(req, res){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
@@ -146,7 +156,7 @@ exports.createApp = function(req, res){
 };
 
 
-exports.generateKey = function(req, res){
+var generateKey = function(req, res){
   var key = require('generate-key').generateKey(50);
   res.json({key:key});
 };
