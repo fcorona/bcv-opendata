@@ -1,4 +1,5 @@
 var env = require('dotenv'); env.load();
+
 var express = require('express'),
     path = require('path'),
     flash = require('connect-flash'),
@@ -75,31 +76,21 @@ app.all('*', function(req, res, next) {
   next();
 });
 
-
-//admin routes
+// configurando las rutas
 admin(app);
-  //temporal stuff
+api(app);
+developer(app);
+citizen(app);
+
+// temporal stuff
 app.get('/admin/upload2/', admin2.uploadFileForm);
 app.post('/admin/upload2/', admin2.uploadFile);
+app.get('/datasets/:name/:format?', dataset.showDataset);
 
-//citizen routes
-app.get('/', citizen.home);
-app.get('/datasets/', citizen.datasets);
-app.get('/apps/', citizen.apps);
-app.get('/apps/:appId', citizen.viewApp);
-
-//registro
+// login y registro
 app.get('/registro', registro.formulario);
 app.post('/registro', registro.registro);
 
-//view datasets
-app.get('/datasets/:name/:format?', dataset.showDataset);
-
-//api routes
-api(app);
-
-
-//login
 app.post('/login', passport.authenticate('local', { successRedirect: '/',
   failureRedirect: '/login' }));
 app.get('/login', login.login);
@@ -110,8 +101,6 @@ app.get('/logout', function(req, res){
 });
 
 
-//developer
-developer(app);
 
 
 app.listen(process.env.PORT || 3000);
