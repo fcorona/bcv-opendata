@@ -1,5 +1,15 @@
 var dataset = require('../models/dataset');
 
+module.exports = function(app){
+  app.get('/api/datasets/', listDataset);
+  app.get('/api/datasets/:name', readDataset);
+  app.get('/api/dimensions/:dimension', readDatasetDimension);
+  app.get('/api/categories/:category', readDatasetCategory);
+  app.get('/api/datas/:indicator', readDatasetIndicator);
+  app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', notImplemented);
+};
+
+
 var validateKey = function(key){
   if(key==='not-valid-key'){
     return {
@@ -29,11 +39,11 @@ var getFullURL = function(req){
 }
 
 
-exports.notImplemented = function(req, res, next){
+var notImplemented = function(req, res, next){
   res.json({message: 'not implemented yet'});
 };
 
-exports.listDataset = function(req, res, next){
+var listDataset = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
   dataset.DatasetMongo.find({}, {'__v': 0, '_id': 0}, function (err, data){
@@ -50,7 +60,7 @@ exports.listDataset = function(req, res, next){
   });
 }
 
-exports.readDataset = function(req, res, next){
+var readDataset = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
   dataset.DatasetMongo.findOne({name: req.params.name}, {'__v': 0}, function (err, data){
@@ -77,7 +87,7 @@ exports.readDataset = function(req, res, next){
 
 };
 
-exports.readDatasetDimension = function(req, res, next){
+var readDatasetDimension = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
   dataset.DimensionMongo.findOne({dimensionId:req.params.dimension}, {'__v': 0}, function (err, dimension){
@@ -107,7 +117,7 @@ exports.readDatasetDimension = function(req, res, next){
 };
 
 
-exports.readDatasetCategory = function(req, res, next){
+var readDatasetCategory = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
   dataset.CategoryMongo.findOne({categoryId: req.params.category}, {'__v': 0}, function (err, category){
@@ -209,7 +219,7 @@ var multipleValueStrategy = function(res, data, filter){
 }
 
 
-exports.readDatasetIndicator = function(req, res, next){
+var readDatasetIndicator = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
   dataset.DataMongo.findOne({'_id':req.params.indicator}, {'__v': 0}, function (err, data){

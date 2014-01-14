@@ -96,13 +96,7 @@ app.post('/registro', registro.registro);
 app.get('/datasets/:name/:format?', dataset.showDataset);
 
 //api routes
-
-app.get('/api/datasets/', api.listDataset);
-app.get('/api/datasets/:name', api.readDataset);
-app.get('/api/dimensions/:dimension', api.readDatasetDimension);
-app.get('/api/categories/:category', api.readDatasetCategory);
-app.get('/api/datas/:indicator', api.readDatasetIndicator);
-app.get('/api/datasets/:name/:dimension/:category/:indicator/:year', api.notImplemented);
+api(app);
 
 
 //login
