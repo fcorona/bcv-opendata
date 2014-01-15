@@ -1,7 +1,7 @@
 var apps = require('../models/apps.js');
 
 module.exports = function(app){
-  app.get('/dev/apps', apps);
+  app.get('/dev/apps', listApps);
   app.get('/dev/apps/create', formApp);
   app.post('/dev/apps/create', createApp);
   app.get('/dev/apps/:id', viewApp);
@@ -10,19 +10,20 @@ module.exports = function(app){
   app.post('/dev/keys/generate', generateKey);
 }
 
-var apps = function(req, res){
+var listApps = function(req, res){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
   }
-
-  apps.AppModel.find({owner: req.user.id}, function(err, apps){
+  
+  apps.AppModel.find({owner: req.user.id}, function(err, applications){
     if(err){
       console.log(err);
       res.send(500, err);
       return;
     }
-    res.render('dev/apps', {apps: apps});
+    console.log(applications);
+    res.render('dev/apps', {apps: applications});
   });
 };
 

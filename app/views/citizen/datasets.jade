@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  div.page-header
+    h2 Catalogo de Datos
+    p los catalogos de datos listados (datasets) son recopilados y entregados 
+      | por la fundación corona y su programa 
+      b Bogot&aacute; C&oacute;mo Vamos?
+
+  ul.list-unstyled
+    for dataset in datasets
+      li
+        h3 
+          a(href='/datasets/#{dataset.name}')= dataset.title
+        p= dataset.description
+        a.format(href='#')
+          span.label.label-primary Inter&aacute;ctivo
+        &nbsp;|&nbsp;
+        a.format(href='#')
+          span.label.label-success CSV
+        &nbsp;|&nbsp;
+        a.format(href='#')
+          span.label.label-info API REST

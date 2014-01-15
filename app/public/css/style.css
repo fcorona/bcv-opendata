@@ -36,3 +36,12 @@ body {
   stroke: #000;
   shape-rendering: crispEdges;
 }
+
+/* ciudadanos */
+a.format:hover {
+  text-decoration: none;
+}
+
+a.format span:hover {
+  background-color: #333;
+}

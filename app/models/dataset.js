@@ -10,6 +10,8 @@ autoIncrement.initialize(connection);
 
 var DatasetSchema = new mongoose.Schema({
   name: {type: String, index: true, unique: true},
+  title: String,
+  description: String,
   type: Number
 });
 
