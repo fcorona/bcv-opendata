@@ -22,20 +22,18 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      express: {
-        files:  [ '**/*.js' ],
-        tasks:  [ 'express:dev' ],
-        options: {
-          nospawn: true //Without this option specified express won't be reloaded
-        }
-      }
+      files:  [ '**/*.js' ],
+      tasks:  [ 'express:dev', 'watch'],
+      options: {
+        nospawn: true //Without this option specified express won't be reloaded
+      }  
     }
   });
 
   
-  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-express-server');
+  grunt.loadNpmTasks('grunt-contrib-watch');
 
   grunt.registerTask('server', [ 'express:dev', 'watch' ])
-  grunt.registerTask('default', ['express']);
+  grunt.registerTask('default', ['server']);
 };
