@@ -45,3 +45,17 @@ a.format:hover {
 a.format span:hover {
   background-color: #333;
 }
+
+
+.dataset-provider .header {
+  padding-bottom: 2em;
+}
+
+.dataset-provider .socials {
+  background-color: #f6f6f6;
+  border-color: #ddd;
+}
+
+.dataset-provider .socials span {
+  font-weight: 800;
+}

@@ -3,17 +3,31 @@ var flash = require('connect-flash'),
 
 
 exports.showDataset = function(req, res, next){
-  var renderFormat = {'table': 'datasetTable',
+  var renderFormat = {'html': 'datasetHtml',
+                      'table': 'datasetTable',
                       'list': 'dataset',
                       'graph': 'datasetGraph'};
-  var format = req.params.format || 'graph';
-  format = format in renderFormat ? format : 'graph';
+  var format = req.params.format || 'html';
+  format = format in renderFormat ? format : 'html';
 
-  if(format=='graph'){
-    res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida'});
+  if(format == 'html' || format == 'graph'){
+
+    dataset.DatasetMongo.findOne({name: req.params.name}, function (err, foundDataset){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      if(!foundDataset){
+        res.render(404, '404');
+        return;
+      }
+
+      res.render(renderFormat[format], {dataset: foundDataset});
+      return;
+    });
     return;
   }
-  
+
   dataset.DatasetMongo.findOne({name: req.params.name}, function (errDataset, foundDataset){
     foundDataset = foundDataset.toJSON();
     dataset.DimensionMongo.find({dataset: foundDataset}, function (errDimension, dimensions){
@@ -51,13 +65,7 @@ exports.showDataset = function(req, res, next){
             categories[i].indicators = localDatas[categories[i]['_id']];
           };
           dataset.ValuesMongo.find({dataset: foundDataset}, function(errDatas, values){
-/*
-            for (vars in values[2]) {
-              console.log(vars);
-            };
-*/
-            console.log(values[2].get('2'));
-            console.log(values[2].getValue('2'));
+
             res.render(renderFormat[format], {title:'Informe Indicadores de Calidad de Vida', data: foundDataset, data2: values});
             return;
           });
