@@ -4,26 +4,26 @@ block content
   div.page-header
     h1 Registro de usuario
 
-  form(role="form" action="/registro" method="POST")
+  form(role='form' action='/registro/' method='POST')
     div.form-group
-      label(for="name") Nombre completo
-      input.form-control#name(type="text" name="name")
+      label(for='name') Nombre completo
+      input.form-control#name(type='text' name='name')
 
     div.form-group
-      label(for="email") email
-      input.form-control#email(type="email" name="email")
+      label(for='email') email
+      input.form-control#email(type='email' name='email')
 
     div.form-group
-      label(for="password") Contrase&ntilde;a
-      input.form-control#password(type="password" name="pass")
+      label(for='password') Contrase&ntilde;a
+      input.form-control#password(type='password' name='pass')
     
     div.form-group
-      label(for="repassword") Repita la contrase&ntilde;a
-      input.form-control#repassword(type="password" name="repass")
+      label(for='repassword') Repita la contrase&ntilde;a
+      input.form-control#repassword(type='password' name='repass')
     
-    button.btn.btn-default(type="submit") Registrar
+    button.btn.btn-default(type='submit') Registrar
     
-    p #{msg}
+    p= msg
     
     if (notpass)
       p Las contrase&ntilde;as no coinciden

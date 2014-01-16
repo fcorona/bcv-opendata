@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  div.page-header
+    h2 Catalogos de Datos
+    p Seleccione y administre los catalogos de datos
+
+  table.table.table-striped.table-responsive
+    thead
+      tr
+        th Nombre
+        th Descripci&oacute;n
+        th Opciones
+
+    tbody
+      for dataset in datasets
+        tr
+          td
+            a(href='/admin/datasets/#{dataset.name}')= dataset.title
+          td= dataset.description
+          td
+            span
+              a.format(href='#')
+                span.label.label-primary Ver
+              &nbsp;|&nbsp;
+              a.format(href='#')
+                span.label.label-success Editar

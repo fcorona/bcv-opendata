@@ -1,39 +1,59 @@
 var fs = require('fs'),
     flash = require('connect-flash'),
     Iconv = require('iconv').Iconv,
-    dataset = require('../models/dataset');
+    dataset = require('../models/dataset'),
+    apps = require('../models/apps'),
+    UserModel = require('../models/user').User;
 
-
-module.exports = function(app){
-  app.get('/admin/', home);
-  app.get('/admin/datasets/', datasets);
-  app.get('/admin/datasets/:datasetId', viewDataset);
-  app.get('/admin/datasets/:datasetId/edit', editDataset);
-  app.post('/admin/datasets/:datasetId/edit', updateDataset);
-  app.get('/admin/datasets/:dataset/metrics', metrics);
-
-  app.get('/admin/apps/', apps);
-  app.get('/admin/apps/:appId', viewApp);
-  app.post('/admin/apps/:appId', updateApp);
-
-  app.get('/admin/devs/', developers);
-  app.get('/admin/devs/:devId', viewDeveloper);
-  app.post('/admin/devs/:devId', updateDeveloper);
-
-  app.get('/admin/upload/', uploadFileForm);
-  app.post('/admin/upload/', uploadFile);
+var validAdmin = function(req, res, next){
+  console.log(req.isAuthenticated());
+  if(!req.isAuthenticated()){
+    res.redirect('/');
+    return;
+  }
+  if(req.user.role != 'admin'){
+    res.status(401);
+    res.render('unauthorized');
+    return;
+  }
+  next();
 };
 
+module.exports = function(app){
+  app.get('/admin/', validAdmin, home);
+  app.get('/admin/datasets/', validAdmin, listDatasets);
+  app.get('/admin/datasets/:datasetId', validAdmin, viewDataset);
+  app.get('/admin/datasets/:datasetId/edit', validAdmin, editDataset);
+  app.post('/admin/datasets/:datasetId/edit', validAdmin, updateDataset);
+  app.get('/admin/datasets/:dataset/metrics', validAdmin, metrics);
+
+  app.get('/admin/apps/', validAdmin, listApps);
+  app.get('/admin/apps/:appId', validAdmin, viewApp);
+  app.post('/admin/apps/:appId', validAdmin, updateApp);
+
+  app.get('/admin/devs/', validAdmin, listDevelopers);
+  app.get('/admin/devs/:devId', validAdmin, viewDeveloper);
+  app.post('/admin/devs/:devId', validAdmin, updateDeveloper);
+
+  app.get('/admin/upload/', validAdmin, uploadFileForm);
+  app.post('/admin/upload/', validAdmin, uploadFile);
+};
 
 
 //inicio para admin
 home = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+  res.render('admin/home', {title:'Plataforma de openData', messages: req.flash()});
 };
 
 //lista todos los datasets
-datasets = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+listDatasets = function(req, res){
+  dataset.DatasetMongo.find({}, function(err, datasets){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    res.render('admin/datasets', {datasets: datasets});
+  });
 };
 
 //ver dataset
@@ -51,16 +71,23 @@ updateDataset = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
-
-
 //lista las metricas para un dataset
 metrics = function(req, res){
   res.send(200, {'message': 'not implemented yet, ' + req.params.dataset});
 };
 
+
 //lista todas las apps registradas
-apps = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+listApps = function(req, res){
+  apps.AppModel.find({})
+  .populate('owner')
+  .exec(function(err, applications){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    res.render('admin/apps', {apps: applications});
+  });
 };
 
 //ver app
@@ -74,8 +101,14 @@ updateApp = function(req, res){
 };
 
 //lista los desarrolladores
-developers = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+listDevelopers = function(req, res){
+  UserModel.find({}, function(err, devs){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    res.render('admin/devs', {devs: devs});
+  });
 };
 
 //ver desarrollador

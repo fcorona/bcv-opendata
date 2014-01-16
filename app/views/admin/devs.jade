@@ -1,0 +1,24 @@
+extends ../layout
+
+block content
+  div.page-header
+    h2 Desarrolladores
+    p Seleccione y administre los desarrolladores
+
+  table.table.table-striped.table-responsive
+    thead
+      tr
+        th Nombre
+        th email
+        th Opciones
+
+    tbody
+      for dev in devs
+        tr
+          td
+            a(href='/admin/devs/#{dev.id}')= dev.name
+          td= dev.email
+          td
+            span
+              a.format(href='#')
+                span.label.label-danger bloquear

@@ -1,0 +1,27 @@
+extends ../layout
+
+block content
+  div.page-header
+    h2 Aplicaciones
+    p Seleccione y administre las aplicaciones
+
+  table.table.table-striped.table-responsive
+    thead
+      tr
+        th Nombre
+        th desarrollador
+        th Descripci&oacute;n
+        th Opciones
+
+    tbody
+      for app in apps
+        tr
+          td
+            a(href='/admin/apps/#{app.id}')= app.name
+          td
+            a(href='/admin/devs/#{app.owner.id}')= app.owner.name
+          td= app.description
+          td
+            span
+              a.format(href='#')
+                span.label.label-danger deshabilitar
