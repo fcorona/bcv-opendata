@@ -1,0 +1,50 @@
+extends ../layout
+
+block content
+
+  div.row
+    div.col-md-3.list-group.dataset-provider
+      div.list-group-item.header
+        img.img-responsive(src='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png' alt='Responsive image')
+        h3= app.owner.name
+        a(href=app.url)= app.url
+
+      div.list-group-item.socials
+        span Compartir en redes sociales
+      
+      for tag in app.tags
+        span tag &nbsp;
+
+      u
+        li.list-group-item Google +
+        li.list-group-item Twitter
+        li.list-group-item Facebook
+
+
+    div.col-md-9
+
+      div.page-header
+        h2= app.name
+      
+      p= app.description
+
+      h3 Comentarios
+
+        div#disqus_thread
+    
+        script(type="text/javascript").
+        
+          var disqus_shortname = 'fcorona';
+
+          (function() {
+              var dsq = document.createElement('script');
+              dsq.type = 'text/javascript';
+              dsq.async = true;
+              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+    
+        noscript Please enable JavaScript to view the
+          a(href="http://disqus.com/?ref_noscript") comments powered by Disqus.
+        a.dsq-brlink(href="http://disqus.com") comments powered by
+          span.logo-disqus Disqus

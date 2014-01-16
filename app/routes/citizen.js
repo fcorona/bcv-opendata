@@ -41,6 +41,18 @@ var listApps = function(req, res){
 
 //ver app
 var viewApp = function(req, res){
-  res.send(200, {'message': 'not implemented yet. ' + req.params.appId});
+  apps.AppModel.findOne({'_id': req.params.appId})
+  .populate('owner')
+  .exec(function(err, application){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!application){
+      res.render(404, '404');
+      return;
+    }
+    res.render('citizen/app', {app: application});
+  });
 };
 
