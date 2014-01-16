@@ -6,13 +6,12 @@ var express = require('express'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     schema = require('./models/user'),
-    User_model = schema.User,
+    UserModel = schema.User,
     registro = require('./routes/registro'),
     admin = require('./routes/admin'),
     admin2 = require('./routes/admin2'),
     login = require('./routes/login'),
     api = require('./routes/api'),
-    dataset = require('./routes/dataset'),
     citizen = require('./routes/citizen'),
     developer = require('./routes/dev'),
     slashes = require('connect-slashes');
@@ -42,17 +41,17 @@ app.configure(function() {
 });
 
 passport.use(new LocalStrategy(function(username, password, done) {
-  User_model.findOne({ email: username }, function(err, userx) {
+  UserModel.findOne({ email: username }, function(err, user) {
     if (err) { 
       return done(err); 
     }
-    if (!userx) {
+    if (!user) {
       return done(null, false, { message: 'Incorrect email.' });
     }
-    if (!userx.validPassword(password)) {
+    if (!user.validPassword(password)) {
       return done(null, false, { message: 'Incorrect password.' });
     }
-    return done(null, userx);
+    return done(null, user);
   });
 }
 ));
@@ -61,7 +60,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  User_model.findById(id, function(err, user) {
+  UserModel.findById(id, function(err, user) {
     done(err, user);
   });
 });
@@ -85,17 +84,23 @@ citizen(app);
 // temporal stuff
 app.get('/admin/upload2/', admin2.uploadFileForm);
 app.post('/admin/upload2/', admin2.uploadFile);
-app.get('/datasets/:name/:format?', dataset.showDataset);
 
 // login y registro
-app.get('/registro', registro.formulario);
-app.post('/registro', registro.registro);
+app.get('/registro/', registro.formulario);
+app.post('/registro/', registro.registro);
 
-app.post('/login', passport.authenticate('local', { successRedirect: '/',
-  failureRedirect: '/login' }));
-app.get('/login', login.login);
+app.post('/login/', passport.authenticate('local', { failureRedirect: '/login/' }),
+  function(req, res){
+    if(req.user.role == 'admin'){
+      res.redirect('/admin/');
+    }else{
+      res.redirect('/dev/');
+    }
+});
 
-app.get('/logout', function(req, res){
+app.get('/login/', login.login);
+
+app.get('/logout/', function(req, res){
   req.logout();
   res.redirect('/');
 });

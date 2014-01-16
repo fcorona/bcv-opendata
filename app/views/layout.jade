@@ -54,7 +54,7 @@ html
 
           ul.nav.navbar-nav.navbar-right
             if !login
-              form.navbar-form(role="form" action="/login" method="POST")
+              form.navbar-form(role="form" action="/login/" method="POST")
                 div.form-group
                   input.form-control(type="text" name="username" placeholder="Email")
                 
@@ -62,7 +62,7 @@ html
                   input.form-control(type="password" name="password" placeholder="Password")
                 
                 button.btn.btn-success(type="submit") Ingresar
-                a.btn.btn-default(href="/registro") Registrarse
+                a.btn.btn-default(href="/registro/") Registrarse
             else
               li.dropdown
                 a.dropdown-toggle(href="#" data-toggle="dropdown")= user.name

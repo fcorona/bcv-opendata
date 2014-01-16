@@ -7,6 +7,9 @@ var fs = require('fs'),
 module.exports = function(app){
   app.get('/admin/', home);
   app.get('/admin/datasets/', datasets);
+  app.get('/admin/datasets/:datasetId', viewDataset);
+  app.get('/admin/datasets/:datasetId/edit', editDataset);
+  app.post('/admin/datasets/:datasetId/edit', updateDataset);
   app.get('/admin/datasets/:dataset/metrics', metrics);
 
   app.get('/admin/apps/', apps);
@@ -32,6 +35,23 @@ home = function(req, res){
 datasets = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
+
+//ver dataset
+viewDataset = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+//edit Dataset
+editDataset = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+//update Dataset
+updateDataset = function(req, res){
+  res.send(200, {'message': 'not implemented yet.'});
+};
+
+
 
 //lista las metricas para un dataset
 metrics = function(req, res){
