@@ -1,0 +1,18 @@
+extends ../layout
+
+block content
+  div.page-header
+    h2 Aplicaciones
+    p Los desarrolladores de software están utilizando los datos abiertos para 
+      | ayudar a la gente a tomar decisiones con base en la información.
+    p A continuación algunos ejemplos de aplicaciones que utilizan los datos abiertos.
+
+  ul.list-unstyled
+    for app in apps
+      li
+        h3 
+          a(href='/apps/#{app.id}')= app.name
+        p= app.description
+        a(href='url')= app.url
+        br
+        span by #{app.owner.name}

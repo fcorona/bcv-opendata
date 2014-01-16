@@ -1,11 +1,12 @@
 var datasetRoute = require('./dataset'),
-    dataset = require('../models/dataset');
+    dataset = require('../models/dataset'),
+    apps = require('../models/apps');
 
 module.exports = function(app){
   app.get('/', home);
   app.get('/datasets/', datasets);
   app.get('/datasets/:name/:format?', datasetRoute.showDataset);
-  app.get('/apps/', apps);
+  app.get('/apps/', listApps);
   app.get('/apps/:appId', viewApp);
 }
 
@@ -26,8 +27,16 @@ var datasets = function(req, res){
 };
 
 //lista apps
-var apps = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+var listApps = function(req, res){
+  apps.AppModel.find({})
+  .populate('owner')
+  .exec(function(err, applications){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    res.render('citizen/apps', {apps: applications});
+  });
 };
 
 //ver app
