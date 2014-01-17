@@ -1,21 +1,29 @@
 var apps = require('../models/apps.js');
 
-module.exports = function(app){
-  app.get('/dev/apps', listApps);
-  app.get('/dev/apps/create', formApp);
-  app.post('/dev/apps/create', createApp);
-  app.get('/dev/apps/:id', viewApp);
-  app.get('/dev/apps/:id/edit', editApp);
-  app.post('/dev/apps/:id/edit', updateApp);
-  app.post('/dev/keys/generate', generateKey);
-}
-
-var listApps = function(req, res){
+var validUser = function(req, res, next){
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
   }
-  
+  if(req.user.role == 'admin'){
+    res.status(401);
+    res.render('unauthorized');
+    return;
+  }
+  next();
+};
+
+module.exports = function(app){
+  app.get('/dev/apps', validUser, listApps);
+  app.get('/dev/apps/create', validUser, formApp);
+  app.post('/dev/apps/create', validUser, createApp);
+  app.get('/dev/apps/:id', validUser, viewApp);
+  app.get('/dev/apps/:id/edit', validUser, editApp);
+  app.post('/dev/apps/:id/edit', validUser, updateApp);
+  app.post('/dev/keys/generate', validUser, generateKey);
+}
+
+var listApps = function(req, res){
   apps.AppModel.find({owner: req.user.id}, function(err, applications){
     if(err){
       console.log(err);
@@ -28,11 +36,6 @@ var listApps = function(req, res){
 };
 
 var viewApp = function(req, res){
-  if(!req.isAuthenticated()){
-    res.redirect('/');
-    return;
-  }
-
   apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id}, function(err, app){
     if(err){
       console.log(err);
@@ -48,11 +51,6 @@ var viewApp = function(req, res){
 };
 
 var editApp = function(req, res){
-  if(!req.isAuthenticated()){
-    res.redirect('/');
-    return;
-  }
-  
   apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id}, function(err, app){
     if(err){
       console.log(err);
@@ -68,10 +66,6 @@ var editApp = function(req, res){
 };
 
 var updateApp = function(req, res){
-  if(!req.isAuthenticated()){
-    res.redirect('/');
-    return;
-  }
   var model = {},
      errors = {};
 
@@ -107,20 +101,12 @@ var updateApp = function(req, res){
 };
 
 var formApp = function(req, res){
-  if(!req.isAuthenticated()){
-    res.redirect('/');
-    return;
-  }
   var model = {name: '', description: '', url: ''};
   console.log(model);
   res.render('dev/create-app', {model: model, errors: {}});
 };
 
 var createApp = function(req, res){
-  if(!req.isAuthenticated()){
-    res.redirect('/');
-    return;
-  }
   var model = {},
      errors = {};
 

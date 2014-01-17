@@ -6,7 +6,6 @@ var fs = require('fs'),
     UserModel = require('../models/user').User;
 
 var validAdmin = function(req, res, next){
-  console.log(req.isAuthenticated());
   if(!req.isAuthenticated()){
     res.redirect('/');
     return;
