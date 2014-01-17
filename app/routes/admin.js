@@ -41,7 +41,11 @@ module.exports = function(app){
 
 //inicio para admin
 home = function(req, res){
-  res.render('admin/home', {title:'Plataforma de openData', messages: req.flash()});
+  res.render('admin/home', {
+    title:'Plataforma de openData',
+    messages: req.flash(),
+    menu: {home: 'active'}
+  });
 };
 
 //lista todos los datasets
@@ -51,7 +55,10 @@ listDatasets = function(req, res){
       res.send(500, err);
       return;
     }
-    res.render('admin/datasets', {datasets: datasets});
+    res.render('admin/datasets', {
+      datasets: datasets,
+      menu: {datasets: 'active'}
+    });
   });
 };
 
@@ -85,7 +92,10 @@ listApps = function(req, res){
       res.send(500, err);
       return;
     }
-    res.render('admin/apps', {apps: applications});
+    res.render('admin/apps', {
+      apps: applications,
+      menu: {apps: 'active'}
+    });
   });
 };
 
@@ -106,7 +116,10 @@ listDevelopers = function(req, res){
       res.send(500, err);
       return;
     }
-    res.render('admin/devs', {devs: devs});
+    res.render('admin/devs', {
+      devs: devs,
+      menu: {devs: 'active'}
+    });
   });
 };
 
