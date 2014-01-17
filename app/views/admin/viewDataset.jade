@@ -1,0 +1,30 @@
+extends layoutAdmin
+
+block adminContent
+  div.page-header
+    h2= dataset.title
+      small.pull-right
+        a(href='/admin/datasets/') volver
+
+  dl.dl-horizontal
+    dt T&iacute;tulo:
+    dd= dataset.title
+
+    dt C&oacute;digo:
+    dd= dataset.name
+  
+    dt Descripci&oacute;n:
+    dd= dataset.description
+
+    dt Tipo:
+    dd
+      if dataset.type == 1
+        span Indicadores
+      else
+        span Encuestas
+
+  hr
+  div.pull-right
+    a.btn.btn-default(href='/admin/datasets/#{dataset.id}/edit/') Editar
+    &nbsp; | &nbsp;
+    a.btn.btn-danger(href='#') Eliminar

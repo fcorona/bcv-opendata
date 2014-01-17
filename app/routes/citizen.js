@@ -12,7 +12,11 @@ module.exports = function(app){
 
 //inicio para ciudadano
 var home = function(req, res){
-  res.render('index', {title:'Plataforma de openData'});
+  if(req.user && req.user.role == 'admin'){
+    res.redirect('/admin/');
+  }else{
+    res.render('index', {title:'Plataforma de openData'});
+  }
 };
 
 //lista datasets

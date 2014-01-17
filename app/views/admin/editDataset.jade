@@ -1,0 +1,44 @@
+extends layoutAdmin
+
+block adminContent
+
+  div.page-header
+    h2 Editando #{dataset.title}
+      small.pull-right
+        a(href='/admin/datasets/#{dataset.id}/') volver
+
+  form.form-horizontal(role='form' method='POST')
+    div.form-group(class=errors.title?'has-error':'')
+      label.col-sm-2.control-label(for='title') T&iacute;tulo
+
+      div.col-sm-10
+        input#title.form-control(type='text' name='title' minlength=5 maxlength=60 required value=dataset.title)
+        if errors.title
+          span.help-block= errors.title
+
+    div.form-group(class=errors.name?'has-error':'')
+      label.col-sm-2.control-label(for='name') C&oacute;digo
+      
+      div.col-sm-10
+        input#name.form-control(type='text' name='name' minlength=3 maxlength=20 required value=dataset.name)
+        if errors.name
+          span.help-block= errors.name
+
+    div.form-group(class=errors.description?'has-error':'')
+      label.col-sm-2.control-label(for='description') Descripci&oacute;n
+      
+      div.col-sm-10
+        textarea#description.form-control(name='description' minlength=10 required)= dataset.description
+        if errors.description
+          span.help-block= errors.description
+
+    div.form-group
+      label.col-sm-2.control-label(for='type') Tipo
+      
+      div.col-sm-10
+        input#type.form-control(type='type' name='type' disabled value=(dataset.type==1?'Indicadores':'Encuestas'))
+    
+    div.form-group
+    
+      div.col-sm-offset-2.col-sm-10
+        button.btn.btn-primary.pull-right(type='submit') Actualizar

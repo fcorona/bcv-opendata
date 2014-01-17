@@ -1,7 +1,7 @@
 var fs = require('fs'),
     flash = require('connect-flash'),
     Iconv = require('iconv').Iconv,
-    dataset = require('../models/dataset'),
+    DatasetModel = require('../models/dataset').DatasetMongo,
     apps = require('../models/apps'),
     UserModel = require('../models/user').User;
 
@@ -38,53 +38,127 @@ module.exports = function(app){
   app.post('/admin/upload/', validAdmin, uploadFile);
 };
 
+var MENU_STATES = {
+  HOME: {home: 'active'},
+  DATASETS: {datasets: 'active'},
+  DEVS: {devs: 'active'},
+  APPS: {apps: 'active'},
+}
 
 //inicio para admin
-home = function(req, res){
+var home = function(req, res){
   res.render('admin/home', {
     title:'Plataforma de openData',
     messages: req.flash(),
-    menu: {home: 'active'}
+    menu: MENU_STATES.HOME
   });
 };
 
 //lista todos los datasets
-listDatasets = function(req, res){
-  dataset.DatasetMongo.find({}, function(err, datasets){
+var listDatasets = function(req, res){
+  DatasetModel.find({}, function(err, datasets){
     if(err){
       res.send(500, err);
       return;
     }
     res.render('admin/datasets', {
       datasets: datasets,
-      menu: {datasets: 'active'}
+      menu: MENU_STATES.DATASETS
     });
   });
 };
 
 //ver dataset
-viewDataset = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+var viewDataset = function(req, res){
+  DatasetModel.findById(req.params.datasetId, function(err, dataset){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!dataset){
+      res.render(404, '404');
+      return;
+    }
+    res.render('admin/viewDataset', {
+      dataset: dataset,
+      menu: MENU_STATES.DATASETS
+    });
+  });
 };
 
 //edit Dataset
-editDataset = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+var editDataset = function(req, res){
+  DatasetModel.findById(req.params.datasetId, function(err, dataset){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!dataset){
+      res.render(404, '404');
+      return;
+    }
+    res.render('admin/editDataset', {
+      dataset: dataset,
+      errors: {},
+      menu: MENU_STATES.DATASETS
+    });
+  });
 };
 
 //update Dataset
-updateDataset = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+var updateDataset = function(req, res){
+  var model = {},
+      errors = {};
+
+  model.title = req.body.title || '';
+  if(model.title.length < 4 || model.title.length > 60){
+    errors.title = 'El título debe tener entre 5 y 60 caracteres';
+  };
+
+  model.name = req.body.name || '';
+  if(model.name.length < 3 || model.name.length > 20 || model.name.indexOf(' ') != -1){
+    errors.name = 'El código no debe tener espacios y debe tener desde 3 hasta 20 caracteres';
+  };
+
+  model.description = req.body.description || '';
+  if(model.description.length < 10){
+    errors.description = 'La descripción debe debe tener 10 caracteres como mínimo';
+  };
+
+  if(Object.keys(errors).length > 0){
+    model.type = req.body.type;
+    model.id = req.params.datasetId;
+    res.render('admin/editDataset', {
+      dataset: model,
+      errors: errors,
+      menu: MENU_STATES.DATASETS
+    });
+    return;
+  }
+
+  DatasetModel.findById(req.params.datasetId, function(err, dataset){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    dataset.title = model.title;
+    dataset.name = model.name;
+    dataset.description = model.description;
+    dataset.save(function(err, dataset){
+      res.redirect('/admin/datasets/' + dataset.id);
+    });
+  });
+
 };
 
 //lista las metricas para un dataset
-metrics = function(req, res){
+var metrics = function(req, res){
   res.send(200, {'message': 'not implemented yet, ' + req.params.dataset});
 };
 
 
 //lista todas las apps registradas
-listApps = function(req, res){
+var listApps = function(req, res){
   apps.AppModel.find({})
   .populate('owner')
   .exec(function(err, applications){
@@ -94,23 +168,23 @@ listApps = function(req, res){
     }
     res.render('admin/apps', {
       apps: applications,
-      menu: {apps: 'active'}
+      menu: MENU_STATES.APPS
     });
   });
 };
 
 //ver app
-viewApp = function(req, res){
+var viewApp = function(req, res){
   res.send(200, {'message': 'not implemented yet. ' + req.params.appId});
 };
 
 //bloquear/desbloquear app
-updateApp = function(req, res){
+var updateApp = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
 //lista los desarrolladores
-listDevelopers = function(req, res){
+var listDevelopers = function(req, res){
   UserModel.find({}, function(err, devs){
     if(err){
       res.send(500, err);
@@ -118,26 +192,26 @@ listDevelopers = function(req, res){
     }
     res.render('admin/devs', {
       devs: devs,
-      menu: {devs: 'active'}
+      menu: MENU_STATES.DEVS
     });
   });
 };
 
 //ver desarrollador
-viewDeveloper = function(req, res){
+var viewDeveloper = function(req, res){
   res.send(200, {'message': 'not implemented yet. ' + req.params.devId});
 };
 
 //validar/desvalidar desarrollador
-updateDeveloper = function(req, res){
+var updateDeveloper = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
 
-uploadFileForm = function(req, res){
+var uploadFileForm = function(req, res){
   res.render('upload', {title:'Plataforma de openData', messages: req.flash()});
 };
 
-uploadFile = function(req, res, next){
+var uploadFile = function(req, res, next){
   if(req.files.file.headers['content-type']!=='text/csv'){
     req.flash('error', req.files.file.name +' no es un archivo valido, por favor suba un archivo CSV.')
     res.redirect('/admin/upload/');
@@ -341,7 +415,7 @@ var transformData = function(parsedData, years){
   });
 
   var docYears = [];
-  var datasetDB = new dataset.DatasetMongo(
+  var datasetDB = new DatasetModel(
     {name: 'iicv', type: 1, dimensions: []});
   datasetDB.save();
   var remainingIndicators = parsedData.length;

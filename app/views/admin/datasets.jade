@@ -2,7 +2,7 @@ extends layoutAdmin
 
 block adminContent
   div.page-header
-    h2 Catalogos de Datos
+    h1 Catalogos de Datos
     p Seleccione y administre los catalogos de datos
 
   table.table.table-striped.table-responsive
@@ -16,12 +16,12 @@ block adminContent
       for dataset in datasets
         tr
           td
-            a(href='/admin/datasets/#{dataset.name}')= dataset.title
+            a(href='/admin/datasets/#{dataset.id}/')= dataset.title
           td= dataset.description
           td
             span
-              a.format(href='#')
+              a.format(href='/admin/datasets/#{dataset.id}/')
                 span.label.label-primary Ver
               &nbsp;|&nbsp;
-              a.format(href='#')
+              a.format(href='/admin/datasets/#{dataset.id}/edit')
                 span.label.label-success Editar
