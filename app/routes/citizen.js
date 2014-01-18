@@ -61,7 +61,7 @@ var viewApp = function(req, res){
       res.render(404, '404');
       return;
     }
-    res.render('citizen/app', {app: application});
+    res.render('citizen/app', {title: application.name, app: application});
   });
 };
 

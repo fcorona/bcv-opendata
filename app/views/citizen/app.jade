@@ -1,4 +1,13 @@
-extends ../layout
+extends layoutCitizen
+
+block meta
+  meta(name='description' content=app.shortDescription)
+
+  //og properties
+  meta(property='og:title' content=app.name)
+  meta(property='og:image' content=app.logoUrl)
+  meta(property='og:description' content=app.shortDescription)
+
 
 block content
 
@@ -20,9 +29,15 @@ block content
         span tag &nbsp;
 
       u
-        li.list-group-item Google +
-        li.list-group-item Twitter
+        li.list-group-item
+          div.g-plus(data-action='share')
+        
+        li.list-group-item
+          a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
+        
         li.list-group-item Facebook
+          div.fb-share-button(data-type='button_count')
+          div#fb-root
 
 
     div.col-md-9
@@ -53,3 +68,4 @@ block content
           a(href="http://disqus.com/?ref_noscript") comments powered by Disqus.
         a.dsq-brlink(href="http://disqus.com") comments powered by
           span.logo-disqus Disqus
+

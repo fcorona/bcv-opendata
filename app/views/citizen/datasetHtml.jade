@@ -1,4 +1,12 @@
-extends layout
+extends layoutCitizen
+
+block meta
+  meta(name='description' content=dataset.description)
+
+  //og properties
+  meta(property='og:title' content=dataset.title)
+  meta(property='og:image' content='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png')
+  meta(property='og:description' content=dataset.description)
 
 block content
 
@@ -13,7 +21,8 @@ block content
         span Compartir en redes sociales
       
       u
-        li.list-group-item Google +
+        li.list-group-item
+          div.g-plus(data-action='share')
         li.list-group-item Twitter
         li.list-group-item Facebook
 

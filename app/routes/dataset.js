@@ -3,7 +3,7 @@ var flash = require('connect-flash'),
 
 
 exports.showDataset = function(req, res, next){
-  var renderFormat = {'html': 'datasetHtml',
+  var renderFormat = {'html': 'citizen/datasetHtml',
                       'table': 'datasetTable',
                       'list': 'dataset',
                       'graph': 'datasetGraph'};
