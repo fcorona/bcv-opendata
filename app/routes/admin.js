@@ -206,7 +206,9 @@ var listDevelopers = function(req, res){
 
 //ver un dev
 var viewDeveloper = function(req, res){
-  UserModel.findById(req.params.devId, function(err, dev){
+  UserModel.findById(req.params.devId)
+  .populate('apps')
+  .exec(function(err, dev){
     if(err){
       res.send(500, err);
       return;

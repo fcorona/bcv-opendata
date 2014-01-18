@@ -19,6 +19,13 @@ block adminContent
     dt Tipo de Usuario:
     dd= dev.role
 
+    dt Aplicaciones:
+    dd
+      ul.list-unstyled
+        for app in dev.apps
+          li
+            a(href='/apps/#{app.id}')= app.name
+
   hr
   form.pull-right(method='POST' action='/admin/devs/#{dev.id}/toggleValidate/')
     button.btn.btn-primary.format(type='submit')= dev.validated?'Invalidar':'Validar'

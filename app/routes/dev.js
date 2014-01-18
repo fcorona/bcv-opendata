@@ -134,10 +134,12 @@ var createApp = function(req, res){
   new apps.AppModel(model)
   .save(function(err, app){
     if(err){
-      console.log(err);
       res.send(500, err);
       return;
     }
+    console.log('voy a salvar');
+    req.user.apps.push(app);
+    req.user.save();
     res.redirect('dev/apps/' + app.id);
   });
 };
