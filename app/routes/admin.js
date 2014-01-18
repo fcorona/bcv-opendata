@@ -21,18 +21,17 @@ var validAdmin = function(req, res, next){
 module.exports = function(app){
   app.get('/admin/', validAdmin, home);
   app.get('/admin/datasets/', validAdmin, listDatasets);
-  app.get('/admin/datasets/:datasetId', validAdmin, viewDataset);
-  app.get('/admin/datasets/:datasetId/edit', validAdmin, editDataset);
-  app.post('/admin/datasets/:datasetId/edit', validAdmin, updateDataset);
-  app.get('/admin/datasets/:dataset/metrics', validAdmin, metrics);
+  app.get('/admin/datasets/:datasetId/', validAdmin, viewDataset);
+  app.get('/admin/datasets/:datasetId/edit/', validAdmin, editDataset);
+  app.post('/admin/datasets/:datasetId/edit/', validAdmin, updateDataset);
+  app.get('/admin/datasets/:dataset/metrics/', validAdmin, metrics);
 
   app.get('/admin/apps/', validAdmin, listApps);
-  app.get('/admin/apps/:appId', validAdmin, viewApp);
-  app.post('/admin/apps/:appId', validAdmin, updateApp);
+  app.post('/admin/apps/:appId/toogleBlock/', validAdmin, tooggleBlockApp);
 
   app.get('/admin/devs/', validAdmin, listDevelopers);
-  app.get('/admin/devs/:devId', validAdmin, viewDeveloper);
-  app.post('/admin/devs/:devId', validAdmin, updateDeveloper);
+  app.get('/admin/devs/:devId/', validAdmin, viewDeveloper);
+  app.post('/admin/devs/:devId/', validAdmin, updateDeveloper);
 
   app.get('/admin/upload/', validAdmin, uploadFileForm);
   app.post('/admin/upload/', validAdmin, uploadFile);
@@ -173,14 +172,25 @@ var listApps = function(req, res){
   });
 };
 
-//ver app
-var viewApp = function(req, res){
-  res.send(200, {'message': 'not implemented yet. ' + req.params.appId});
-};
-
 //bloquear/desbloquear app
-var updateApp = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+var tooggleBlockApp = function(req, res){
+  apps.AppModel.findById(req.params.appId, function(err, app){
+    app.allowed = !app.allowed;
+    app.save(function(err, app){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      console.log(req.xhr);
+      if(req.xhr) {
+        console.log('ole');
+        res.send({message: 'ok'});
+      }else{
+        console.log('ola');
+        res.redirect('/admin/apps/');
+      }
+    });
+  });
 };
 
 //lista los desarrolladores
@@ -206,6 +216,7 @@ var viewDeveloper = function(req, res){
 var updateDeveloper = function(req, res){
   res.send(200, {'message': 'not implemented yet.'});
 };
+
 
 var uploadFileForm = function(req, res){
   res.render('upload', {title:'Plataforma de openData', messages: req.flash()});

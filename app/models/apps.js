@@ -8,6 +8,7 @@ var AppSchema = new mongoose.Schema({
   url: String,
   access: {type: Schema.ObjectId, ref: 'AppAccess'},
   tags: [String],
+  allowed: {type: Boolean, default: true},
   owner: {type: Schema.ObjectId, ref: 'User'}
 });
 
