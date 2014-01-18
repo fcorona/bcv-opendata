@@ -7,12 +7,19 @@ block content
       | ayudar a la gente a tomar decisiones con base en la información.
     p A continuación algunos ejemplos de aplicaciones que utilizan los datos abiertos.
 
-  ul.list-unstyled
+  div.row
     for app in apps
-      li
-        h3 
-          a(href='/apps/#{app.id}')= app.name
-        p= app.description
-        a(href='url')= app.url
-        br
-        span by #{app.owner.name}
+      div.col-sm-6.col-md-4
+        div.thumbnail
+          if app.logoUrl
+            a(href='/apps/#{app.id}')
+              img(src=app.logoUrl alt=app.name)
+          div.caption
+            h3
+              a(href='/apps/#{app.id}')= app.name
+            p= app.shortDescription
+            a(href='url')= app.url
+            br
+            span by #{app.owner.name}
+
+

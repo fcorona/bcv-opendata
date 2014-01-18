@@ -9,10 +9,17 @@ block content
 
   dl.dl-horizontal
     
+    dt Logo
+    dd.thumbnail
+      img(src=app.logoUrl||'')
+
     dt P&aacute;gina
     dd= app.url
 
-    dt descripci&oacute;n
+    dt Descripci&oacute;n corta
+    dd= app.shortDescription
+
+    dt Descripci&oacute;n
     dd= app.description
 
     dt Llave de Acceso

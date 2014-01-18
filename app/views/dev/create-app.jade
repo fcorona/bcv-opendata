@@ -23,6 +23,14 @@ block content
         if errors.url
           p.has-error= errors.url
 
+    div.form-group(class=errors.shortDescription?'has-error':'')
+      label.col-sm-2.control-label(for='shortDescription') Descripci&oacute;n Corta
+      
+      div.col-sm-10
+        textarea#shortDescription.form-control(name='shortDescription' required)= model.shortDescription
+        if errors.shortDescription
+          p.has-error= errors.shortDescription
+
     div.form-group(class=errors.description?'has-error':'')
       label.col-sm-2.control-label(for='description') Descripci&oacute;n
       
@@ -30,6 +38,15 @@ block content
         textarea#description.form-control(name='description' required)= model.description
         if errors.description
           p.has-error= errors.description
+
+    div.form-group(class=errors.logoUrl?'has-error':'')
+      label.col-sm-2.control-label(for='logoUrl') Logo
+      
+      div.col-sm-10
+        input#logoUrl.form-control(type='url' name='logoUrl' value=model.logoUrl)
+        span.help-block Copie la url de donde quiere cargar el logo de su aplicaci&oacute;n
+        if errors.logoUrl
+          p.has-error= errors.logoUrl
 
     div.form-group
       label.col-sm-2.control-label(for='tags') Etiquetas

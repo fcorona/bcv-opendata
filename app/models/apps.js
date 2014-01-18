@@ -4,12 +4,14 @@ var mongoose = require('mongoose'),
 
 var AppSchema = new mongoose.Schema({
   name: String,
+  shortDescription: String,
   description: String,
   url: String,
   access: {type: Schema.ObjectId, ref: 'AppAccess'},
   tags: [String],
   allowed: {type: Boolean, default: true},
-  owner: {type: Schema.ObjectId, ref: 'User'}
+  owner: {type: Schema.ObjectId, ref: 'User'},
+  logoUrl: String
 });
 
 

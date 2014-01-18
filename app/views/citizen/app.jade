@@ -5,9 +5,13 @@ block content
   div.row
     div.col-md-3.list-group.dataset-provider
       div.list-group-item.header
-        img.img-responsive(src='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png' alt='Responsive image')
-        h3= app.owner.name
-        a(href=app.url)= app.url
+        a(href=app.url)
+          img.img-responsive(src=app.logoUrl alt='Responsive image')
+        h4(style='overflow-x: hidden')
+          a(href=app.url)= app.url
+        small Desarrollada por 
+          b= app.owner.name
+        
 
       div.list-group-item.socials
         span Compartir en redes sociales
@@ -25,7 +29,8 @@ block content
 
       div.page-header
         h2= app.name
-      
+        p= app.shortDescription
+
       p= app.description
 
       h3 Comentarios

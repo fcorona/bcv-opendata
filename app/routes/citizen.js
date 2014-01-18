@@ -37,7 +37,7 @@ var datasets = function(req, res){
 
 //lista apps
 var listApps = function(req, res){
-  apps.AppModel.find({})
+  apps.AppModel.find({allowed: true})
   .populate('owner')
   .exec(function(err, applications){
     if(err){

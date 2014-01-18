@@ -71,13 +71,19 @@ var updateApp = function(req, res){
     errors.name = 'El nombre debe tener entre 5 y 40 caracteres';
   };
 
-  model.url = req.body.url;
   
-  model.description = req.body.description || '';
-  if(model.description.length < 3 || model.description.length > 500){
-    errors.description = 'La description debe tener entre 3 y 500 caracteres';
+  model.shortDescription = req.body.shortDescription || '';
+  if(model.shortDescription.length < 3 || model.shortDescription.length > 140){
+    errors.shortDescription = 'La decripci&oacute;n corta debe tener entre 3 y 140 caracteres';
   };
 
+  model.description = req.body.description || '';
+  if(model.description.length < 3 || model.description.length > 800){
+    errors.description = 'La decripci&oacute;n debe tener entre 3 y 800 caracteres';
+  };
+
+  model.url = req.body.url;
+  model.logoUrl = req.body.logoUrl;
   //tags pendientes por ahora
 
   model.owner = req.user;
@@ -97,7 +103,7 @@ var updateApp = function(req, res){
 };
 
 var formApp = function(req, res){
-  var model = {name: '', description: '', url: ''};
+  var model = {name: '', description: '', url: '', logoUrl: ''};
   res.render('dev/create-app', {model: model, errors: {}});
 };
 
@@ -110,13 +116,19 @@ var createApp = function(req, res){
   if(model.name.length < 4 || model.name.length > 40){
     errors.name = 'El nombre debe tener entre 5 y 40 caracteres';
   };
+  
+  model.shortDescription = req.body.shortDescription || '';
+  if(model.shortDescription.length < 3 || model.shortDescription.length > 140){
+    errors.shortDescription = 'La descrip&oacute;n corta debe tener entre 3 y 140 caracteres';
+  };
+
+  model.description = req.body.description || '';
+  if(model.description.length < 3 || model.description.length > 800){
+    errors.description = 'La descripci&oacute;n debe tener entre 3 y 800 caracteres';
+  };
 
   model.url = req.body.url;
-  
-  model.description = req.body.description || '';
-  if(model.description.length < 3 || model.description.length > 500){
-    errors.description = 'La description debe tener entre 3 y 500 caracteres';
-  };
+  model.logoUrl = req.body.logoUrl;
 
   //tags pendientes por ahora
 
