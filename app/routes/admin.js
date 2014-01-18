@@ -27,11 +27,11 @@ module.exports = function(app){
   app.get('/admin/datasets/:dataset/metrics/', validAdmin, metrics);
 
   app.get('/admin/apps/', validAdmin, listApps);
-  app.post('/admin/apps/:appId/toogleBlock/', validAdmin, tooggleBlockApp);
+  app.post('/admin/apps/:appId/toggleBlock/', validAdmin, toggleBlockApp);
 
   app.get('/admin/devs/', validAdmin, listDevelopers);
   app.get('/admin/devs/:devId/', validAdmin, viewDeveloper);
-  app.post('/admin/devs/:devId/', validAdmin, updateDeveloper);
+  app.post('/admin/devs/:devId/toggleValidate/', validAdmin, toggleValidateDeveloper);
 
   app.get('/admin/upload/', validAdmin, uploadFileForm);
   app.post('/admin/upload/', validAdmin, uploadFile);
@@ -173,7 +173,7 @@ var listApps = function(req, res){
 };
 
 //bloquear/desbloquear app
-var tooggleBlockApp = function(req, res){
+var toggleBlockApp = function(req, res){
   apps.AppModel.findById(req.params.appId, function(err, app){
     app.allowed = !app.allowed;
     app.save(function(err, app){
@@ -181,12 +181,9 @@ var tooggleBlockApp = function(req, res){
         res.send(500, err);
         return;
       }
-      console.log(req.xhr);
-      if(req.xhr) {
-        console.log('ole');
+      if(req.xhr){
         res.send({message: 'ok'});
       }else{
-        console.log('ola');
         res.redirect('/admin/apps/');
       }
     });
@@ -207,14 +204,40 @@ var listDevelopers = function(req, res){
   });
 };
 
-//ver desarrollador
+//ver un dev
 var viewDeveloper = function(req, res){
-  res.send(200, {'message': 'not implemented yet. ' + req.params.devId});
+  UserModel.findById(req.params.devId, function(err, dev){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!dev){
+      res.render(404, '404');
+      return;
+    }
+    res.render('admin/viewDeveloper', {
+      dev: dev,
+      menu: MENU_STATES.DEVS
+    });
+  });
 };
 
 //validar/desvalidar desarrollador
-var updateDeveloper = function(req, res){
-  res.send(200, {'message': 'not implemented yet.'});
+var toggleValidateDeveloper = function(req, res){
+  UserModel.findById(req.params.devId, function(err, dev){
+    dev.validated = !dev.validated;
+    dev.save(function(err, dev){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      if(req.xhr){
+        res.send({message: 'ok'});
+      }else{
+        res.redirect('/admin/devs/');
+      }
+    });
+  });
 };
 
 

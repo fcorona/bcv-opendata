@@ -7,16 +7,17 @@ var userSchema = new mongoose.Schema({
   email : String,
   password : String,
   role: {type: String, default: 'developer'},
+  validated: {type: Boolean, default: false},
   apps: [{type: Schema.ObjectId, ref: 'App'}]
 });
 
 //metodo para validar el password
-userSchema.methods.validPassword = function (password) {
-  if (bcrypt.compareSync(password, this.password)) {
+userSchema.methods.validPassword = function(password){
+  if(bcrypt.compareSync(password, this.password)){
     return true; 
-  } else {
+  }else{
     return false;
   }
-}
+};
 
 exports.User = mongoose.model('User', userSchema);

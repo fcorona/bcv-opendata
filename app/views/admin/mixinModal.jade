@@ -1,0 +1,14 @@
+// Modal 
+div#ModalDialog.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        a.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
+        h4#title.modal-titleModal titulo
+      
+      div.modal-body
+        p#message mensaje
+      
+      div.modal-footer
+        a.btn.btn-default(type='button' data-dismiss='modal') Cancelar
+        a#confirm.btn.btn-primary(type='button') Confirmar

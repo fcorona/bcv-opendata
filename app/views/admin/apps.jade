@@ -25,59 +25,28 @@ block adminContent
             a(href='mailto://app.owner.email')= app.owner.email
           td= app.description
           td
-            form(method='POST' action='/admin/apps/#{app.id}/toogleBlock/')
-              button.btn.btn-sm.btn-warning.format(type='submit' href='#' id='disallow-#{app.id}' class=app.allowed?'show':'hidden'                  data-appid=app.id
+            form(method='POST' action='/admin/apps/#{app.id}/toggleBlock/')
+              button.btn.btn-sm.btn-warning.format(type='submit'
+                  href='#'
+                  id='disallow-#{app.id}'
+                  class=app.allowed?'show':'hidden'
+                  data-appid=app.id
                   data-title='Bloquear la aplicación '
                   data-message='Al bloquear la aplicación esta no podra acceder al API de bogota como vamos para ejecutar consultas. ¿Bloquear?')
                 | bloquear
 
-              button.btn.btn-sm.btn-success.format(type='submit' href='#' id='allow-#{app.id}' class=app.allowed?'hidden':'show'
+              button.btn.btn-sm.btn-success.format(type='submit'
+                  href='#'
+                  id='allow-#{app.id}'
+                  class=app.allowed?'hidden':'show'
                   data-appid=app.id
                   data-title='Habilitar Aplicaci&oacute;n' 
                   data-message='Al habilitar la aplicación esta podra acceder al API de bogota como vamos para ejecutar consultas. ¿Habilitar?')
                 | habilitar
 
-  // Modal 
-  div#ModalDialog.modal.fade(tabindex='-1' role='dialog' aria-labelledby='myModalLabel' aria-hidden='true')
-    div.modal-dialog
-      div.modal-content
-        div.modal-header
-          a.close(type='button' data-dismiss='modal' aria-hidden='true') &times;
-          h4#title.modal-titleModal titulo
-        
-        div.modal-body
-          p#message mensaje
-        
-        div.modal-footer
-          a.btn.btn-default(type='button' data-dismiss='modal') Cancelar
-          a#confirm.btn.btn-primary(type='button') Confirmar
-      
-    
-  
-
+  include mixinModal
 
 block scripts
+  script(src='/js/admin/script.js')
   script.
-    $('button.format').on('click', function(evt){
-      var target = $(evt.currentTarget);
-      $('#title').html(target.data('title'));
-      $('#message').html(target.data('message'));
-      $('#confirm').data('appid', target.data('appid'))
-      $('#ModalDialog').modal();
-      return false;
-    });
-
-    $('#confirm').on('click', function(evt){
-      console.log('entree');
-      var appid = $('#confirm').data('appid');
-      $.post('/admin/apps/'+ appid + '/toogleBlock/', function(data){
-        if(data.message === 'ok'){
-          $('#ModalDialog').modal('hide');
-          console.log(appid);
-          $('#allow-'+appid).toggleClass('hidden class');
-          $('#disallow-'+appid).toggleClass('hidden class');
-        }else{
-
-        }
-      })
-    });
+    configureAdmin('appid', '/admin/apps/?/toggleBlock/');

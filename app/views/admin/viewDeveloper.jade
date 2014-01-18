@@ -1,0 +1,24 @@
+extends layoutAdmin
+
+block adminContent
+  div.page-header
+    h2= dev.name
+      small.pull-right
+        a(href='/admin/devs/') volver
+
+  dl.dl-horizontal
+    dt Nombre:
+    dd= dev.name
+
+    dt Correo:
+    dd= dev.email
+  
+    dt Validado:
+    dd= dev.validated
+
+    dt Tipo de Usuario:
+    dd= dev.role
+
+  hr
+  form.pull-right(method='POST' action='/admin/devs/#{dev.id}/toggleValidate/')
+    button.btn.btn-primary.format(type='submit')= dev.validated?'Invalidar':'Validar'
