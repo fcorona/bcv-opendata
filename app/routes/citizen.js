@@ -11,9 +11,14 @@ module.exports = function(app){
 }
 
 //inicio para ciudadano
+var HOME_ROUTES = {
+  admin: '/admin/',
+  developer: '/dev/apps/'
+};
+
 var home = function(req, res){
-  if(req.user && req.user.role == 'admin'){
-    res.redirect('/admin/');
+  if(req.user){
+    res.redirect(HOME_ROUTES[req.user.role]);
   }else{
     res.render('index', {title:'Plataforma de openData'});
   }

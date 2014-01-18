@@ -14,23 +14,21 @@ var validUser = function(req, res, next){
 };
 
 module.exports = function(app){
-  app.get('/dev/apps', validUser, listApps);
-  app.get('/dev/apps/create', validUser, formApp);
-  app.post('/dev/apps/create', validUser, createApp);
-  app.get('/dev/apps/:id', validUser, viewApp);
-  app.get('/dev/apps/:id/edit', validUser, editApp);
-  app.post('/dev/apps/:id/edit', validUser, updateApp);
-  app.post('/dev/keys/generate', validUser, generateKey);
+  app.get('/dev/apps/', validUser, listApps);
+  app.get('/dev/apps/create/', validUser, formApp);
+  app.post('/dev/apps/create/', validUser, createApp);
+  app.get('/dev/apps/:id/', validUser, viewApp);
+  app.get('/dev/apps/:id/edit/', validUser, editApp);
+  app.post('/dev/apps/:id/edit/', validUser, updateApp);
+  app.post('/dev/keys/generate/', validUser, generateKey);
 }
 
 var listApps = function(req, res){
   apps.AppModel.find({owner: req.user.id}, function(err, applications){
     if(err){
-      console.log(err);
       res.send(500, err);
       return;
     }
-    console.log(applications);
     res.render('dev/apps', {apps: applications});
   });
 };
@@ -38,7 +36,6 @@ var listApps = function(req, res){
 var viewApp = function(req, res){
   apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id}, function(err, app){
     if(err){
-      console.log(err);
       res.send(500, err);
       return;
     }
@@ -53,7 +50,6 @@ var viewApp = function(req, res){
 var editApp = function(req, res){
   apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id}, function(err, app){
     if(err){
-      console.log(err);
       res.send(500, err);
       return;
     }
@@ -92,7 +88,6 @@ var updateApp = function(req, res){
 
   apps.AppModel.update({'_id': req.params.id, owner: req.user.id}, {$set:model}, function(err, app){
     if(err){
-      console.log(err);
       res.send(500, err);
       return;
     }
@@ -102,7 +97,6 @@ var updateApp = function(req, res){
 
 var formApp = function(req, res){
   var model = {name: '', description: '', url: ''};
-  console.log(model);
   res.render('dev/create-app', {model: model, errors: {}});
 };
 
@@ -137,7 +131,6 @@ var createApp = function(req, res){
       res.send(500, err);
       return;
     }
-    console.log('voy a salvar');
     req.user.apps.push(app);
     req.user.save();
     res.redirect('dev/apps/' + app.id);

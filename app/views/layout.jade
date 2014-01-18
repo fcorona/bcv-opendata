@@ -64,16 +64,10 @@ html
                 button.btn.btn-success(type="submit") Ingresar
                 a.btn.btn-default(href="/registro/") Registrarse
             else
-              li.dropdown
-                a.dropdown-toggle(href="#" data-toggle="dropdown")= user.name
-                  b.caret
-                ul.dropdown-menu
-                  li
-                    a(href="/dev/apps") Mis aplicaciones
-                  li
-                    a(href="#") Configuración
-                  li
-                    a(href="/logout") Cerrar Sesi&oacute;n
+              li
+                a(href="#") Mi Perfil
+              li
+                a(href="/logout") Cerrar Sesi&oacute;n
             
 
     div.container

@@ -94,7 +94,7 @@ app.post('/login/', passport.authenticate('local', { failureRedirect: '/login/' 
     if(req.user.role == 'admin'){
       res.redirect('/admin/');
     }else{
-      res.redirect('/');
+      res.redirect('/dev/apps');
     }
 });
 
