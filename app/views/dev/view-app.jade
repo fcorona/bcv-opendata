@@ -1,26 +1,28 @@
 extends ../layout
 
 block content
+  div.page-header
+    h1= app.name 
+      small.pull-right
+        a(href='/dev/apps/') volver
 
-  h1= app.name 
 
-  h2 detalles
+  dl.dl-horizontal
+    
+    dt P&aacute;gina
+    dd= app.url
 
-  label P&aacute;gina
-  span= app.url
-  br
+    dt descripci&oacute;n
+    dd= app.description
 
-  label descripci&oacute;n:&nbsp;
-  span= app.description
-  br
+    dt Llave de Acceso
+    dd#key sadasda9sd8asdasd0asd
+    dd 
+      a.generator(href='#' data-appId='keyasdadoisd') recrear mi llave
 
-  h2 llave de acceso
-  label llave:&nbsp;
-  span#key sadasda9sd8asdasd0asd
-  a.generator(href='#' data-appId='keyasdadoisd') recrear mi llave
-  br
-
-  a(href='/dev/apps/#{app.id}/edit') editar
+  hr
+  div.pull-right
+    a.btn.btn-default(href='/dev/apps/#{app.id}/edit') Editar
 
 block scripts
   script(src='/js/dev.js')

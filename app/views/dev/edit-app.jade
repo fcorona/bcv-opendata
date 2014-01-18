@@ -3,28 +3,41 @@ extends ../layout
 block content
   div.page-header
     h1 Editando #{model.name}
+      small.pull-right
+        a(href='/dev/apps/#{model.id}/') volver
 
-    form(role='form' method='POST')
-      div.form-group
-        label(for='name') Nombre
+  form.form-horizontal(role='form' method='POST')
+    div.form-group(class=errors.name?'has-error':'')
+      label.col-sm-2.control-label(for='name') Nombre
+      
+      div.col-sm-10
         input#name.form-control(type='text' name='name' required value=model.name)
         if errors.name
           p.has-error= errors.name
 
-      div.form-group
-        label(for='url') P&aacute;gina web
+    div.form-group(class=errors.url?'has-error':'')
+      label.col-sm-2.control-label(for='url') P&aacute;gina web
+      
+      div.col-sm-10
         input#url.form-control(type='url' name='url' required value=model.url)
         if errors.url
           p.has-error= errors.url
 
-      div.form-group
-        label(for='description') Descripci&oacute;n
+    div.form-group(class=errors.description?'has-error':'')
+      label.col-sm-2.control-label(for='description') Descripci&oacute;n
+      
+      div.col-sm-10
         textarea#description.form-control(name='description' required)= model.description
         if errors.description
           p.has-error= errors.description
 
-      div.form-group
-        label(for='tags') Etiquetas
+    div.form-group
+      label.col-sm-2.control-label(for='tags') Etiquetas
+      
+      div.col-sm-10
         input#tags.form-control(type='text' name='tags')
-
-      button.btn.btn-default(type='submit') Crear
+  
+    div.form-group
+      div.col-sm-offset-2.col-sm-10
+        button.btn.btn-primary(type='submit') Guardar
+    

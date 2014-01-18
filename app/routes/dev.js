@@ -82,6 +82,7 @@ var updateApp = function(req, res){
 
   model.owner = req.user;
   if(Object.keys(errors).length > 0){
+    model.id = req.params.id;
     res.render('dev/create-app', {model: model, errors: errors});
     return;
   }
