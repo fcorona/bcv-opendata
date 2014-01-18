@@ -5,6 +5,7 @@ var datasetRoute = require('./dataset'),
 module.exports = function(app){
   app.get('/', home);
   app.get('/datasets/', datasets);
+  app.get('/datasets/:name/interactive/', datasetInteractivo);
   app.get('/datasets/:name/:format?', datasetRoute.showDataset);
   app.get('/apps/', listApps);
   app.get('/apps/:appId', viewApp);
@@ -46,6 +47,11 @@ var listApps = function(req, res){
     }
     res.render('citizen/apps', {apps: applications});
   });
+};
+
+//lista datasets
+var datasetInteractivo = function(req, res){
+  res.render('citizen/iicvInteractivo');
 };
 
 //ver app

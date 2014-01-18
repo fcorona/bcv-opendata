@@ -13,11 +13,11 @@ block content
         h3 
           a(href='/datasets/#{dataset.name}')= dataset.title
         p= dataset.description
-        a.format(href='#')
+        a.format(href='/datasets/#{dataset.name}/graph/')
           span.label.label-primary Inter&aacute;ctivo
         &nbsp;|&nbsp;
-        a.format(href='#')
+        a.format(href='/datasets/#{dataset.name}/table/')
           span.label.label-success CSV
         &nbsp;|&nbsp;
-        a.format(href='#')
+        a.format(href='/datasets/#{dataset.name}/api/')
           span.label.label-info API REST

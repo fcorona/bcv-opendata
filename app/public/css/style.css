@@ -16,14 +16,19 @@ body {
 .logo {
 }
 
+#chart {
+  width: 80%;
+  height: 40%;
+}
+
 .chart rect {
-   fill: steelblue;
+  fill: steelblue;
 }
 
 .chart text {
-   fill: black;
-   font: 10px sans-serif;
-   text-anchor: middle;
+  fill: black;
+  font: 10px sans-serif;
+  text-anchor: middle;
 }
 
 .axis text {

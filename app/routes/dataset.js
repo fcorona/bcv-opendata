@@ -6,7 +6,7 @@ exports.showDataset = function(req, res, next){
   var renderFormat = {'html': 'citizen/datasetHtml',
                       'table': 'datasetTable',
                       'list': 'dataset',
-                      'graph': 'datasetGraph'};
+                      'graph': 'citizen/datasetGraph'};
   var format = req.params.format || 'html';
   format = format in renderFormat ? format : 'html';
 

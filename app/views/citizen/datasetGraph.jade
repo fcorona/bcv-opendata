@@ -9,7 +9,6 @@ block meta
   meta(property='og:description' content=dataset.description)
 
 block content
-
   div.row
     div.col-md-3.list-group.dataset-provider
       div.list-group-item.header
@@ -31,20 +30,48 @@ block content
           div#fb-root
           div.fb-share-button(data-type='button_count')
 
-
-
     div.col-md-9
-
       div.page-header
         h2= dataset.title
       
       p= dataset.description
 
-      h3 Datos y recursos
+      div.row
+        h3.col-md-4.text-center Dimensi&oacute;n
+        h3.col-md-4.text-center Categoría
+        h3.col-md-4.text-center Indicador
 
-      ul.list-group
-        li.list-group-item 
-          a(href='/datasets/#{dataset.name}/graph/') interactivo
-        li.list-group-item API
-        li.list-group-item página web
-        li.list-group-item CSV
+      form.form-inline.row(role="form" action="")
+       
+        div.form-group.col-md-4
+          select.form-control.col-md-12#dimensionSelect
+        
+        div.form-group.col-md-4
+          select.form-control#categorySelect
+        
+        div.form-group.col-md-4
+          select.form-control#indicatorSelect
+      
+      div.row
+        div.col-md-2
+          label(for=description) descripci&oacute;n: 
+          span#description 
+          br
+          label(for=measureType) Tipo de Medida: 
+          span#measureType 
+          br
+          label(for=source) fuente: 
+          span#source 
+          br
+          label(for=coverage) cobertura: 
+          span#coverage 
+          br
+          label(for=period) periodicidad: 
+          span#period 
+
+        div.chart-container
+          svg#chart.chart.col-md-10
+
+block aditionalScripts
+  script(src='/js/d3.v3.min.js')
+  script(src='/js/graph.js')

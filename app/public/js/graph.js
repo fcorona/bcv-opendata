@@ -13,7 +13,7 @@ d3.select('#indicatorSelect').on('change', function(){
   loadIndicator(indicatorId);
 });
 
-var dataset = 'iicv';
+var dataset = 'iicvbogota';
 d3.json('/api/datasets/' + dataset + '?key=asdasd', function(dataset) {
   d3.selectAll('#dimensionSelect option').remove();
   for(var i=0; i<dataset.dimensions.length; i++){
@@ -46,15 +46,17 @@ var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
 
     var margin = {top: 20, right: 30, bottom: 30, left: 40},
-      width = 1024 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+        width = 1024 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
 
     var y = d3.scale.linear()
           .range([height, 0]);
 
     var chart = d3.select("#chart")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom);
+          .attr('width', '100%')
+          .attr('height', 500);
+        //.attr("width", width + margin.left + margin.right)
+        //.attr("height", height + margin.top + margin.bottom);
 
     var the_data=[];
     var the_domain=[];
