@@ -21,12 +21,11 @@ block content
         small Desarrollada por 
           b= app.owner.name
         
-
-      div.list-group-item.socials
-        span Compartir en redes sociales
-      
       for tag in app.tags
         span tag &nbsp;
+
+      div.list-group-item.socials
+        span Compartir en redes sociales      
 
       u
         li.list-group-item
@@ -35,9 +34,9 @@ block content
         li.list-group-item
           a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
         
-        li.list-group-item Facebook
-          div.fb-share-button(data-type='button_count')
+        li.list-group-item
           div#fb-root
+          div.fb-share-button(data-type='button_count')
 
 
     div.col-md-9
