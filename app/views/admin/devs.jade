@@ -5,38 +5,39 @@ block adminContent
     h1 Desarrolladores
     p Seleccione y administre los desarrolladores
 
-  table.table.table-striped.table-responsive
-    thead
-      tr
-        th Nombre
-        th email
-        th Opciones
-
-    tbody
-      for dev in devs
+  div.table-responsive
+    table.table.table-striped
+      thead
         tr
-          td
-            a(href='/admin/devs/#{dev.id}')= dev.name
-          td= dev.email
-          td
-            form(method='POST' action='/admin/devs/#{dev.id}/toggleValidate/')
-              button.btn.btn-sm.btn-warning.format(type='submit'
-                  href='#'
-                  id='disallow-#{dev.id}'
-                  class=dev.validated?'show':'hidden'
-                  data-devid=dev.id
-                  data-title='Invalidar a #{dev.name}'
-                  data-message='Este usuario ya no podra tener acceso priviligeado al API')
-                | Invalidar
+          th Nombre
+          th email
+          th Opciones
 
-              button.btn.btn-sm.btn-success.format(type='submit'
-                  href='#'
-                  id='allow-#{dev.id}'
-                  class=dev.validated?'hidden':'show'
-                  data-devid=dev.id
-                  data-title='Validar a #{dev.name}'
-                  data-message='Confirma que desea marcar a #{dev.name} como un usuario verificado?')
-                | Verificar
+      tbody
+        for dev in devs
+          tr
+            td
+              a(href='/admin/devs/#{dev.id}')= dev.name
+            td= dev.email
+            td
+              form(method='POST' action='/admin/devs/#{dev.id}/toggleValidate/')
+                button.btn.btn-sm.btn-warning.format(type='submit'
+                    href='#'
+                    id='disallow-#{dev.id}'
+                    class=dev.validated?'show':'hidden'
+                    data-devid=dev.id
+                    data-title='Invalidar a #{dev.name}'
+                    data-message='Este usuario ya no podra tener acceso priviligeado al API')
+                  | Invalidar
+
+                button.btn.btn-sm.btn-success.format(type='submit'
+                    href='#'
+                    id='allow-#{dev.id}'
+                    class=dev.validated?'hidden':'show'
+                    data-devid=dev.id
+                    data-title='Validar a #{dev.name}'
+                    data-message='Confirma que desea marcar a #{dev.name} como un usuario verificado?')
+                  | Verificar
 
   include mixinModal
 

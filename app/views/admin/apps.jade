@@ -5,44 +5,45 @@ block adminContent
     h1 Aplicaciones
     p Seleccione y administre las aplicaciones
 
-  table.table.table-striped.table-responsive
-    thead
-      tr
-        th Nombre
-        th desarrollador
-        th contacto
-        th Descripci&oacute;n
-        th Opciones
-
-    tbody
-      for app in apps
+  div.table-responsive
+    table.table.table-striped
+      thead
         tr
-          td
-            a(href='/admin/apps/#{app.id}')= app.name
-          td
-            a(href='/admin/devs/#{app.owner.id}')= app.owner.name
-          td
-            a(href='mailto://app.owner.email')= app.owner.email
-          td= app.description
-          td
-            form(method='POST' action='/admin/apps/#{app.id}/toggleBlock/')
-              button.btn.btn-sm.btn-warning.format(type='submit'
-                  href='#'
-                  id='disallow-#{app.id}'
-                  class=app.allowed?'show':'hidden'
-                  data-appid=app.id
-                  data-title='Bloquear la aplicación '
-                  data-message='Al bloquear la aplicación esta no podra acceder al API de bogota como vamos para ejecutar consultas. ¿Bloquear?')
-                | bloquear
+          th Nombre
+          th desarrollador
+          th contacto
+          th Descripci&oacute;n
+          th Opciones
 
-              button.btn.btn-sm.btn-success.format(type='submit'
-                  href='#'
-                  id='allow-#{app.id}'
-                  class=app.allowed?'hidden':'show'
-                  data-appid=app.id
-                  data-title='Habilitar Aplicaci&oacute;n' 
-                  data-message='Al habilitar la aplicación esta podra acceder al API de bogota como vamos para ejecutar consultas. ¿Habilitar?')
-                | habilitar
+      tbody
+        for app in apps
+          tr
+            td
+              a(href='/admin/apps/#{app.id}')= app.name
+            td
+              a(href='/admin/devs/#{app.owner.id}')= app.owner.name
+            td
+              a(href='mailto://app.owner.email')= app.owner.email
+            td= app.description
+            td
+              form(method='POST' action='/admin/apps/#{app.id}/toggleBlock/')
+                button.btn.btn-sm.btn-warning.format(type='submit'
+                    href='#'
+                    id='disallow-#{app.id}'
+                    class=app.allowed?'show':'hidden'
+                    data-appid=app.id
+                    data-title='Bloquear la aplicación '
+                    data-message='Al bloquear la aplicación esta no podra acceder al API de bogota como vamos para ejecutar consultas. ¿Bloquear?')
+                  | bloquear
+
+                button.btn.btn-sm.btn-success.format(type='submit'
+                    href='#'
+                    id='allow-#{app.id}'
+                    class=app.allowed?'hidden':'show'
+                    data-appid=app.id
+                    data-title='Habilitar Aplicaci&oacute;n' 
+                    data-message='Al habilitar la aplicación esta podra acceder al API de bogota como vamos para ejecutar consultas. ¿Habilitar?')
+                  | habilitar
 
   include mixinModal
 
