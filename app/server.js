@@ -14,11 +14,9 @@ var express = require('express'),
     login = require('./routes/login'),
     api = require('./routes/api'),
     citizen = require('./routes/citizen'),
-    developer = require('./routes/dev'),
-    slashes = require('connect-slashes');
+    developer = require('./routes/dev');
 
 var app = express();
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.bodyParser());
@@ -26,7 +24,6 @@ app.use(express.methodOverride());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.cookieParser('whatever'));
 app.use(express.session({key: 'sid', cookie: {maxAge: 600000}}));
-app.use(slashes());
 app.use(flash());
 
 //use of passport

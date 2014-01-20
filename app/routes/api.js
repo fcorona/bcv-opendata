@@ -1,7 +1,7 @@
 var dataset = require('../models/dataset');
 
 module.exports = function(app){
-  app.get('/api/datasets/', listDataset);
+  app.get('/api/datasets', listDataset);
   app.get('/api/datasets/:name', readDataset);
   app.get('/api/dimensions/:dimension', readDatasetDimension);
   app.get('/api/categories/:category', readDatasetCategory);

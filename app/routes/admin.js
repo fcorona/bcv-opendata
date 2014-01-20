@@ -19,22 +19,22 @@ var validAdmin = function(req, res, next){
 };
 
 module.exports = function(app){
-  app.get('/admin/', validAdmin, home);
-  app.get('/admin/datasets/', validAdmin, listDatasets);
-  app.get('/admin/datasets/:datasetId/', validAdmin, viewDataset);
-  app.get('/admin/datasets/:datasetId/edit/', validAdmin, editDataset);
-  app.post('/admin/datasets/:datasetId/edit/', validAdmin, updateDataset);
-  app.get('/admin/datasets/:dataset/metrics/', validAdmin, metrics);
+  app.get('/admin', validAdmin, home);
+  app.get('/admin/datasets', validAdmin, listDatasets);
+  app.get('/admin/datasets/:datasetId', validAdmin, viewDataset);
+  app.get('/admin/datasets/:datasetId/edit', validAdmin, editDataset);
+  app.post('/admin/datasets/:datasetId/edit', validAdmin, updateDataset);
+  app.get('/admin/datasets/:dataset/metrics', validAdmin, metrics);
 
-  app.get('/admin/apps/', validAdmin, listApps);
-  app.post('/admin/apps/:appId/toggleBlock/', validAdmin, toggleBlockApp);
+  app.get('/admin/apps', validAdmin, listApps);
+  app.post('/admin/apps/:appId/toggleBlock', validAdmin, toggleBlockApp);
 
-  app.get('/admin/devs/', validAdmin, listDevelopers);
-  app.get('/admin/devs/:devId/', validAdmin, viewDeveloper);
-  app.post('/admin/devs/:devId/toggleValidate/', validAdmin, toggleValidateDeveloper);
+  app.get('/admin/devs', validAdmin, listDevelopers);
+  app.get('/admin/devs/:devId', validAdmin, viewDeveloper);
+  app.post('/admin/devs/:devId/toggleValidate', validAdmin, toggleValidateDeveloper);
 
-  app.get('/admin/upload/', validAdmin, uploadFileForm);
-  app.post('/admin/upload/', validAdmin, uploadFile);
+  app.get('/admin/upload', validAdmin, uploadFileForm);
+  app.post('/admin/upload', validAdmin, uploadFile);
 };
 
 var MENU_STATES = {

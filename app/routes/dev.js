@@ -14,13 +14,13 @@ var validUser = function(req, res, next){
 };
 
 module.exports = function(app){
-  app.get('/dev/apps/', validUser, listApps);
-  app.get('/dev/apps/create/', validUser, formApp);
-  app.post('/dev/apps/create/', validUser, createApp);
-  app.get('/dev/apps/:id/', validUser, viewApp);
-  app.get('/dev/apps/:id/edit/', validUser, editApp);
-  app.post('/dev/apps/:id/edit/', validUser, updateApp);
-  app.post('/dev/keys/generate/', validUser, generateKey);
+  app.get('/dev/apps', validUser, listApps);
+  app.get('/dev/apps/create', validUser, formApp);
+  app.post('/dev/apps/create', validUser, createApp);
+  app.get('/dev/apps/:id', validUser, viewApp);
+  app.get('/dev/apps/:id/edit', validUser, editApp);
+  app.post('/dev/apps/:id/edit', validUser, updateApp);
+  app.post('/dev/keys/generate', validUser, generateKey);
 }
 
 var listApps = function(req, res){
