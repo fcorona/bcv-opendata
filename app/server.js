@@ -1,3 +1,4 @@
+require('newrelic');
 var env = require('dotenv'); env.load();
 
 var express = require('express'),
