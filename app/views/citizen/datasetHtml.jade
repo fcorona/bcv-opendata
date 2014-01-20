@@ -44,7 +44,10 @@ block content
 
       ul.list-group
         li.list-group-item 
-          a(href='/datasets/#{dataset.name}/graph/') interactivo
-        li.list-group-item API
-        li.list-group-item página web
-        li.list-group-item CSV
+          a(href='/datasets/#{dataset.name}/graph/') Interactivo
+        li.list-group-item
+          a(href='/api/datasets/#{dataset.name}/?key=comovamos/') API REST
+        li.list-group-item
+          a(href='http://bogotacomovamos.org') Página web
+        li.list-group-item
+          a(href='/datasets/#{dataset.name}/table/') CSV

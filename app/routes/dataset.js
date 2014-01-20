@@ -30,6 +30,10 @@ exports.showDataset = function(req, res, next){
 
   dataset.DatasetMongo.findOne({name: req.params.name}, function (errDataset, foundDataset){
     foundDataset = foundDataset.toJSON();
+    if(foundDataset.type==2){
+      res.send(200, {message: 'not implemented yet.'});
+      return;
+    }
     dataset.DimensionMongo.find({dataset: foundDataset}, function (errDimension, dimensions){
       foundDataset.dimensions = [];
       for (var i = dimensions.length - 1; i >= 0; i--) {

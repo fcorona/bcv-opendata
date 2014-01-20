@@ -13,15 +13,6 @@ d3.select('#indicatorSelect').on('change', function(){
   loadIndicator(indicatorId);
 });
 
-var dataset = 'iicvbogota';
-d3.json('/api/datasets/' + dataset + '?key=asdasd', function(dataset) {
-  d3.selectAll('#dimensionSelect option').remove();
-  for(var i=0; i<dataset.dimensions.length; i++){
-    d3.select('#dimensionSelect').append('option').attr('value', dataset.dimensions[i].dimensionId).html(dataset.dimensions[i].name);
-  }
-  loadDimension(dataset.dimensions[0].dimensionId);
-});
-
 var loadDimension = function(dimensionId){
   d3.json('/api/dimensions/' + dimensionId + '?key=asdasd', function(dimension) {
     d3.selectAll('#categorySelect option').remove();
@@ -135,3 +126,14 @@ var loadIndicator = function(indicatorId){
 
   });
 }
+
+
+var initGraph = function(dataset){
+  d3.json('/api/datasets/' + dataset + '?key=asdasd', function(dataset) {
+    d3.selectAll('#dimensionSelect option').remove();
+    for(var i=0; i<dataset.dimensions.length; i++){
+      d3.select('#dimensionSelect').append('option').attr('value', dataset.dimensions[i].dimensionId).html(dataset.dimensions[i].name);
+    }
+    loadDimension(dataset.dimensions[0].dimensionId);
+  });  
+};
