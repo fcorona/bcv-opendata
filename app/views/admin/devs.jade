@@ -20,22 +20,22 @@ block adminContent
               a(href='/admin/devs/#{dev.id}')= dev.name
             td= dev.email
             td
-              form(method='POST' action='/admin/devs/#{dev.id}/toggleValidate/')
+              form(method='POST' action='/admin/devs/#{dev.id}/toggleVerify/')
                 button.btn.btn-sm.btn-warning.format(type='submit'
                     href='#'
                     id='disallow-#{dev.id}'
-                    class=dev.validated?'show':'hidden'
+                    class=dev.verified?'show':'hidden'
                     data-devid=dev.id
-                    data-title='Invalidar a #{dev.name}'
+                    data-title='Quitar verificaci&oacute;n a #{dev.name}'
                     data-message='Este usuario ya no podra tener acceso priviligeado al API')
-                  | Invalidar
+                  | Quitar verificaci&oacute;n
 
                 button.btn.btn-sm.btn-success.format(type='submit'
                     href='#'
                     id='allow-#{dev.id}'
-                    class=dev.validated?'hidden':'show'
+                    class=dev.verified?'hidden':'show'
                     data-devid=dev.id
-                    data-title='Validar a #{dev.name}'
+                    data-title='Verificar a #{dev.name}'
                     data-message='Confirma que desea marcar a #{dev.name} como un usuario verificado?')
                   | Verificar
 
@@ -44,5 +44,5 @@ block adminContent
 block scripts
   script(src='/js/admin/script.js')
   script.
-    configureAdmin('devid', '/admin/devs/?/toggleValidate/');
+    configureAdmin('devid', '/admin/devs/?/toggleVerify/');
     

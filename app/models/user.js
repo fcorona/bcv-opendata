@@ -8,6 +8,7 @@ var userSchema = new mongoose.Schema({
   password : String,
   role: {type: String, default: 'developer'},
   validated: {type: Boolean, default: false},
+  verified: {type: Boolean, default: false},
   apps: [{type: Schema.ObjectId, ref: 'App'}]
 });
 

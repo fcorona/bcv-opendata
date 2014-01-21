@@ -14,7 +14,7 @@ block adminContent
     dd= dev.email
   
     dt Validado:
-    dd= dev.validated
+    dd= dev.verified
 
     dt Tipo de Usuario:
     dd= dev.role
@@ -27,5 +27,5 @@ block adminContent
             a(href='/apps/#{app.id}')= app.name
 
   hr
-  form.pull-right(method='POST' action='/admin/devs/#{dev.id}/toggleValidate/')
-    button.btn.btn-primary.format(type='submit')= dev.validated?'Invalidar':'Validar'
+  form.pull-right(method='POST' action='/admin/devs/#{dev.id}/toggleVerify')
+    button.btn.btn-primary.format(type='submit')= dev.verified?'Quitar verificación':'Verificar'

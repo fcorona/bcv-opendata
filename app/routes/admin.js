@@ -31,7 +31,7 @@ module.exports = function(app){
 
   app.get('/admin/devs', validAdmin, listDevelopers);
   app.get('/admin/devs/:devId', validAdmin, viewDeveloper);
-  app.post('/admin/devs/:devId/toggleValidate', validAdmin, toggleValidateDeveloper);
+  app.post('/admin/devs/:devId/toggleVerify', validAdmin, toggleVerifyDeveloper);
 
   app.get('/admin/upload', validAdmin, uploadFileForm);
   app.post('/admin/upload', validAdmin, uploadFile);
@@ -225,9 +225,9 @@ var viewDeveloper = function(req, res){
 };
 
 //validar/desvalidar desarrollador
-var toggleValidateDeveloper = function(req, res){
+var toggleVerifyDeveloper = function(req, res){
   UserModel.findById(req.params.devId, function(err, dev){
-    dev.validated = !dev.validated;
+    dev.verified = !dev.verified;
     dev.save(function(err, dev){
       if(err){
         res.send(500, err);
