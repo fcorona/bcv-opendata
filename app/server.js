@@ -10,6 +10,7 @@ var express = require('express'),
     LocalStrategy = require('passport-local').Strategy,
     schema = require('./models/user'),
     UserModel = schema.User,
+    userRoutes = require('./routes/user'),
     registro = require('./routes/registro'),
     admin = require('./routes/admin'),
     admin2 = require('./routes/admin2'),
@@ -76,6 +77,7 @@ app.all('*', function(req, res, next) {
 });
 
 // configurando las rutas
+userRoutes(app);
 admin(app);
 api(app);
 developer(app);
