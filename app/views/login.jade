@@ -4,6 +4,8 @@ block content
   div.page-header
     h1 Iniciar sesión
   
+  if message
+    p= message
   form(role="form" action="/login" method="POST")
     div.form-group
       label(for="email") correo:
@@ -14,4 +16,6 @@ block content
       input#password.form-control(type="password" name="password" placeholder="contraseña")
 
     button.btn.btn-default(type="submit") enviar
-  p #{message}
+
+  br
+  a(href='/user/recover') Olvide mi contrase&ntilde;a

@@ -9,7 +9,8 @@ var userSchema = new mongoose.Schema({
   role: {type: String, default: 'developer'},
   validated: {type: Boolean, default: false},
   verified: {type: Boolean, default: false},
-  apps: [{type: Schema.ObjectId, ref: 'App'}]
+  apps: [{type: Schema.ObjectId, ref: 'App'}],
+  requestedPassword: {type: Boolean, default: false}
 });
 
 //metodo para validar el password

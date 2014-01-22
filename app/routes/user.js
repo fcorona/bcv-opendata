@@ -1,7 +1,7 @@
 var UserModel = require('../models/user').User,
     utils = require('../util/validators'),
-    bcrypt = require('bcrypt-nodejs');
-
+    bcrypt = require('bcrypt-nodejs'),
+    mailSender = require('../util/mailSender');
 
 module.exports = function(app){
   app.get('/user/:userId/validate', validateUser);
@@ -10,6 +10,10 @@ module.exports = function(app){
   app.post('/user/edit', utils.validUser, updateUser);
   app.get('/user/password', utils.validUser, editPassword);
   app.post('/user/password', utils.validUser, updatePassword);
+  app.get('/user/recover', requestRecoverPassword);
+  app.post('/user/recover', sendRequestRecoveryPassword);
+  app.get('/user/:userId/recover', recoveryPassword);
+  app.post('/user/:userId/recover', processRecoveryPassword);
 }
 
 var validateUser = function(req, res, next){
@@ -110,5 +114,107 @@ var updatePassword = function(req, res, next){
   req.user.save(function(err){
     res.redirect('/user');
   });
+}
 
+var requestRecoverPassword = function(req, res){
+  res.render('user/requestPassword', {email:''});
+}
+
+var sendRequestRecoveryPassword = function(req, res){
+  var email = req.body.email || '';
+
+  if(email.length < 3 || !utils.validateEmail(email)){
+    res.render('user/requestPassword', {
+      email: email,
+      error: 'El correo electrónico que escribio no es válido'
+    });
+    return;
+  };
+
+  UserModel.findOne({email: email}, function(err, user){
+    if(err){
+      console.log(err);
+      res.send(500, err);
+      return;
+    }
+    if(!user){
+      res.render('user/requestPassword', {
+        email: email,
+        error: 'El correo electrónico que escribio no pertenece a nigún usuario'
+      }); 
+      return;
+    }
+    mailSender.sendMail(user, 'RECOVER_PASSWORD');
+    
+    user.requestedPassword = true;
+    user.save(function(err, updatedUser){
+      res.render('user/requestPassword', {
+        email: '',
+        message: email
+      });
+    });
+  });
+
+}
+
+var recoveryPassword = function(req, res){
+  //valida que se halla solicitado un cambio de password
+  UserModel.findOne({'_id': req.params.userId, requestedPassword: true}, function(err, user){
+    if(err){
+      console.log(err);
+      if(err.name=='CastError' && err.type=='ObjectId'){
+        res.render(404, '404');
+        return;
+      }
+      req.send(500, err);
+      return;
+    }
+    if(!user){
+      res.render(404, '404');
+      return;
+    }
+    res.render('user/recoverPassword', {errors: {}});
+  });
+}
+
+var processRecoveryPassword = function(req, res){
+  var errors = {},
+      newPass = req.body.newPass || '',
+      rePass = req.body.rePass || '';
+  
+  if(newPass.length < 3 || newPass.length > 50){
+    errors.newPass = 'La contraseña debe contener entre 3 y 50 caracteres';
+  }
+  if(rePass.length < 3 || rePass.length > 50){
+    errors.rePass = 'La contraseña debe contener entre 3 y 50 caracteres';
+  }
+  if(rePass != newPass){
+    errors.newPass = 'Las contraseñas no coinciden';
+    errors.rePass = '';
+  }
+
+  if(Object.keys(errors).length > 0){
+    res.render('user/recoverPassword', {errors: errors});
+    return;
+  } 
+
+  //valida que se halla solicitado un cambio de password
+  UserModel.findOne({'_id': req.params.userId, requestedPassword: true}, function(err, user){
+    if(err){
+      console.log(err);
+      req.send(500, err);
+      return;
+    }
+    if(!user){
+      res.render(404, '404');
+      return;
+    }
+
+    user.password = bcrypt.hashSync(newPass);
+    user.requestedPassword = false;
+    user.save(function(err){
+      res.render('user/recoverPassword', {errors: {}, message: 'la contraseña ha sido cambiada con éxito'});
+    });
+
+  });
 }

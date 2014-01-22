@@ -19,20 +19,30 @@ var mailOptions = {
 
 var path = 'app/views/mailTemplates/';
 var TEMPLATES = {
-  ACTIVE_ACCOUNT: path + 'activeAccount.jade'
+  ACTIVE_ACCOUNT: {
+    file: path + 'activeAccount.jade',
+    title: 'Activa tu cuenta',
+    subject: 'Activa tu cuenta de desarrollador del bogotacomovamos'
+  },
+  RECOVER_PASSWORD: {
+    file: path + 'recoverPassword.jade',
+    title: 'Recupera tu contraseña',
+    subject: 'Recuperación de contraseña para tu cuenta'
+  }
 };
 
 
 module.exports.sendMail = function(user, template, message){
+  template = TEMPLATES[template];
   mailOptions.to = user.email;
-  mailOptions.subject = 'Activa tu cuenta de desarrollador del bogotacomovamos'
-  mailOptions.html = jade.renderFile(TEMPLATES[template], {user: user, title: 'Activa tu cuenta'});
+  mailOptions.subject = template.subject;
+  mailOptions.html = jade.renderFile(template.file, {user: user, title: template.title});
   smtpTransport.sendMail(mailOptions, function(error, response){
     if(error){
       console.log(error);
     }else{
       console.log('Message sent: ' + response.message);
     }
-    smtpTransport.close(); // shut down the connection pool, no more messages
+    smtpTransport.close();
   });
 };
