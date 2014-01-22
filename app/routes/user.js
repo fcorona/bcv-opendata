@@ -1,13 +1,15 @@
 var UserModel = require('../models/user').User,
-    utils = require('../util/validators');
+    utils = require('../util/validators'),
+    bcrypt = require('bcrypt-nodejs');
 
 
 module.exports = function(app){
   app.get('/user/:userId/validate', validateUser);
   app.get('/user', utils.validUser, viewUser);
   app.get('/user/edit', utils.validUser, editUser);
-  app.get('/user/edit', utils.validUser, editUser);
   app.post('/user/edit', utils.validUser, updateUser);
+  app.get('/user/password', utils.validUser, editPassword);
+  app.post('/user/password', utils.validUser, updatePassword);
 }
 
 var validateUser = function(req, res, next){
@@ -31,9 +33,11 @@ var validateUser = function(req, res, next){
 var viewUser = function(req, res, next){
   res.render('user/view');
 }
+
 var editUser = function(req, res, next){
   res.render('user/edit', {currentUser: req.user, errors: {}});
 }
+
 var updateUser = function(req, res, next){
   var model = {},
       errors = {};
@@ -65,10 +69,46 @@ var updateUser = function(req, res, next){
     }
     req.user.name = model.name;
     req.user.email = model.email;
-    req.user.save(function(err, newUser){
+    req.user.save(function(err){
       res.redirect('user');
     });
 
+  });
+}
+
+var editPassword = function(req, res, next){
+  res.render('user/password', {errors: {}});
+}
+
+var updatePassword = function(req, res, next){
+  var errors = {};
+  var oldPass = req.body.oldPass || '';
+  var newPass = req.body.newPass || '';
+  var rePass = req.body.rePass || '';
+
+  if(newPass.length < 3 || newPass.length > 50){
+    errors.newPass = 'La contraseña debe contener entre 3 y 50 caracteres';
+  }
+  if(rePass.length < 3 || rePass.length > 50){
+    errors.rePass = 'La contraseña debe contener entre 3 y 50 caracteres';
+  }
+  if(rePass != newPass){
+    errors.newPass = 'Las contraseñas no coinciden';
+    errors.rePass = '';
+  }
+
+  if(!bcrypt.compareSync(oldPass, req.user.password)){
+    errors.oldPass = 'la contraseña no es válida';
+  }
+
+  if(Object.keys(errors).length > 0){
+    res.render('user/password', {errors: errors});
+    return;
+  } 
+
+  req.user.password = bcrypt.hashSync(newPass);
+  req.user.save(function(err){
+    res.redirect('/user');
   });
 
 }
