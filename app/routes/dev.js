@@ -1,17 +1,6 @@
-var apps = require('../models/apps.js');
+var apps = require('../models/apps'),
+    validUser = require('../util/validators').validUser;
 
-var validUser = function(req, res, next){
-  if(!req.isAuthenticated()){
-    res.redirect('/');
-    return;
-  }
-  if(req.user.role == 'admin'){
-    res.status(401);
-    res.render('unauthorized');
-    return;
-  }
-  next();
-};
 
 module.exports = function(app){
   app.get('/dev/apps', validUser, listApps);

@@ -1,0 +1,22 @@
+extends ../layout
+
+block content
+  div.page-header
+    h2 Mi perfil
+      small.pull-right
+        a(href='/') volver
+
+  dl.dl-horizontal
+    dt Nombre:
+    dd= user.name
+
+    dt email:
+    dd= user.email
+
+  hr
+  div.pull-right
+    a.btn.btn-default(href='/user/edit') Editar
+    &nbsp; | &nbsp;
+    a.btn.btn-default(href='/user/password') Cambiar contrase&ntilde;a
+    &nbsp; | &nbsp;
+    a.btn.btn-danger(href='#') Eliminar

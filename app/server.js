@@ -84,25 +84,25 @@ developer(app);
 citizen(app);
 
 // temporal stuff
-app.get('/admin/upload2/', admin2.uploadFileForm);
-app.post('/admin/upload2/', admin2.uploadFile);
+app.get('/admin/upload2', admin2.uploadFileForm);
+app.post('/admin/upload2', admin2.uploadFile);
 
 // login y registro
-app.get('/registro/', registro.formulario);
-app.post('/registro/', registro.registro);
+app.get('/registro', registro.formulario);
+app.post('/registro', registro.registro);
 
-app.post('/login/', passport.authenticate('local', { failureRedirect: '/login/' }),
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login' }),
   function(req, res){
     if(req.user.role == 'admin'){
-      res.redirect('/admin/');
+      res.redirect('/admin');
     }else{
-      res.redirect('/dev/apps/');
+      res.redirect('/dev/apps');
     }
 });
 
-app.get('/login/', login.login);
+app.get('/login', login.login);
 
-app.get('/logout/', function(req, res){
+app.get('/logout', function(req, res){
   req.logout();
   res.redirect('/');
 });

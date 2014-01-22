@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+
+  div.page-header
+    h2 Editando mi perfil
+      small.pull-right
+        a(href='/user') volver
+
+  form.form-horizontal(role='form' method='POST')
+    div.form-group(class=errors.name?'has-error':'')
+      label.col-sm-2.control-label(for='name') Nombre
+      
+      div.col-sm-10
+        input#name.form-control(type='text' name='name' minlength=3 maxlength=50 required value=currentUser.name)
+        if errors.name
+          span.help-block= errors.name
+
+    div.form-group(class=errors.email?'has-error':'')
+      label.col-sm-2.control-label(for='email') email
+
+      div.col-sm-10
+        input#email.form-control(type='text' name='email' minlength=5 maxlength=60 required value=currentUser.email)
+        if errors.email
+          span.help-block= errors.email
+
+    div.form-group
+    
+      div.col-sm-offset-2.col-sm-10
+        button.btn.btn-primary.pull-right(type='submit') Guardar
