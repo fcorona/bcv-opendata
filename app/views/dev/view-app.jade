@@ -23,13 +23,15 @@ block content
     dd= app.description
 
     dt Llave de Acceso
-    dd#key sadasda9sd8asdasd0asd
+    dd#key
+      code= app.key ? app.key.key : '<no hay llave>'
+      p Esta llave es &uacute;nica y de uso privado para esta aplicaci&oacute;n,
+        | su uso esta limitado a 
+        b= app.key ? app.key.limit : 0
+        | &nbsp;solicitudes por hora.
     dd 
-      a.generator(href='#' data-appId='keyasdadoisd') recrear mi llave
+      a.generator(href='/dev/apps/#{app.id}/generateKey') recrear mi llave
 
   hr
   div.pull-right
     a.btn.btn-default(href='/dev/apps/#{app.id}/edit') Editar
-
-block scripts
-  script(src='/js/dev.js')

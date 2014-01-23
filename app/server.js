@@ -42,7 +42,9 @@ app.configure(function() {
 });
 
 passport.use(new LocalStrategy(function(username, password, done) {
-  UserModel.findOne({ email: username }, function(err, user) {
+  UserModel.findOne({ email: username })
+  .populate('testKey')
+  .exec(function(err, user) {
     if (err) { 
       return done(err); 
     }
@@ -61,7 +63,9 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  UserModel.findById(id, function(err, user) {
+  UserModel.findById(id)
+  .populate('testKey')
+  .exec(function(err, user) {
     done(err, user);
   });
 });

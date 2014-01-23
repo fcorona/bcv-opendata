@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
-Schema = mongoose.Schema,
-bcrypt = require('bcrypt-nodejs');
+    Schema = mongoose.Schema,
+    AppAccess = require('./basics').AppAccessModel,
+    bcrypt = require('bcrypt-nodejs');
 
 var userSchema = new mongoose.Schema({
   name : String,
@@ -10,6 +11,7 @@ var userSchema = new mongoose.Schema({
   validated: {type: Boolean, default: false},
   verified: {type: Boolean, default: false},
   apps: [{type: Schema.ObjectId, ref: 'App'}],
+  testKey: {type: Schema.ObjectId, ref: 'AppAccess'},
   requestedPassword: {type: Boolean, default: false}
 });
 
@@ -20,6 +22,21 @@ userSchema.methods.validPassword = function(password){
   }else{
     return false;
   }
+};
+
+//genera una llave para el usuario 
+userSchema.methods.generateKey = function(){
+  var limit = this.validated ? 60 : 20;
+  var key = this.testKey;
+  if(!key){
+    key = new AppAccess({
+      limit: limit,
+      allowAccess: ['*']
+    });
+  }
+  key.generateKey();
+  this.testKey = key;
+  this.save();
 };
 
 exports.User = mongoose.model('User', userSchema);

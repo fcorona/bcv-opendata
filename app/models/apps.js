@@ -1,32 +1,35 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    UserModel = require('./user').UserModel;
+    AppAccess = require('./basics').AppAccessModel;
 
 var AppSchema = new mongoose.Schema({
   name: String,
   shortDescription: String,
   description: String,
   url: String,
-  access: {type: Schema.ObjectId, ref: 'AppAccess'},
+  key: {type: Schema.ObjectId, ref: 'AppAccess'},
   tags: [String],
   allowed: {type: Boolean, default: true},
   owner: {type: Schema.ObjectId, ref: 'User'},
   logoUrl: String
 });
 
+//genera una llave para el usuario 
+AppSchema.methods.generateKey = function(verifiedUser){
+  var limit = verifiedUser ? 2000 : 500;
+  var key = this.key;
+  if(!key){
+    key = new AppAccess({
+      limit: limit,
+      allowAccess: ['*']
+    });
+  }
+  key.generateKey();
+  this.key = key;
+  this.save();
+};
 
-var AppAccessSchema = new mongoose.Schema({
-  key: {type: String, unique: true},
-  limit: Number,
-  allowAccess: [String]
-});
 
-var TagSchema = new mongoose.Schema({
-  title: {type: String, unique: true},
-  description: String
-});
-
-exports.AppAccessModel = mongoose.model('AppAccess', AppAccessSchema);
 exports.AppModel = mongoose.model('App', AppSchema);
-exports.TagModel = mongoose.model('Tag', TagSchema);
+
 

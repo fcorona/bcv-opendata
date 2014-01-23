@@ -4,13 +4,21 @@ var apps = require('../models/apps'),
 
 module.exports = function(app){
   app.get('/dev/apps', validUser, listApps);
-  app.get('/dev/apps/create', validUser, formApp);
-  app.post('/dev/apps/create', validUser, createApp);
+  app.get('/dev/apps/create', validUser, devValidated, formApp);
+  app.post('/dev/apps/create', validUser, devValidated, createApp);
   app.get('/dev/apps/:id', validUser, viewApp);
-  app.get('/dev/apps/:id/edit', validUser, editApp);
-  app.post('/dev/apps/:id/edit', validUser, updateApp);
-  app.post('/dev/keys/generate', validUser, generateKey);
+  app.get('/dev/apps/:id/edit', validUser, devValidated, editApp);
+  app.post('/dev/apps/:id/edit', validUser, devValidated, updateApp);
+  app.get('/dev/apps/:id/generateKey', validUser, generateKey);
 }
+
+var devValidated = function(req, res, next){
+  if(!req.user.validated){
+    res.render('dev/noValidatedUser');
+    return;
+  }
+  next();
+};
 
 var listApps = function(req, res){
   apps.AppModel.find({owner: req.user.id}, function(err, applications){
@@ -23,7 +31,9 @@ var listApps = function(req, res){
 };
 
 var viewApp = function(req, res){
-  apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id}, function(err, app){
+  apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id})
+  .populate('key')
+  .exec(function(err, app){
     if(err){
       res.send(500, err);
       return;
@@ -141,6 +151,18 @@ var createApp = function(req, res){
 
 
 var generateKey = function(req, res){
-  var key = require('generate-key').generateKey(50);
-  res.json({key:key});
+  apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id})
+  .populate('key')
+  .exec(function(err, app){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!app){
+      res.send(404, 'app no encontrada');
+      return; 
+    }
+    app.generateKey();
+    res.redirect('dev/apps/' + app.id);
+  });
 };

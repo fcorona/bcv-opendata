@@ -10,10 +10,12 @@ module.exports = function(app){
   app.post('/user/edit', utils.validUser, updateUser);
   app.get('/user/password', utils.validUser, editPassword);
   app.post('/user/password', utils.validUser, updatePassword);
+  app.get('/user/send-validation', utils.validUser,reSendValidationEmail);
   app.get('/user/recover', requestRecoverPassword);
   app.post('/user/recover', sendRequestRecoveryPassword);
   app.get('/user/:userId/recover', recoveryPassword);
   app.post('/user/:userId/recover', processRecoveryPassword);
+  app.get('/user/generateKey', utils.validUser, generateKey);
 }
 
 var validateUser = function(req, res, next){
@@ -217,4 +219,14 @@ var processRecoveryPassword = function(req, res){
     });
 
   });
+}
+
+var reSendValidationEmail = function(req, res){
+  mailSender.sendMail(req.user, 'ACTIVE_ACCOUNT');
+  res.redirect('/user');
+}
+
+var generateKey = function(req, res){
+  req.user.generateKey();
+  res.redirect('/user');
 }

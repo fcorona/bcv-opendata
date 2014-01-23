@@ -12,6 +12,22 @@ block content
 
     dt email:
     dd= user.email
+      if !user.validated
+        &nbsp;
+        span.label.label-danger sin validar
+        br
+        a(href='/user/send-validation') enviar mail de validaci&oacute;n
+
+    if user.role == 'developer'
+      dt Key
+      dd
+        code= user.testKey ? user.testKey.key : '<no hay llave>'
+        p Esta llave es &uacute;nica y personal usela para realizar pruebas, 
+          | esta limitada a 
+          b= user.testKey ? user.testKey.limit : 0
+          | &nbps; solicitudes por hora.
+          br
+          a(href='/user/generateKey') generar una nueva llave.
 
   hr
   div.pull-right
