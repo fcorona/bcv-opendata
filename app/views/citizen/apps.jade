@@ -7,19 +7,52 @@ block content
       | ayudar a la gente a tomar decisiones con base en la información.
     p A continuación algunos ejemplos de aplicaciones que utilizan los datos abiertos.
 
-  div.row
+
+  form(class='form-inline' role='form')
+    div.form-group.col-sm-11(style='padding:0')
+      input.form-control(type='text' placeholder='Buscar aplicación')
+    div.form-group
+      button.btn.btn-default(type='submit' title='buscar' value='buscar') 
+        span.glyphicon.glyphicon-search
+  br
+  ul.media-list
     for app in apps
-      div.col-sm-6.col-md-4
-        div.thumbnail
+      li.row.media(style='margin-bottom: 3em')
+        div.col-md-2(style='height:5em; overflow: hidden;')
           if app.logoUrl
             a(href='/apps/#{app.id}')
-              img(src=app.logoUrl alt=app.name)
-          div.caption
-            h3
-              a(href='/apps/#{app.id}')= app.name
-            p= app.shortDescription
-            a(href='url')= app.url
-            br
-            span by #{app.owner.name}
+              img.media-object.img-responsive(src=app.logoUrl alt=app.name )
 
+        div.col-md-10.media-body
+          h4.media-heading
+            a(href='/apps/#{app.id}')= app.name
+          
+          p= app.shortDescription
+          a(href='url')= app.url
+          | &nbsp; | &nbsp;
+          span desarrollado por 
+            b= app.owner.name
+          br
+          ul.list-unstyled.inline-block
+            for tag in app.tags
+              span.label.label-success= tag.title
+              | &nbsp;
+
+  div.text-center
+    ul.pagination
+      li.disabled
+        a(href="#")&laquo;
+      li.active
+        a(href="#") 1
+          span.sr-only (current)
+      li
+        a(href="#") 2
+      li
+        a(href="#") 3
+      li
+        a(href="#") 4
+      li
+        a(href="#") 5
+      li
+        a(href="#")&raquo;
 

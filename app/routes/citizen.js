@@ -1,6 +1,7 @@
 var datasetRoute = require('./dataset'),
     dataset = require('../models/dataset'),
-    apps = require('../models/apps');
+    apps = require('../models/apps'),
+    TagModel = require('../models/basics').TagModel;
 
 module.exports = function(app){
   app.get('/', home);
@@ -27,12 +28,23 @@ var home = function(req, res){
 
 //lista datasets
 var datasets = function(req, res){
-  dataset.DatasetMongo.find({}, function(err, datasets){
+  dataset.DatasetMongo.find()
+  .populate('tags')
+  .exec(function(err, datasets){
     if(err){
       res.send(500, err);
       return;
     }
-    res.render('citizen/datasets', {datasets: datasets});
+    TagModel.find(function(err, tags){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      res.render('citizen/datasets', {
+        datasets: datasets,
+        tags: tags
+      });
+    });
   });
 };
 
@@ -40,6 +52,7 @@ var datasets = function(req, res){
 var listApps = function(req, res){
   apps.AppModel.find({allowed: true})
   .populate('owner')
+  .populate('tags')
   .exec(function(err, applications){
     if(err){
       res.send(500, err);

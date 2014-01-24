@@ -7,17 +7,37 @@ block content
       | por la fundación corona y su programa 
       b Bogot&aacute; C&oacute;mo Vamos?
 
-  ul.list-unstyled
-    for dataset in datasets
-      li
-        h3 
-          a(href='/datasets/#{dataset.name}')= dataset.title
-        p= dataset.description
-        a.format(href='/datasets/#{dataset.name}/graph/')
-          span.label.label-primary Inter&aacute;ctivo
-        &nbsp;|&nbsp;
-        a.format(href='/datasets/#{dataset.name}/table/')
-          span.label.label-success CSV
-        &nbsp;|&nbsp;
-        a.format(href='/api/datasets/#{dataset.name}/?key=comovamos/')
-          span.label.label-info API REST
+  div.row
+    div.col-md-2.list-group.dataset-provider
+      div.list-group-item.socials
+        span Palabras Clave
+      ul.list-unstyled
+        for tag in tags
+          li.list-group-item
+            a(href='#')
+              div
+                span= tag.title
+
+    div.col-md-10
+      form(class='form-inline' role='form')
+        div.form-group.col-sm-11(style='padding:0')
+          input.form-control(type='text' placeholder='Buscar catalogo')
+        div.form-group
+          button.btn.btn-default(type='submit' title='buscar' value='buscar') 
+            span.glyphicon.glyphicon-search
+
+      ul.list-unstyled
+        for dataset in datasets
+          li
+            h3 
+              a(href='/datasets/#{dataset.name}')= dataset.title
+            p= dataset.description
+            a.format(href='/datasets/#{dataset.name}/graph/')
+              span.label.label-primary Inter&aacute;ctivo
+            &nbsp;|&nbsp;
+            a.format(href='/datasets/#{dataset.name}/table/')
+              span.label.label-success CSV
+            &nbsp;|&nbsp;
+            a.format(href='/api/datasets/#{dataset.name}/?key=comovamos/')
+              span.label.label-info API REST
+            br
