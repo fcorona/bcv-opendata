@@ -32,6 +32,9 @@ block content
     dd 
       a.generator(href='/dev/apps/#{app.id}/generateKey') recrear mi llave
 
+    dt Etiquetas
+    dd= app.stringTags
+
   hr
   div.pull-right
     a.btn.btn-default(href='/dev/apps/#{app.id}/edit') Editar

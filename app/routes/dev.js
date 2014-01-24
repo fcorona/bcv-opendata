@@ -33,6 +33,7 @@ var listApps = function(req, res){
 var viewApp = function(req, res){
   apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id})
   .populate('key')
+  .populate('tags')
   .exec(function(err, app){
     if(err){
       res.send(500, err);
@@ -47,15 +48,18 @@ var viewApp = function(req, res){
 };
 
 var editApp = function(req, res){
-  apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id}, function(err, app){
+  apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id})
+  .populate('tags')
+  .exec(function(err, app){
     if(err){
       res.send(500, err);
       return;
     }
     if(!app){
       res.send(404, 'app no encontrada');
-      return; 
+      return;
     }
+
     res.render('dev/edit-app', {model: app, errors: {}});
   });
 };
@@ -70,7 +74,6 @@ var updateApp = function(req, res){
     errors.name = 'El nombre debe tener entre 5 y 40 caracteres';
   };
 
-  
   model.shortDescription = req.body.shortDescription || '';
   if(model.shortDescription.length < 3 || model.shortDescription.length > 140){
     errors.shortDescription = 'La decripci&oacute;n corta debe tener entre 3 y 140 caracteres';
@@ -80,6 +83,8 @@ var updateApp = function(req, res){
   if(model.description.length < 3 || model.description.length > 800){
     errors.description = 'La decripci&oacute;n debe tener entre 3 y 800 caracteres';
   };
+
+  model.stringTags = req.body.stringTags;
 
   model.url = req.body.url;
   model.logoUrl = req.body.logoUrl;
@@ -92,12 +97,19 @@ var updateApp = function(req, res){
     return;
   }
 
-  apps.AppModel.update({'_id': req.params.id, owner: req.user.id}, {$set:model}, function(err, app){
-    if(err){
-      res.send(500, err);
-      return;
+  apps.AppModel.findOne({'_id': req.params.id, owner: req.user.id})
+  .exec(function(err, app){
+    var tags = (model.stringTags || '').split(',');
+    if(tags[0]!='' || tags.length>1){
+      model.tags = tags;
     }
-    res.redirect('dev/apps/' + req.params.id);
+    app.updateInfo(model, function(err2){
+      if(err2){
+        res.send(500, err2);
+        return;
+      }
+      res.redirect('dev/apps/' + app.id);
+    });
   });
 };
 
@@ -128,7 +140,7 @@ var createApp = function(req, res){
 
   model.url = req.body.url;
   model.logoUrl = req.body.logoUrl;
-
+  model.stringTags = req.body.stringTags;
   //tags pendientes por ahora
 
   model.owner = req.user;
@@ -143,6 +155,11 @@ var createApp = function(req, res){
       res.send(500, err);
       return;
     }
+    var tags = (model.stringTags || '').split(',');
+    if(tags[0]!='' || tags.length>1){
+      model.tags = tags;
+    }
+    app.addTags(tags);
     req.user.apps.push(app);
     req.user.save();
     res.redirect('dev/apps/' + app.id);

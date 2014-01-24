@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    AppAccess = require('./basics').AppAccessModel;
+    basics = require('./basics'),
+    AppAccessModel = basics.AppAccessModel,
+    TagModel = basics.TagModel;
 
 var AppSchema = new mongoose.Schema({
   name: String,
@@ -8,7 +10,7 @@ var AppSchema = new mongoose.Schema({
   description: String,
   url: String,
   key: {type: Schema.ObjectId, ref: 'AppAccess'},
-  tags: [String],
+  tags: [{type: Schema.ObjectId, ref: 'Tag'}],
   allowed: {type: Boolean, default: true},
   owner: {type: Schema.ObjectId, ref: 'User'},
   logoUrl: String
@@ -19,7 +21,7 @@ AppSchema.methods.generateKey = function(verifiedUser){
   var limit = verifiedUser ? 2000 : 500;
   var key = this.key;
   if(!key){
-    key = new AppAccess({
+    key = new AppAccessModel({
       limit: limit,
       allowAccess: ['*']
     });
@@ -29,6 +31,40 @@ AppSchema.methods.generateKey = function(verifiedUser){
   this.save();
 };
 
+// asocia los tags [String]
+AppSchema.methods.addTags = function(tags){
+  var app = this;
+  for(var i = 0; i < tags.length; i++){
+    var titleTag = tags[i];
+    if(titleTag!=''){
+      TagModel.findByName(titleTag, function(err, tag){
+        if(err){
+          console.log(err);
+        }
+        app.tags.push(tag);
+        app.save();
+      });
+    }
+  };
+}
+
+AppSchema.methods.updateInfo = function(model, cb){
+  this.name = model.name;
+  this.shortDescription = model.shortDescription;
+  this.description = model.description;
+  this.url = model.url;
+  this.logoUrl = model.logoUrl;
+  this.addTags(model.tags);
+  this.save(cb);
+}
+
+AppSchema.virtual('stringTags').get(function(){
+  var tags = '';
+  for (var i = this.tags.length - 1; i >= 0; i--) {
+    tags += this.tags[i].title + ', ';
+  };
+  return tags.substring(0, tags.length-2);
+});
 
 exports.AppModel = mongoose.model('App', AppSchema);
 

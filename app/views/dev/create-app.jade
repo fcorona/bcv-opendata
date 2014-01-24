@@ -49,10 +49,10 @@ block content
           p.has-error= errors.logoUrl
 
     div.form-group
-      label.col-sm-2.control-label(for='tags') Etiquetas
+      label.col-sm-2.control-label(for='stringTags') Etiquetas
       
       div.col-sm-10
-        input#tags.form-control(type='text' name='tags')
+        input#stringTags.form-control(type='text' name='stringTags' value=model.stringTags)
   
     div.form-group
       div.col-sm-offset-2.col-sm-10

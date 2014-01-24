@@ -22,5 +22,21 @@ var TagSchema = new mongoose.Schema({
   description: String
 });
 
+TagSchema.statics.findByName = function(title, cb){
+  title = title.toLowerCase().trim();
+  this.findOne({title: title}, function(err, tag){
+    if(err){
+      cb(err);
+      return;
+    }
+    if(tag){
+      cb(err, tag);
+      return;
+    }
+    new TagModel({title: title}).save(cb);
+  });
+}
+
+var TagModel = mongoose.model('Tag', TagSchema);
+exports.TagModel = TagModel;
 exports.AppAccessModel = mongoose.model('AppAccess', AppAccessSchema);
-exports.TagModel = mongoose.model('Tag', TagSchema);
