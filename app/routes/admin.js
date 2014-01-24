@@ -69,7 +69,9 @@ var listDatasets = function(req, res){
 
 //ver dataset
 var viewDataset = function(req, res){
-  DatasetModel.findById(req.params.datasetId, function(err, dataset){
+  DatasetModel.findById(req.params.datasetId)
+  .populate('tags')
+  .exec(function(err, dataset){
     if(err){
       res.send(500, err);
       return;
@@ -87,7 +89,9 @@ var viewDataset = function(req, res){
 
 //edit Dataset
 var editDataset = function(req, res){
-  DatasetModel.findById(req.params.datasetId, function(err, dataset){
+  DatasetModel.findById(req.params.datasetId)
+  .populate('tags')
+  .exec(function(err, dataset){
     if(err){
       res.send(500, err);
       return;
@@ -124,6 +128,8 @@ var updateDataset = function(req, res){
     errors.description = 'La descripción debe debe tener 10 caracteres como mínimo';
   };
 
+  model.stringTags = req.body.stringTags;
+
   if(Object.keys(errors).length > 0){
     model.type = req.body.type;
     model.id = req.params.datasetId;
@@ -140,9 +146,14 @@ var updateDataset = function(req, res){
       res.send(500, err);
       return;
     }
+    
     dataset.title = model.title;
     dataset.name = model.name;
     dataset.description = model.description;
+    var tags = (model.stringTags || '').split(',');
+    if(tags[0]!='' || tags.length>1){
+      dataset.addTags(tags);
+    }
     dataset.save(function(err, dataset){
       res.redirect('/admin/datasets/' + dataset.id);
     });

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
-    autoIncrement = require('mongoose-auto-increment');
+    autoIncrement = require('mongoose-auto-increment'),
+    TagModel = require('./basics').TagModel;
 /*
 * mongo connection
 */
@@ -15,6 +16,32 @@ var DatasetSchema = new mongoose.Schema({
   type: Number,
   tags: [{type: Schema.ObjectId, ref: 'Tag'}]
 });
+
+// asocia los tags [String]
+DatasetSchema.methods.addTags = function(tags){
+  var dataset = this;
+  for(var i = 0; i < tags.length; i++){
+    var titleTag = tags[i];
+    if(titleTag!=''){
+      TagModel.findByName(titleTag, function(err, tag){
+        if(err){
+          console.log(err);
+        }
+        dataset.tags.push(tag);
+        dataset.save();
+      });
+    }
+  };
+}
+
+DatasetSchema.virtual('stringTags').get(function(){
+  var tags = '';
+  for (var i = this.tags.length - 1; i >= 0; i--) {
+    tags += this.tags[i].title + ', ';
+  };
+  return tags.substring(0, tags.length-2);
+});
+
 
 //??
 var DimensionSchema = new mongoose.Schema({

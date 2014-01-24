@@ -23,6 +23,9 @@ block adminContent
       else
         span Encuestas
 
+    dt Etiquetas
+    dd= dataset.stringTags
+
   hr
   div.pull-right
     a.btn.btn-default(href='/admin/datasets/#{dataset.id}/edit/') Editar

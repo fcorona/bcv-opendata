@@ -37,7 +37,13 @@ block adminContent
       
       div.col-sm-10
         input#type.form-control(type='type' name='type' disabled value=(dataset.type==1?'Indicadores':'Encuestas'))
-    
+  
+    div.form-group
+      label.col-sm-2.control-label(for='stringTags') Etiquetas
+      
+      div.col-sm-10
+        input#stringTags.form-control(type='text' name='stringTags' value=dataset.stringTags)
+  
     div.form-group
     
       div.col-sm-offset-2.col-sm-10
