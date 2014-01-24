@@ -58,6 +58,47 @@ AppSchema.methods.updateInfo = function(model, cb){
   this.save(cb);
 }
 
+AppSchema.statics.listAll = function(page, resultsPerPage, tags, cb){
+  schema = this;
+  
+  for (var i = 0; i < tags.length; i++) {
+    tags[i] = tags[i].trim().toLowerCase();
+  };
+  if(tags.length==1&&tags[0]==''){
+    tags = []
+  };
+  
+  TagModel.find({title: {$in: tags}})
+  .select('_id')
+  .exec(function(err, foundTags){
+    queryTotal = schema;
+    if(foundTags.length>0){
+      queryTotal = queryTotal.where({tags: {$in:foundTags}});
+    }
+    
+    queryTotal
+    .count()
+    .exec(function(err, total){
+      var query = schema.find({
+        allowed: true
+      });
+      if(foundTags.length>0){
+        query = query.where({tags: {$in:foundTags}});
+      }
+
+      query.limit(resultsPerPage)
+      .skip((page-1)*resultsPerPage)
+      .populate('owner')
+      .populate('tags')
+      .exec(function(err, apps){
+        cb(err, apps, total);
+      });
+    
+    });
+  
+  });
+};
+
 AppSchema.virtual('stringTags').get(function(){
   var tags = '';
   for (var i = this.tags.length - 1; i >= 0; i--) {

@@ -50,15 +50,24 @@ var datasets = function(req, res){
 
 //lista apps
 var listApps = function(req, res){
-  apps.AppModel.find({allowed: true})
-  .populate('owner')
-  .populate('tags')
-  .exec(function(err, applications){
+  //valida las entradas
+  var page = parseInt(req.query.page) || 1;
+  var tags = req.query.tags || '';
+  var resultsPerPage = 1;
+
+  apps.AppModel.listAll(page, resultsPerPage, tags.split(','), function(err, applications, total){
     if(err){
       res.send(500, err);
       return;
     }
-    res.render('citizen/apps', {apps: applications});
+    total = Math.ceil(total/resultsPerPage);
+
+    res.render('citizen/apps', {
+      apps: applications,
+      current: page,
+      total: total,
+      tags: tags
+    });
   });
 };
 
