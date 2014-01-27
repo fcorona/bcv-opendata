@@ -58,7 +58,7 @@ AppSchema.methods.updateInfo = function(model, cb){
   this.save(cb);
 }
 
-AppSchema.statics.listAll = function(page, resultsPerPage, tags, cb){
+AppSchema.statics.listAll = function(page, resultsPerPage, tags, name, cb){
   schema = this;
   
   for (var i = 0; i < tags.length; i++) {
@@ -71,9 +71,12 @@ AppSchema.statics.listAll = function(page, resultsPerPage, tags, cb){
   TagModel.find({title: {$in: tags}})
   .select('_id')
   .exec(function(err, foundTags){
-    queryTotal = schema;
-    if(foundTags.length>0){
-      queryTotal = queryTotal.where({tags: {$in:foundTags}});
+    queryTotal = schema.find();
+    if(foundTags.length > 0){
+      queryTotal = queryTotal.where({tags: {$in: foundTags}});
+    }
+    if(name && name!==''){
+      queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
     }
     
     queryTotal
@@ -84,6 +87,9 @@ AppSchema.statics.listAll = function(page, resultsPerPage, tags, cb){
       });
       if(foundTags.length>0){
         query = query.where({tags: {$in: foundTags}});
+      }
+      if(name && name!==''){
+        query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
       }
 
       query.limit(resultsPerPage)

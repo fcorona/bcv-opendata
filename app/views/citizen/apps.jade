@@ -8,44 +8,78 @@ block content
     p A continuación algunos ejemplos de aplicaciones que utilizan los datos abiertos.
 
 
-  form(class='form-inline' role='form')
-    div.form-group.col-sm-11(style='padding:0')
-      input.form-control(type='text' placeholder='Buscar aplicación')
-    div.form-group
-      button.btn.btn-default(type='submit' title='buscar' value='buscar') 
-        span.glyphicon.glyphicon-search
-  br
-  ul.media-list
-    for app in apps
-      li.row.media(style='margin-bottom: 3em')
-        div.col-md-2(style='height:5em; overflow: hidden;')
-          if app.logoUrl
-            a(href='/apps/#{app.id}')
-              img.media-object.img-responsive(src=app.logoUrl alt=app.name )
+  div.row
+    div.col-md-2.list-group.dataset-provider
+      div.list-group-item.socials
+        span Palabras Clave
+      
+      ul.list-unstyled
+        li.list-group-item
+          a(href='/apps?page=1&name=#{name}')
+            span remover todos
+              span.label.label-danger.pull-right
+                span.glyphicon.glyphicon-minus-sign
 
-        div.col-md-10.media-body
-          h4.media-heading
-            a(href='/apps/#{app.id}')= app.name
-          
-          p= app.shortDescription
-          a(href='url')= app.url
-          | &nbsp; | &nbsp;
-          span desarrollado por 
-            b= app.owner.name
-          br
-          ul.list-unstyled.inline-block
-            for tag in app.tags
-              a(href='/apps?page=1&tags=#{tag.title}')
-                span.label.label-success= tag.title
-              | &nbsp;
+        for tag in allTags
+          li.list-group-item
+            if tags.indexOf(tag.title) == -1
+              a(href='/apps?page=1&tags=#{tag.title+","+tags}&name=#{name}')
+                div
+                  span= tag.title
+                  span.label.label-success.pull-right
+                    span.glyphicon.glyphicon-plus-sign
 
-  div.text-center
-    ul.pagination
-      li(class=current==1?'disabled':'')
-        a(href='/apps?page=#{current==1?1:current-1}&tags=#{tags}') &laquo;
-      - for(var page = 1; page <= total; page++)
-        li(class= page==current?'active':'' )
-          a(href='/apps?page=#{page}&tags=#{tags}')= page
-      li(class=current==total?'disabled':'')
-        a(href='/apps?page=#{current==total?total:current+1}&tags=#{tags}') &raquo;
+            else
+              a(href='/apps?page=1&tags=#{tags.replace(tag.title, "")}&name=#{name}')
+                div
+                  span= tag.title
+                  span.label.label-danger.pull-right
+                    span.glyphicon.glyphicon-minus-sign
+
+
+
+    div.col-md-10
+
+      form(class='form-inline' role='form')
+        input(name='tags' type='hidden' value=tags)
+        input(name='page' type='hidden' value=1)
+        div.form-group.col-sm-11(style='padding:0')
+          input.form-control(name='name' type='text' placeholder='Buscar aplicación' value=name)
+        div.form-group
+          button.btn.btn-default(type='submit' title='buscar' value='buscar') 
+            span.glyphicon.glyphicon-search
+      br
+      ul.media-list
+        for app in apps
+          li.row.media(style='margin-bottom: 3em')
+            div.col-md-2(style='height:5em; overflow: hidden;')
+              if app.logoUrl
+                a(href='/apps/#{app.id}')
+                  img.media-object.img-responsive(src=app.logoUrl alt=app.name )
+
+            div.col-md-10.media-body
+              h4.media-heading
+                a(href='/apps/#{app.id}')= app.name
+              
+              p= app.shortDescription
+              a(href='url')= app.url
+              | &nbsp; | &nbsp;
+              span desarrollado por 
+                b= app.owner.name
+              br
+              ul.list-unstyled.inline-block
+                for tag in app.tags
+                  a(href='/apps?page=1&tags=#{tag.title}')
+                    span.label.label-success= tag.title
+                  | &nbsp;
+
+      div.text-center
+        ul.pagination
+          li(class=current==1?'disabled':'')
+            a(href='/apps?page=#{current==1?1:current-1}&tags=#{tags}') &laquo;
+          - for(var page = 1; page <= total; page++)
+            li(class= page==current?'active':'' )
+              a(href='/apps?page=#{page}&tags=#{tags}')= page
+          li(class=current==total?'disabled':'')
+            a(href='/apps?page=#{current==total?total:current+1}&tags=#{tags}') &raquo;
 
