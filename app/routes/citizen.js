@@ -28,21 +28,34 @@ var home = function(req, res){
 
 //lista datasets
 var datasets = function(req, res){
-  dataset.DatasetMongo.find()
-  .populate('tags')
-  .exec(function(err, datasets){
+  //valida las entradas
+  var name = req.query.name || '';
+  var tags = req.query.tags || '';
+
+  var tagsToArray = tags.split(',');
+  tags = '';
+  for(var i = 0; i < tagsToArray.length; i++){
+    var tag = (tagsToArray[i] || '').trim();
+    if(tag !== ''){
+      tags += tag+',';
+    }
+  };
+
+  dataset.DatasetMongo.listAll(name,  tags.split(','), function(err, datasets){
     if(err){
       res.send(500, err);
       return;
     }
-    TagModel.find(function(err, tags){
+    TagModel.find(function(err, allTags){
       if(err){
         res.send(500, err);
         return;
       }
       res.render('citizen/datasets', {
         datasets: datasets,
-        tags: tags
+        tags: tags,
+        name: name,
+        allTags: allTags
       });
     });
   });
@@ -53,7 +66,7 @@ var listApps = function(req, res){
   //valida las entradas
   var page = parseInt(req.query.page) || 1;
   var tags = req.query.tags || '';
-  var resultsPerPage = 1;
+  var resultsPerPage = 10;
 
   apps.AppModel.listAll(page, resultsPerPage, tags.split(','), function(err, applications, total){
     if(err){

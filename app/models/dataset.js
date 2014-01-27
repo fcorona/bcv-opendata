@@ -34,6 +34,28 @@ DatasetSchema.methods.addTags = function(tags){
   };
 }
 
+DatasetSchema.statics.listAll = function(name, tags, cb){
+  var schema = this;
+  for (var i = 0; i < tags.length; i++) {
+    tags[i]
+  }
+  if(tags.length == 1 && tags[0] == ''){
+    tags = [];
+  }
+  TagModel.find({title: {$in: tags}})
+  .select('_id')
+  .exec(function(err, foundTags){
+    var query = schema.find();
+    if(foundTags.length > 0){
+      query = query.where({tags: {$in: foundTags}});
+    }
+    if(name && name!==''){
+      query = query.or([{title: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+    }
+    query.populate('tags').exec(cb);
+  });
+}
+
 DatasetSchema.virtual('stringTags').get(function(){
   var tags = '';
   for (var i = this.tags.length - 1; i >= 0; i--) {

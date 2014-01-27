@@ -28,16 +28,16 @@ html
         div.navbar-collapse.collapse
           ul.nav.navbar-nav
             li
-              a(href="/datasets/") Catalogos de Datos
+              a(href="/datasets") Catalogos de Datos
 
             li
-              a(href="/apps/") Aplicaciones
+              a(href="/apps") Aplicaciones
             li
               a(href="http://fcorona.github.io/bcv-opendata/") Desarrolladores
 
           ul.nav.navbar-nav.navbar-right
             if !login
-              form.navbar-form(role="form" action="/login/" method="POST")
+              form.navbar-form(role="form" action="/login" method="POST")
                 div.form-group
                   input.form-control(type="text" name="username" placeholder="Email")
                 
@@ -45,7 +45,7 @@ html
                   input.form-control(type="password" name="password" placeholder="Password")
                 
                 button.btn.btn-success(type="submit") Ingresar
-                a.btn.btn-default(href="/registro/") Registrarse
+                a.btn.btn-default(href="/registro") Registrarse
             else
               li
                 a(href="/user") Mi Perfil

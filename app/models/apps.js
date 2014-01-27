@@ -63,10 +63,10 @@ AppSchema.statics.listAll = function(page, resultsPerPage, tags, cb){
   
   for (var i = 0; i < tags.length; i++) {
     tags[i] = tags[i].trim().toLowerCase();
-  };
-  if(tags.length==1&&tags[0]==''){
-    tags = []
-  };
+  }
+  if(tags.length == 1 && tags[0] == ''){
+    tags = [];
+  }
   
   TagModel.find({title: {$in: tags}})
   .select('_id')
@@ -83,12 +83,12 @@ AppSchema.statics.listAll = function(page, resultsPerPage, tags, cb){
         allowed: true
       });
       if(foundTags.length>0){
-        query = query.where({tags: {$in:foundTags}});
+        query = query.where({tags: {$in: foundTags}});
       }
 
       query.limit(resultsPerPage)
       .skip((page-1)*resultsPerPage)
-      .populate('owner')
+      .populate('owner')  
       .populate('tags')
       .exec(function(err, apps){
         cb(err, apps, total);
