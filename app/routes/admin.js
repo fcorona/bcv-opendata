@@ -27,6 +27,7 @@ module.exports = function(app){
   app.get('/admin/datasets/:dataset/metrics', validAdmin, metrics);
 
   app.get('/admin/apps', validAdmin, listApps);
+  app.get('/admin/apps/:appId', validAdmin, viewApp);
   app.post('/admin/apps/:appId/toggleBlock', validAdmin, toggleBlockApp);
 
   app.get('/admin/devs', validAdmin, listDevelopers);
@@ -46,11 +47,16 @@ var MENU_STATES = {
 
 //inicio para admin
 var home = function(req, res){
-  res.render('admin/home', {
-    title:'Plataforma de openData',
-    messages: req.flash(),
-    menu: MENU_STATES.HOME
-  });
+  apps.ReportAppModel.find()
+  .populate('app')
+  .exec(function(err, reports){
+    res.render('admin/home', {
+      title:'Plataforma de openData',
+      messages: req.flash(),
+      reports: reports,
+      menu: MENU_STATES.HOME
+    });
+  })
 };
 
 //lista todos los datasets
@@ -183,6 +189,31 @@ var listApps = function(req, res){
   });
 };
 
+//ver dataset
+var viewApp = function(req, res){
+  apps.AppModel.findById(req.params.appId)
+  .populate('owner')
+  .populate('tags')
+  .exec(function(err, app){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!app){
+      res.render(404, '404');
+      return;
+    }
+    app.reportByUsers(function(err2, reports){
+      console.log(err2);
+      console.log(reports);
+      res.render('admin/viewApp', {
+        app: app,
+        reports: reports,
+        menu: MENU_STATES.APPS
+      });
+    });
+  });
+};
 //bloquear/desbloquear app
 var toggleBlockApp = function(req, res){
   apps.AppModel.findById(req.params.appId, function(err, app){

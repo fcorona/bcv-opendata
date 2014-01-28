@@ -1,7 +1,8 @@
 var datasetRoute = require('./dataset'),
     dataset = require('../models/dataset'),
     apps = require('../models/apps'),
-    TagModel = require('../models/basics').TagModel;
+    TagModel = require('../models/basics').TagModel,
+    utils = require('../util/validators');
 
 module.exports = function(app){
   app.get('/', home);
@@ -9,6 +10,9 @@ module.exports = function(app){
   app.get('/datasets/:name/interactive', datasetInteractivo);
   app.get('/datasets/:name/:format?', datasetRoute.showDataset);
   app.get('/apps', listApps);
+  app.get('/apps/successfullReport', successfullReport);
+  app.get('/apps/:appId/report', reportAppForm);
+  app.post('/apps/:appId/report', reportApp);
   app.get('/apps/:appId', viewApp);
 }
 
@@ -103,6 +107,7 @@ var datasetInteractivo = function(req, res){
 var viewApp = function(req, res){
   apps.AppModel.findOne({'_id': req.params.appId})
   .populate('owner')
+  .populate('tags')
   .exec(function(err, application){
     if(err){
       res.send(500, err);
@@ -114,5 +119,72 @@ var viewApp = function(req, res){
     }
     res.render('citizen/app', {title: application.name, app: application});
   });
+};
+
+//reportar app
+var reportAppForm = function(req, res){
+  apps.AppModel.findOne({'_id': req.params.appId})
+  .exec(function(err, application){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!application){
+      res.render(404, '404');
+      return;
+    }
+    res.render('citizen/reportApp', {
+      title: 'reportar ' + application.name,
+      app: application,
+      errors: {},
+      email: '',
+      reason: ''
+    });
+  });
+};
+
+var reportApp = function(req, res){
+  var errors = {},
+      email = req.body.email || '',
+      reason = req.body.reason || '';
+
+  if(email.length < 3 || !utils.validateEmail(email)){
+    errors.email = 'El correo electrónico que escribio no es válido';
+  };
+
+  if(reason.length < 3){
+    errors.reason = 'debe escribir una razón mas descriptiva.'
+  }
+  if(Object.keys(errors).length > 0){
+    res.render('citizen/reportApp', {
+      email: email,
+      reason: reason,
+      errors: errors,
+      app: {
+        id: req.body.id,
+        name: req.body.name
+      }
+    });
+    return;
+  }
+
+  new apps.ReportAppModel({
+    email: email,
+    reason: reason,
+    app: req.body.id
+  })
+  .save(function(err, reportApp){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    res.redirect('/apps/successfullReport');
+  })
+
+};
+
+
+var successfullReport = function(req, res){
+  res.render('citizen/successfullReport');
 };
 

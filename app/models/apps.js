@@ -16,6 +16,14 @@ var AppSchema = new mongoose.Schema({
   logoUrl: String
 });
 
+var ReportAppSchema = new mongoose.Schema({
+  from: String,
+  date: {type: Date, default: Date.now},
+  reason: String,
+  app: {type: Schema.ObjectId, ref: 'App'},
+  open: {type: Boolean, default: true}
+});
+
 //genera una llave para el usuario 
 AppSchema.methods.generateKey = function(verifiedUser){
   var limit = verifiedUser ? 2000 : 500;
@@ -113,6 +121,14 @@ AppSchema.virtual('stringTags').get(function(){
   return tags.substring(0, tags.length-2);
 });
 
+var ReportAppModel = mongoose.model('ReportApp', ReportAppSchema);
+
+AppSchema.methods.reportByUsers = function(cb){
+  console.log('app id', this.id);
+  ReportAppModel.find({app: this.id}, cb);
+};
+
 exports.AppModel = mongoose.model('App', AppSchema);
+exports.ReportAppModel = ReportAppModel;
 
 

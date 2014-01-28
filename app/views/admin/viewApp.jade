@@ -1,0 +1,37 @@
+extends layoutAdmin
+
+block content
+  div.page-header
+    h1= app.name 
+      small.pull-right
+        a(href='/admin/apps') volver
+
+
+  dl.dl-horizontal
+    
+    dt Logo
+    dd.thumbnail
+      img(src=app.logoUrl||'')
+
+    dt P&aacute;gina
+    dd= app.url
+
+    dt Descripci&oacute;n corta
+    dd= app.shortDescription
+
+    dt Descripci&oacute;n
+    dd= app.description
+
+    dt Llave de Acceso
+    dd#key
+      code= app.key ? app.key.key : '<no hay llave>'
+
+    dt Etiquetas
+    dd= app.stringTags
+
+    dt Reportes
+    dd
+      for report in reports
+        span= report.reason
+        br
+
