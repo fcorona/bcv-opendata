@@ -28,18 +28,26 @@ block content
           | &nbsp;
 
       div.list-group-item.socials
+        span Calificar
+    
+      div.list-group-item
+        div#rating(data-score=app.score data-votes=app.totalVotes)
+        span#rating-span #{app.score.toFixed(2)}/5 - #{app.totalVotes} votos
+
+
+      div.list-group-item.socials
         span Compartir en redes sociales      
 
-      u
-        li.list-group-item
-          div.g-plus(data-action='share')
-        
-        li.list-group-item
-          a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
-        
-        li.list-group-item
-          div#fb-root
-          div.fb-share-button(data-type='button_count')
+      
+      div.list-group-item
+        div.g-plus(data-action='share')
+      
+      div.list-group-item
+        a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
+      
+      div.list-group-item
+        div#fb-root
+        div.fb-share-button(data-type='button_count')
 
       div.list-group-item
         a(href='/apps/#{app.id}/report') Reportar esta aplicaci&oacute;n
@@ -74,3 +82,35 @@ block content
         a.dsq-brlink(href="http://disqus.com") comments powered by
           span.logo-disqus Disqus
 
+block scripts
+  script(src='/js/jquery.raty.js')
+  script.
+    var loadRatings = function(){  
+      $('#rating').raty({
+        path: '/imgs',
+        score: function(){
+          return $(this).data('score');
+        },
+        click: function(score, evt){
+          var data = {
+            score: score
+          };
+          $.post('/apps/#{app.id}/rate', data, function(response){
+            var oldScore = $('#rating').data('score');
+            var oldVotes = $('#rating').data('votes');
+
+            if(response.msg === 'ok'){
+              score = (oldScore*oldVotes + score)/(++oldVotes);
+              $('#rating-span').html(score + '/5 - ' + oldVotes + ' votos');
+              $('#rating').data('score', score);
+              $('#rating').data('votes', oldVotes);
+            }else{
+              $('#rating-span').append('<br> solo puede votar una vez.');
+              loadRatings();
+            }
+          });
+        },
+        hints: ['Mala', 'Regular', 'Buena', 'Muy Buena', 'Excelente']
+      });
+    };
+    loadRatings();

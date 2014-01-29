@@ -2,7 +2,8 @@ var datasetRoute = require('./dataset'),
     dataset = require('../models/dataset'),
     apps = require('../models/apps'),
     TagModel = require('../models/basics').TagModel,
-    utils = require('../util/validators');
+    utils = require('../util/validators'),
+    ScoreModel = require('../models/score').ScoreModel;
 
 module.exports = function(app){
   app.get('/', home);
@@ -13,6 +14,7 @@ module.exports = function(app){
   app.get('/apps/successfullReport', successfullReport);
   app.get('/apps/:appId/report', reportAppForm);
   app.post('/apps/:appId/report', reportApp);
+  app.post('/apps/:appId/rate', rateApp);
   app.get('/apps/:appId', viewApp);
 }
 
@@ -183,8 +185,20 @@ var reportApp = function(req, res){
 
 };
 
-
 var successfullReport = function(req, res){
   res.render('citizen/successfullReport');
 };
 
+var rateApp = function(req, res){
+  new ScoreModel({
+    score: req.body.score,
+    ip: req.ip,
+    app: req.params.appId
+  }).save(function(err, score){
+    if(err){
+      res.send(200, {msg: 'error'})
+    }else{
+      res.send(200, {msg: 'ok'});
+    }
+  });
+}

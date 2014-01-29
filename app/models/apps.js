@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
     AppAccessModel = basics.AppAccessModel,
     TagModel = basics.TagModel;
 
-var AppSchema = new mongoose.Schema({
+var AppSchema = new Schema({
   name: String,
   shortDescription: String,
   description: String,
@@ -13,10 +13,12 @@ var AppSchema = new mongoose.Schema({
   tags: [{type: Schema.ObjectId, ref: 'Tag'}],
   allowed: {type: Boolean, default: true},
   owner: {type: Schema.ObjectId, ref: 'User'},
-  logoUrl: String
+  logoUrl: String,
+  score: {type: Number, default: 0},
+  totalVotes: {type: Number, default: 0}
 });
 
-var ReportAppSchema = new mongoose.Schema({
+var ReportAppSchema = new Schema({
   from: String,
   date: {type: Date, default: Date.now},
   reason: String,
