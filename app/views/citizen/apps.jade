@@ -62,6 +62,9 @@ block content
                 a(href='/apps/#{app.id}')= app.name
               
               p= app.shortDescription
+              span.rating(data-score=app.score)
+
+              br
               a(href='url')= app.url
               | &nbsp; | &nbsp;
               span desarrollado por 
@@ -83,3 +86,18 @@ block content
           li(class=current==total?'disabled':'')
             a(href='/apps?page=#{current==total?total:current+1}&tags=#{tags}') &raquo;
 
+block scripts
+  script(src='/js/jquery.raty.js')
+  script.
+    
+    $('.rating').each(function(index, element){
+      $(element).raty({
+        path: '/imgs',
+        readOnly: true,
+        hints: ['Mala', 'Regular', 'Buena', 'Muy Buena', 'Excelente'],
+        score: function(){
+          return $(this).data('score');
+        }
+      });
+    });
+    

@@ -104,6 +104,7 @@ AppSchema.statics.listAll = function(page, resultsPerPage, tags, name, cb){
 
       query.limit(resultsPerPage)
       .skip((page-1)*resultsPerPage)
+      .sort('-score')
       .populate('owner')  
       .populate('tags')
       .exec(function(err, apps){
