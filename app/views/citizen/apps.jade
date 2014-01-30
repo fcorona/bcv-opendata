@@ -1,4 +1,4 @@
-extends ../layout
+extends layoutCitizen
 
 block content
   div.page-header
@@ -86,7 +86,7 @@ block content
           li(class=current==total?'disabled':'')
             a(href='/apps?page=#{current==total?total:current+1}&tags=#{tags}') &raquo;
 
-block scripts
+block aditionalScripts
   script(src='/js/jquery.raty.js')
   script.
     
