@@ -16,6 +16,7 @@ module.exports = function(app){
   app.post('/apps/:appId/report', reportApp);
   app.post('/apps/:appId/rate', rateApp);
   app.get('/apps/:appId', viewApp);
+  app.get('/devs', developers);
 }
 
 //inicio para ciudadano
@@ -31,6 +32,10 @@ var home = function(req, res){
     res.render('index', {title:'Plataforma de openData'});
   }
 };
+
+var developers = function(req, res){
+  res.render('developers', {title: 'desarrolladores', menuSelected: 'devs'})
+}
 
 //lista datasets
 var datasets = function(req, res){

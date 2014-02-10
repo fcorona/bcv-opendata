@@ -9,9 +9,9 @@ block content
           img(src='http://www.bogotacomovamos.org/static/img/background/footer.png?1334155111' alt='slide image')
           
           div.tp-caption.very_large_black_text.sft.stt(data-x="105" data-y="65" data-speed="500" data-start="1000" data-easing="easeOutExpo" style="font-size: 25px;")
-            | Plataforma de datos abierto
+            | Plataforma de datos abiertos
           div.tp-caption.very_large_black_text.lft.ltt(data-x="105" data-y="100" data-speed="500" data-start="1200" data-easing="easeOutExpo" style="font-size: 50px;")
-            | Bogotá Cómo Vamos?
+            | Bogot&aacute; C&oacute;mo Vamos?
           div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Montserrat', sans-serif; color: #34495e;")
             | datos recolectados por el programa durante los &uacute;ltimos 5 a&ntilde;os,
             br
@@ -19,8 +19,20 @@ block content
             br
             | ciudadana.
 
-          a.caption.btn.btn-flat.flat-color.sfb.stb(href="#" data-x="105" data-y="275" data-speed="500" data-start="1800" data-easing="easeOutExpo")
+          a.caption.btn.btn-flat.flat-info.sfb.stb(href="/datasets" data-x="105" data-y="275" data-speed="500" data-start="1800" data-easing="easeOutExpo")
             | Explorar datos
+
+        li(data-transition='random' data-slotamount='10' data-masterspeed='500')
+          img(src='http://www.bogotacomovamos.org/static/img/background/footer.png?1334155111' alt='slide image')
+          
+          div.tp-caption.very_large_black_text.lft.ltt(data-x="105" data-y="100" data-speed="500" data-start="1200" data-easing="easeOutExpo" style="font-size: 50px;")
+            | Aplicaciones
+          div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Montserrat', sans-serif; color: #34495e;")
+            | aplicaciones que fomentan la participación ciudadana
+            br
+            | y ayudan a mejorar la calidad de vida.
+          a.caption.btn.btn-flat.flat-info.sfb.stb(href="/apps" data-x="105" data-y="275" data-speed="500" data-start="1800" data-easing="easeOutExpo") 
+            | ver aplicaciones
 
         li(data-transition='random' data-slotamount='10' data-masterspeed='500')
           img(src='http://www.bogotacomovamos.org/static/img/background/footer.png?1334155111' alt='slide image')
@@ -31,17 +43,136 @@ block content
             | ofrecemos acceso a los catalogos de datos del programa para que puedan
             br
             | construir aplicaciones y servicios para la ciudadan&iacute;a.
-          a.caption.btn.btn-flat.flat-color.sfb.stb(href="#" data-x="105" data-y="275" data-speed="500" data-start="1800" data-easing="easeOutExpo")
+          a.caption.btn.btn-flat.flat-info.sfb.stb(href="/devs" data-x="105" data-y="275" data-speed="500" data-start="1800" data-easing="easeOutExpo") 
             | Saber m&aacute;s
 
       div.tp-bannertimer.tp-bottom
 
-  section#our-services.pad-top-50
+  section.pad-top-50
     div.container
+      div.subpage-title
+        h5 ¿Qu&eacute; es la plataforma de datos abiertos de Bogot&aacute; C&oacute;mo vamos?
       div.row
-        div.col-xs-12.col-sm-4
-          span licenciamiento de los datos: 
-            a(href='http://opendatacommons.org/licenses/odbl/summary/') odbl 
+        div.col-md-8.pad-25
+          p.lead Es un servicio que le permite a los ciudadanos interacturar con la informaci&oacute;n
+           | recolectada por el programa desde 1998.
+          p Bogot&aacute; C&oacute;mo Vamos es un ejercicio ciudadano de seguimiento peri&oacute;dico y sistem&aacute;tico a los
+            | cambios en la calidad de vida de la ciudad y al Concejo de Bogot&aacute; DC.
+          p Esta plataforma permite a los ciudadanos acceder e interacturar con la informaci&oacute;n
+            | recolectada, conocer aplicaciones relacionadas con la ciudad
+
+        div.col-md-4.pad-25
+          div.subpage-title Objetivos
+          ul.fa-ul
+            li
+              i.fa-li.fa-lg.fa.fa-check-circle.text-info 
+              | Fomentar la participaci&oacute;n ciudadana
+            li
+              i.fa-li.fa-lg.fa.fa-check-circle.text-info 
+              | Dar visibilidad a aplicaciones civicas
+
+  hr
+
+  section.pad-top-50
+    div.container
+      div.subpage-title
+        h5 Catalogos de datos
+      div.row
+        div#isotope-portfolio-container
+          div.col-xs-12.col-md-6.portfolio-item-wrapper
+            div.portfolio-item
+              div.portfolio-thumb
+                a(href='/datasets/iicv')
+                  img.img-responsive(src='http://bogotacomovamos.org/media/cache/19/d0/19d02f0da8b7a064a59b6ed27bb889dd.jpg' alt='1st Porfolio Thumb')
+                  div.portfolio-details
+                    h5 Indicadores Calidad de vida
+                    p Evaluaci&oacute;n de los cambios en la calidad de
+                      | vida a trav&eacute;s de un informe t&eacute;cnico que da cuenta de las
+                      | variaciones de los indicadores de resultado e impacto m&aacute;s importantes
+                      | durante el a&nacute;o inmediatamente anterior
+          div.col-xs-12.col-md-6.portfolio-item-wrapper
+            div.portfolio-item
+              div.portfolio-thumb
+                img.img-responsive(src='http://bogotacomovamos.org/media/cache/19/d0/19d02f0da8b7a064a59b6ed27bb889dd.jpg' alt='1st Porfolio Thumb')
+                div.portfolio-details
+                  h5 Encuesta de percepci&oacute;n ciudadana
+                  p Evaluaci&oacute;n de los cambios en la calidad de vida
+                    | a trav&eacute;s de una encuesta de percepci&oacute;n que
+                    | muestra como registra la ciudadan&iacute;a los cambios que se dan en la ciudad,
+                    | esta encuesta se realiza a mitad de a&ntilde;o.
+
+  hr
+
+  section#recent-works.pad-top-50
+    div.container
+      div.subpage-title
+        h5 Aplicaciones Recientes
+        div.controls
+          span#portfolio-prev.prev.black
+            i.fa.fa-angle-left
+          span#portfolio-next.next.black
+            i.fa.fa-angle-right
+
+      div.row.flush
+        div#caroufredsel-portfolio-container
+          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
+            div.portfolio-item
+              div.portfolio-thumb
+                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
+                div.image-overlay
+                a.portfolio-link(href='/apps/')
+                  i.fa.fa-link
+              div.portfolio-details
+                h5 app1
+                p esta app busca informaci&oacute;n de los lugares mas accesibles
+
+          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
+            div.portfolio-item
+              div.portfolio-thumb
+                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
+                div.image-overlay
+                a.portfolio-link(href='/apps/')
+                  i.fa.fa-link
+              div.portfolio-details
+                h5 app2
+                p esta app busca informaci&oacute;n de los lugares mas accesibles
+
+          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
+            div.portfolio-item
+              div.portfolio-thumb
+                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
+                div.image-overlay
+                a.portfolio-link(href='/apps/')
+                  i.fa.fa-link
+              div.portfolio-details
+                h5 app3
+                p esta app busca informaci&oacute;n de los lugares mas accesibles
+
+          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
+            div.portfolio-item
+              div.portfolio-thumb
+                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
+                div.image-overlay
+                a.portfolio-link(href='/apps/')
+                  i.fa.fa-link
+              div.portfolio-details
+                h5 app4
+                p esta app busca informaci&oacute;n de los lugares mas accesibles
+
+          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
+            div.portfolio-item
+              div.portfolio-thumb
+                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
+                div.image-overlay
+                a.portfolio-link(href='/apps/')
+                  i.fa.fa-link
+              div.portfolio-details
+                h5 app5
+                p esta app busca informaci&oacute;n de los lugares mas accesibles
+
+
+      span licenciamiento de los datos: 
+        a(href='http://opendatacommons.org/licenses/odbl/summary/') odbl 
 
 block scripts
   script.

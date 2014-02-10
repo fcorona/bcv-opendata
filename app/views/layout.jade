@@ -48,7 +48,8 @@ html
                 span.icon-bar
                 span.icon-bar
               
-              a.navbar-brand.logo(href='/') BCV OpenData
+              a.navbar-brand.logo(href='/') BCV 
+                span Datos Abiertos
             
             div.collapse.navbar-collapse.navbar-ex1-collapse
               ul.nav.navbar-nav
@@ -57,8 +58,8 @@ html
 
                 li(class=menuSelected&&menuSelected==='apps'?'active':'')
                   a(href='/apps') Aplicaciones
-                li
-                  a(href='http://fcorona.github.io/bcv-opendata/') Desarrolladores
+                li(class=menuSelected&&menuSelected==='devs'?'active':'')
+                  a(href='/devs') Desarrolladores
 
                 if login
                   li.divider-vertical
@@ -73,6 +74,10 @@ html
       div#index-1.main-wrapper
         block content
 
+      footer.footer
+        div.container
+          div.row
+            span ...
 
       script(src='/js/jquery-2.0.3.min.js')
       script(src='/js/jquery-migrate-1.2.1.min.js')
