@@ -2,7 +2,18 @@ extends layout
 
 block content
 
-  div.page-header
-    h1 404 - No encontrado
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1 404 - No encontrado
 
-    p La página que intenta que busca no existe
+  section.pad-25
+    div.container 
+      div.col-md-6.pad-25
+        div.error404
+          span 404
+    
+      div.col-md-6.pad-25
+        div.details404
+          p La página que intenta acceder no existe

@@ -32,7 +32,7 @@ html
 
 
   body
-    div#utter-wrapper.color-skin-1
+    div
       div#header.header(data-spy='affix' data-offset-top=10)
 
         if messages && (messages.info || messages.error)
@@ -52,20 +52,23 @@ html
             
             div.collapse.navbar-collapse.navbar-ex1-collapse
               ul.nav.navbar-nav
-                li
+                li(class=menuSelected&&menuSelected==='datasets'?'active':'')
                   a(href='/datasets') Catalogos de Datos
 
-                li
+                li(class=menuSelected&&menuSelected==='apps'?'active':'')
                   a(href='/apps') Aplicaciones
                 li
                   a(href='http://fcorona.github.io/bcv-opendata/') Desarrolladores
 
                 if login
+                  li.divider-vertical
                   li
                     a(href='/user') Mi Perfil
                   li
                     a(href='/logout') Cerrar Sesi&oacute;n
-                
+                else
+                  li(class=menuSelected&&menuSelected==='login'?'active':'')
+                    a(href='/login') Login/registro
 
       div#index-1.main-wrapper
         block content
