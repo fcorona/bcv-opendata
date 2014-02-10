@@ -1,31 +1,36 @@
 extends ../layout
 
 block content
-  div.page-header
-    h1 Aplicaciones
-    p Seleccione y administre las aplicaciones
-      small.pull-right
-        a.btn.btn-primary(href='/dev/apps/create/') Nueva Aplicaci&oacute;n
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1 Aplicaciones
+          p Seleccione y administre las aplicaciones
+            small.pull-right
+              a.btn.btn-primary(href='/dev/apps/create/') Nueva Aplicaci&oacute;n
 
-  div.table-responsive
-    table.table.table-striped
-      thead
-        tr
-          th Nombre
-          th Descripci&oacute;n
-          th habilitada
-          th Opciones
+  section.pad-top-25
+    div.container
+      div.table-responsive
+        table.table.table-striped
+          thead
+            tr
+              th Nombre
+              th Descripci&oacute;n
+              th habilitada
+              th Opciones
 
-      tbody
-        for app in apps
-          tr
-            td
-              a(href='/dev/apps/#{app.id}')= app.name
-            td= app.shortDescription
-            td= app.allowed?'habilitada':'bloqueada'
-            td
-              a.format(href='/dev/apps/#{app.id}/')
-                span.label.label-primary Ver
-              &nbsp;|&nbsp;
-              a.format(href='/dev/apps/#{app.id}/edit')
-                span.label.label-success Editar
+          tbody
+            for app in apps
+              tr
+                td
+                  a(href='/dev/apps/#{app.id}')= app.name
+                td= app.shortDescription
+                td= app.allowed?'habilitada':'bloqueada'
+                td
+                  a.format(href='/dev/apps/#{app.id}/')
+                    span.label.label-primary Ver
+                  &nbsp;|&nbsp;
+                  a.format(href='/dev/apps/#{app.id}/edit')
+                    span.label.label-success Editar

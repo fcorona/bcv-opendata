@@ -1,60 +1,66 @@
 extends ../layout
 
 block content
-  div.page-header
-    h1 Editando #{model.name}
-      small.pull-right
-        a(href='/dev/apps/#{model.id}/') volver
 
-  form.form-horizontal(role='form' method='POST')
-    div.form-group(class=errors.name?'has-error':'')
-      label.col-sm-2.control-label(for='name') Nombre
-      
-      div.col-sm-10
-        input#name.form-control(type='text' name='name' required value=model.name)
-        if errors.name
-          p.has-error= errors.name
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1 Editando #{model.name}
+            small.pull-right
+              a(href='/dev/apps/#{model.id}/') volver
 
-    div.form-group(class=errors.url?'has-error':'')
-      label.col-sm-2.control-label(for='url') P&aacute;gina web
-      
-      div.col-sm-10
-        input#url.form-control(type='url' name='url' required value=model.url)
-        if errors.url
-          p.has-error= errors.url
+  section.pad-top-25
+    div.container
+      form.form-horizontal(role='form' method='POST')
+        div.form-group(class=errors.name?'has-error':'')
+          label.col-sm-2.control-label(for='name') Nombre
+          
+          div.col-sm-10
+            input#name.form-control(type='text' name='name' required value=model.name)
+            if errors.name
+              p.has-error= errors.name
 
-    div.form-group(class=errors.shortDescription?'has-error':'')
-      label.col-sm-2.control-label(for='shortDescription') Descripci&oacute;n Corta
-      
-      div.col-sm-10
-        textarea#shortDescription.form-control(name='shortDescription' required)= model.shortDescription
-        if errors.shortDescription
-          p.has-error= errors.shortDescription
+        div.form-group(class=errors.url?'has-error':'')
+          label.col-sm-2.control-label(for='url') P&aacute;gina web
+          
+          div.col-sm-10
+            input#url.form-control(type='url' name='url' required value=model.url)
+            if errors.url
+              p.has-error= errors.url
 
-    div.form-group(class=errors.description?'has-error':'')
-      label.col-sm-2.control-label(for='description') Descripci&oacute;n
-      
-      div.col-sm-10
-        textarea#description.form-control(name='description' required)= model.description
-        if errors.description
-          p.has-error= errors.description
+        div.form-group(class=errors.shortDescription?'has-error':'')
+          label.col-sm-2.control-label(for='shortDescription') Descripci&oacute;n Corta
+          
+          div.col-sm-10
+            textarea#shortDescription.form-control(name='shortDescription' required)= model.shortDescription
+            if errors.shortDescription
+              p.has-error= errors.shortDescription
 
-    div.form-group(class=errors.logoUrl?'has-error':'')
-      label.col-sm-2.control-label(for='logoUrl') Logo
-      
-      div.col-sm-10
-        input#logoUrl.form-control(type='url' name='logoUrl' value=model.logoUrl)
-        span.help-block Copie la url de donde quiere cargar el logo de su aplicaci&oacute;n
-        if errors.logoUrl
-          p.has-error= errors.logoUrl
+        div.form-group(class=errors.description?'has-error':'')
+          label.col-sm-2.control-label(for='description') Descripci&oacute;n
+          
+          div.col-sm-10
+            textarea#description.form-control(name='description' required)= model.description
+            if errors.description
+              p.has-error= errors.description
 
-    div.form-group
-      label.col-sm-2.control-label(for='stringTags') Etiquetas
+        div.form-group(class=errors.logoUrl?'has-error':'')
+          label.col-sm-2.control-label(for='logoUrl') Logo
+          
+          div.col-sm-10
+            input#logoUrl.form-control(type='url' name='logoUrl' value=model.logoUrl)
+            span.help-block Copie la url de donde quiere cargar el logo de su aplicaci&oacute;n
+            if errors.logoUrl
+              p.has-error= errors.logoUrl
+
+        div.form-group
+          label.col-sm-2.control-label(for='stringTags') Etiquetas
+          
+          div.col-sm-10
+            input#stringTags.form-control(type='text' name='stringTags' value=model.stringTags)
       
-      div.col-sm-10
-        input#stringTags.form-control(type='text' name='stringTags' value=model.stringTags)
-  
-    div.form-group
-      div.col-sm-offset-2.col-sm-10
-        button.btn.btn-primary(type='submit') Guardar
-    
+        div.form-group
+          div.col-sm-offset-2.col-sm-10
+            button.btn.btn-primary(type='submit') Guardar
+        

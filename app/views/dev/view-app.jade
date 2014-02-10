@@ -1,40 +1,45 @@
 extends ../layout
 
 block content
-  div.page-header
-    h1= app.name 
-      small.pull-right
-        a(href='/dev/apps/') volver
 
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1= app.name 
+            small.pull-right
+              a(href='/dev/apps/') volver
 
-  dl.dl-horizontal
-    
-    dt Logo
-    dd.thumbnail
-      img(src=app.logoUrl||'')
+  section.pad-top-25
+    div.container
+      dl.dl-horizontal
+        
+        dt Logo
+        dd.thumbnail
+          img(src=app.logoUrl||'')
 
-    dt P&aacute;gina
-    dd= app.url
+        dt P&aacute;gina
+        dd= app.url
 
-    dt Descripci&oacute;n corta
-    dd= app.shortDescription
+        dt Descripci&oacute;n corta
+        dd= app.shortDescription
 
-    dt Descripci&oacute;n
-    dd= app.description
+        dt Descripci&oacute;n
+        dd= app.description
 
-    dt Llave de Acceso
-    dd#key
-      code= app.key ? app.key.key : '<no hay llave>'
-      p Esta llave es &uacute;nica y de uso privado para esta aplicaci&oacute;n,
-        | su uso esta limitado a 
-        b= app.key ? app.key.limit : 0
-        | &nbsp;solicitudes por hora.
-    dd 
-      a.generator(href='/dev/apps/#{app.id}/generateKey') recrear mi llave
+        dt Llave de Acceso
+        dd#key
+          code= app.key ? app.key.key : '<no hay llave>'
+          p Esta llave es &uacute;nica y de uso privado para esta aplicaci&oacute;n,
+            | su uso esta limitado a 
+            b= app.key ? app.key.limit : 0
+            | &nbsp;solicitudes por hora.
+        dd 
+          a.generator(href='/dev/apps/#{app.id}/generateKey') recrear mi llave
 
-    dt Etiquetas
-    dd= app.stringTags
+        dt Etiquetas
+        dd= app.stringTags
 
-  hr
-  div.pull-right
-    a.btn.btn-default(href='/dev/apps/#{app.id}/edit') Editar
+      hr
+      div.pull-right
+        a.btn.btn-default(href='/dev/apps/#{app.id}/edit') Editar

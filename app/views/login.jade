@@ -1,21 +1,29 @@
 extends layout
 
 block content
-  div.page-header
-    h1 Iniciar sesión
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1 Iniciar sesión
   
   if message
     p= message
-  form(role="form" action="/login" method="POST")
-    div.form-group
-      label(for="email") correo:
-      input#email.form-control(type="email" name="username" placeholder="ingrese email")
-    
-    div.form-group
-      label(for=password) contrase&ntilde;a
-      input#password.form-control(type="password" name="password" placeholder="contraseña")
 
-    button.btn.btn-default(type="submit") enviar
+  section.pad-top-25
+    div.container    
+      form.form-horizontal(role="form" action="/login" method="POST")
+        div.form-group
+          label(for="email") correo:
+          input#email.form-control(type="email" name="username" placeholder="ingrese email")
+        
+        div.form-group
+          label(for=password) contrase&ntilde;a
+          input#password.form-control(type="password" name="password" placeholder="contraseña")
+        
+        div.form-group
+          div.col-sm-10
+            button.btn.btn-primary(type="submit") enviar
 
-  br
-  a(href='/user/recover') Olvide mi contrase&ntilde;a
+      br
+      a(href='/user/recover') Olvide mi contrase&ntilde;a

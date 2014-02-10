@@ -2,15 +2,181 @@ extends layout
 
 block content
 
-  div.jumbotron
-    if(session_on)
-      p Bienvenido #{username}
-    else
-      h1 Plataforma de open data para Bogot&aacute; c&oacute;mo vamos
+  section#fullwidthbanner-container.fullwidthbanner-container
+    div.fullwidthbanner
+      ul
+        li(data-transition='random' data-slotamount='10' data-masterspeed='500')
+          img(src='http://www.bogotacomovamos.org/static/img/background/footer.png?1334155111' alt='slide image')
+          
+          div.tp-caption.very_large_black_text.sft.stt(data-x="105" data-y="65" data-speed="500" data-start="1000" data-easing="easeOutExpo" style="font-size: 25px;")
+            | Plataforma de datos abierto
+          div.tp-caption.very_large_black_text.lft.ltt(data-x="105" data-y="100" data-speed="500" data-start="1200" data-easing="easeOutExpo" style="font-size: 50px;")
+            | Bogotá Cómo Vamos?
+          div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Montserrat', sans-serif; color: #34495e;")
+            | datos recolectados por el programa durante los &uacute;ltimos 5 a&ntilde;os,
+            br
+            | a disposici&oacute;n de la ciudadan&iacute;a para promover la participaci&oacute;n
+            br
+            | ciudadana.
 
+          a.caption.btn.btn-flat.flat-color.sfb.stb(href="#" data-x="105" data-y="275" data-speed="500" data-start="1800" data-easing="easeOutExpo")
+            | Explorar datos
+
+        li(data-transition='random' data-slotamount='10' data-masterspeed='500')
+          img(src='http://www.bogotacomovamos.org/static/img/background/footer.png?1334155111' alt='slide image')
+          
+          div.tp-caption.very_large_black_text.lft.ltt(data-x="105" data-y="100" data-speed="500" data-start="1200" data-easing="easeOutExpo" style="font-size: 50px;")
+            | Desarrolladores
+          div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Montserrat', sans-serif; color: #34495e;")
+            | ofrecemos acceso a los catalogos de datos del programa para que puedan
+            br
+            | construir aplicaciones y servicios para la ciudadan&iacute;a.
+          a.caption.btn.btn-flat.flat-color.sfb.stb(href="#" data-x="105" data-y="275" data-speed="500" data-start="1800" data-easing="easeOutExpo")
+            | Saber m&aacute;s
+
+      div.tp-bannertimer.tp-bottom
+  section#our-services.pad-top-50
+    span licenciamiento de los datos: 
+      a(href='http://opendatacommons.org/licenses/odbl/summary/') odbl 
+
+block scripts
+  script.
+    var tpj = jQuery;
+    tpj.noConflict();
+    tpj(document).ready(function () {
+      // Revolution Slider
+      if (tpj.fn.cssOriginal != undefined)
+        tpj.fn.css = tpj.fn.cssOriginal;
+      tpj('.fullwidthbanner').revolution({
+        delay: 9000,
+        startwidth: 1200,
+        startheight: 400,
   
-  span licenciamiento de los datos: 
-    a(href="http://opendatacommons.org/licenses/odbl/summary/") odbl 
+        onHoverStop: "on",
 
+        thumbWidth: 100,
+        thumbHeight: 50,
+        thumbAmount: 3,
 
+        hideThumbs: 0,
+
+        navigationType: "none",
+        navigationArrows: "solo",
+        navigationStyle: "round",
+        navigationHAlign: "left",
+        navigationVAlign: "bottom",
+        navigationHOffset: 30,
+        navigationVOffset: 30,
+
+        soloArrowLeftHalign: "left",
+        soloArrowLeftValign: "center",
+        soloArrowLeftHOffset: 0,
+        soloArrowLeftVOffset: 0,
+
+        soloArrowRightHalign: "right",
+        soloArrowRightValign: "center",
+        soloArrowRightHOffset: 0,
+        soloArrowRightVOffset: 0,
+
+        stopAtSlide: -1,
+        stopAfterLoops: -1,
+        hideCaptionAtLimit: 0,
+        hideAllCaptionAtLilmit: 0,
+        hideSliderAtLimit: 0,
+
+        fullWidth: "on",
+        fullScreen: "off",
+        fullScreenOffsetContainer: "#topheader-to-offset",
+
+        shadow: 0
+      });
+      // PrettyPhoto
+      tpj("a[rel^='prettyPhoto']").prettyPhoto({
+        theme: 'light_square',
+        social_tools: false
+      });
+      // FitVids
+      tpj(".responsive-video-wrapper").fitVids();
+      // jflickrfeed
+      tpj('.flickr-photos-list').jflickrfeed({
+        limit: 9,
+        qstrings: {
+          id: '71865026@N00'
+        },
+        itemTemplate: '<li><a href="{{image_b}}"><img src="{{image_s}}" alt="{{title}}" /></a></li>'
+      });
+      // jQuery UItoTop
+      tpj().UItoTop({ easingType: 'easeOutQuart' });
+      // Skin Chooser
+      tpj(".skin-chooser-toggle").click(function () {
+        tpj(".skin-chooser-wrap").toggleClass("show");
+      });
+      tpj(".color-skin").click(function () {
+        var cls = this.id;
+        tpj(".color-skin").removeClass("active");
+        tpj(this).addClass("active");
+        tpj("#utter-wrapper").removeClass();
+        tpj("#utter-wrapper").addClass(cls);
+      });
+    });
+    // jQuery CarouFredSel
+    var caroufredsel = function () {
+      tpj('#caroufredsel-portfolio-container').carouFredSel({
+        responsive: true,
+        scroll: 1,
+        circular: false,
+        infinite: false,
+        items: {
+          visible: {
+            min: 1,
+            max: 3
+          }
+        },
+        prev: '#portfolio-prev',
+        next: '#portfolio-next',
+        auto: {
+          play: false
+        }
+      });
+      tpj('#caroufredsel-blog-posts-container').carouFredSel({
+        responsive: true,
+        scroll: 1,
+        circular: false,
+        infinite: false,
+        items: {
+          visible: {
+              min: 1,
+              max: 3
+          }
+        },
+        prev: '#blog-posts-prev',
+        next: '#blog-posts-next',
+        auto: {
+          play: false
+        }
+      });
+      tpj('#caroufredsel-clients-container').carouFredSel({
+        responsive: true,
+        scroll: 1,
+        circular: false,
+        infinite: false,
+        items: {
+          visible: {
+              min: 1,
+              max: 4
+          }
+        },
+        prev: '#client-prev',
+        next: '#client-next',
+        auto: {
+          play: false
+        }
+      });
+    };
+    tpj(window).load(function () {
+      caroufredsel();
+    });
+    tpj(window).resize(function () {
+      caroufredsel();
+    });
 
