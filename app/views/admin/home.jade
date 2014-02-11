@@ -2,11 +2,16 @@ extends layoutAdmin
 
 block adminContent
 
-  div.page-header
-    h1 Panel de administración
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1 Panel de administración
 
-  h3 denuncias de aplicaciones:
-  for report in reports
-    span= report.reason
+  section.pad-top-25
+    div.container
+      h3 denuncias de aplicaciones:
+      for report in reports
+        span= report.reason
 
 

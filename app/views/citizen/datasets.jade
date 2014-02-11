@@ -1,60 +1,66 @@
 extends ../layout
 
 block content
-  div.page-header
-    h2 Catalogo de Datos
-    p los catalogos de datos listados (datasets) son recopilados y entregados 
-      | por la fundación corona y su programa 
-      b Bogot&aacute; C&oacute;mo Vamos?
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h2 Catalogo de Datos
 
-  div.row
-    div.col-md-2.list-group.dataset-provider
-      div.list-group-item.socials
-        span Palabras Clave
-      ul.list-unstyled
-        li.list-group-item
-          a(href='/datasets?name=#{name}')
-            span remover todos
-              span.label.label-danger.pull-right
-                span.glyphicon.glyphicon-minus-sign
+          p los catalogos de datos listados (datasets) son recopilados y entregados 
+          | por la fundación corona y su programa 
+          b Bogot&aacute; C&oacute;mo Vamos?
 
-        for tag in allTags
-          li.list-group-item
-            if tags.indexOf(tag.title) == -1
-              a(href='/datasets?tags=#{tag.title+","+tags}&name=#{name}')
-                div
-                  span= tag.title
-                  span.label.label-success.pull-right
-                    span.glyphicon.glyphicon-plus-sign
-
-            else
-              a(href='/datasets?tags=#{tags.replace(tag.title, "")}&name=#{name}')
-                div
-                  span= tag.title
+  section.pad-top-25
+    div.container
+      div.row
+        div.col-md-2.list-group.dataset-provider
+          div.list-group-item.socials
+            span Palabras Clave
+          ul.list-unstyled
+            li.list-group-item
+              a(href='/datasets?name=#{name}')
+                span remover todos
                   span.label.label-danger.pull-right
                     span.glyphicon.glyphicon-minus-sign
 
-    div.col-md-10
-      form(class='form-inline' role='form' method='GET')
-        input(name='tags' type='hidden' value=tags)
-        div.form-group.col-sm-11(style='padding:0')
-          input.form-control( name='name' type='text' placeholder='Buscar catalogo' value=name)
-        div.form-group
-          button.btn.btn-default(type='submit' title='buscar' value='buscar') 
-            span.glyphicon.glyphicon-search
+            for tag in allTags
+              li.list-group-item
+                if tags.indexOf(tag.title) == -1
+                  a(href='/datasets?tags=#{tag.title+","+tags}&name=#{name}')
+                    div
+                      span= tag.title
+                      span.label.label-success.pull-right
+                        span.glyphicon.glyphicon-plus-sign
 
-      ul.list-unstyled
-        for dataset in datasets
-          li
-            h3 
-              a(href='/datasets/#{dataset.name}')= dataset.title
-            p= dataset.description
-            a.format(href='/datasets/#{dataset.name}/graph/')
-              span.label.label-primary Inter&aacute;ctivo
-            &nbsp;|&nbsp;
-            a.format(href='/datasets/#{dataset.name}/table/')
-              span.label.label-success CSV
-            &nbsp;|&nbsp;
-            a.format(href='/api/datasets/#{dataset.name}/?key=comovamos/')
-              span.label.label-info API REST
-            br
+                else
+                  a(href='/datasets?tags=#{tags.replace(tag.title, "")}&name=#{name}')
+                    div
+                      span= tag.title
+                      span.label.label-danger.pull-right
+                        span.glyphicon.glyphicon-minus-sign
+
+        div.col-md-10
+          form(class='form-inline' role='form' method='GET')
+            input(name='tags' type='hidden' value=tags)
+            div.form-group.col-sm-11(style='padding:0')
+              input.form-control( name='name' type='text' placeholder='Buscar catalogo' value=name)
+            div.form-group
+              button.btn.btn-default(type='submit' title='buscar' value='buscar') 
+                span.glyphicon.glyphicon-search
+
+          ul.list-unstyled
+            for dataset in datasets
+              li
+                h3 
+                  a(href='/datasets/#{dataset.name}')= dataset.title
+                p= dataset.description
+                a.format(href='/datasets/#{dataset.name}/graph/')
+                  span.label.label-primary Inter&aacute;ctivo
+                &nbsp;|&nbsp;
+                a.format(href='/datasets/#{dataset.name}/table/')
+                  span.label.label-success CSV
+                &nbsp;|&nbsp;
+                a.format(href='/api/datasets/#{dataset.name}/?key=comovamos/')
+                  span.label.label-info API REST
+                br

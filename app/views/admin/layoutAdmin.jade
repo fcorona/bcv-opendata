@@ -1,20 +1,22 @@
 extends ../layout
 
 block content
-  div.row
-    ul.nav.nav-tabs
-      li(class='#{menu.home}')
-        a(href="/admin/") Inicio
+  section#page-title-wrapper.page-title-wrapper.pad-top-25
+    div.container
+      div.row
+        ul.nav.nav-tabs
+          li(class='#{menu.home}')
+            a(href="/admin/") Inicio
 
-      li(class='#{menu.datasets}')
-        a(href="/admin/datasets/") Catalogos de datos
+          li(class='#{menu.datasets}')
+            a(href="/admin/datasets/") Catalogos de datos
 
-      li(class='#{menu.devs}')
-        a(href="/admin/devs/") Desarrolladores
+          li(class='#{menu.devs}')
+            a(href="/admin/devs/") Desarrolladores
 
-      li(class='#{menu.apps}')
-        a(href="/admin/apps/") Aplicaciones
+          li(class='#{menu.apps}')
+            a(href="/admin/apps/") Aplicaciones
 
-  div.row
-    block adminContent
-  
+      div.row
+        block adminContent
+      

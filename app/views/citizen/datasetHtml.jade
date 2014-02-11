@@ -10,44 +10,46 @@ block meta
 
 block content
 
-  div.row
-    div.col-md-3.list-group.dataset-provider
-      div.list-group-item.header
-        img.img-responsive(src='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png' alt='Responsive image')
-        h3 Bogotá Cómo vamos
-        a(href='http://bogotacomovamos.org/') bogotacomovamos.org
+  section.pad-top-25
+    div.container
+      div.row
+        div.col-md-3.list-group.dataset-provider
+          div.list-group-item.header
+            img.img-responsive(src='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png' alt='Responsive image')
+            h3 Bogotá Cómo vamos
+            a(href='http://bogotacomovamos.org/') bogotacomovamos.org
 
-      div.list-group-item.socials
-        span Compartir en redes sociales
-      
-      ul.list-unstyled
-        li.list-group-item
-          div.g-plus(data-action='share')
+          div.list-group-item.socials
+            span Compartir en redes sociales
+          
+          ul.list-unstyled
+            li.list-group-item
+              div.g-plus(data-action='share')
 
-        li.list-group-item
-          a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
-        
-        li.list-group-item
-          div#fb-root
-          div.fb-share-button(data-type='button_count')
+            li.list-group-item
+              a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
+            
+            li.list-group-item
+              div#fb-root
+              div.fb-share-button(data-type='button_count')
 
 
 
-    div.col-md-9
+        div.col-md-9
 
-      div.page-header
-        h2= dataset.title
-      
-      p= dataset.description
+          div.page-header
+            h2= dataset.title
+          
+          p= dataset.description
 
-      h3 Datos y recursos
+          h3 Datos y recursos
 
-      ul.list-group
-        li.list-group-item 
-          a(href='/datasets/#{dataset.name}/graph/') Interactivo
-        li.list-group-item
-          a(href='/api/datasets/#{dataset.name}/?key=comovamos/') API REST
-        li.list-group-item
-          a(href='http://bogotacomovamos.org') Página web
-        li.list-group-item
-          a(href='/datasets/#{dataset.name}/table/') CSV
+          ul.list-group
+            li.list-group-item 
+              a(href='/datasets/#{dataset.name}/graph/') Interactivo
+            li.list-group-item
+              a(href='/api/datasets/#{dataset.name}/?key=comovamos/') API REST
+            li.list-group-item
+              a(href='http://bogotacomovamos.org') Página web
+            li.list-group-item
+              a(href='/datasets/#{dataset.name}/table/') CSV

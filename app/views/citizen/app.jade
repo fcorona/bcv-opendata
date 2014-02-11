@@ -10,77 +10,78 @@ block meta
 
 
 block content
+  section.pad-top-25
+    div.container
+      div.row
+        div.col-md-3.list-group.dataset-provider
+          div.list-group-item.header
+            a(href=app.url)
+              img.img-responsive(src=app.logoUrl alt='Responsive image')
+            h4(style='overflow-x: hidden')
+              a(href=app.url)= app.url
+            small Desarrollada por 
+              b= app.owner.name
+            
+            br
+            br
+            for tag in app.tags
+              span.label.label-success= tag.title
+              | &nbsp;
 
-  div.row
-    div.col-md-3.list-group.dataset-provider
-      div.list-group-item.header
-        a(href=app.url)
-          img.img-responsive(src=app.logoUrl alt='Responsive image')
-        h4(style='overflow-x: hidden')
-          a(href=app.url)= app.url
-        small Desarrollada por 
-          b= app.owner.name
+          div.list-group-item.socials
+            span Calificar
         
-        br
-        br
-        for tag in app.tags
-          span.label.label-success= tag.title
-          | &nbsp;
-
-      div.list-group-item.socials
-        span Calificar
-    
-      div.list-group-item
-        div#rating(data-score=app.score data-votes=app.totalVotes)
-        span#rating-span #{app.score.toFixed(2)}/5 - #{app.totalVotes} votos
+          div.list-group-item
+            div#rating(data-score=app.score data-votes=app.totalVotes)
+            span#rating-span #{app.score.toFixed(2)}/5 - #{app.totalVotes} votos
 
 
-      div.list-group-item.socials
-        span Compartir en redes sociales      
+          div.list-group-item.socials
+            span Compartir en redes sociales      
 
-      
-      div.list-group-item
-        div.g-plus(data-action='share')
-      
-      div.list-group-item
-        a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
-      
-      div.list-group-item
-        div#fb-root
-        div.fb-share-button(data-type='button_count')
+          
+          div.list-group-item
+            div.g-plus(data-action='share')
+          
+          div.list-group-item
+            a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
+          
+          div.list-group-item
+            div#fb-root
+            div.fb-share-button(data-type='button_count')
 
-      div.list-group-item
-        a(href='/apps/#{app.id}/report') Reportar esta aplicaci&oacute;n
+          div.list-group-item
+            a(href='/apps/#{app.id}/report') Reportar esta aplicaci&oacute;n
 
 
-    div.col-md-9
+        div.col-md-9
 
-      div.page-header
-        h2= app.name
-        p= app.shortDescription
+          div.page-header
+            h2= app.name
+            p= app.shortDescription
 
-      p= app.description
+          p= app.description
 
-      h3 Comentarios
+          h3 Comentarios
 
-        div#disqus_thread
-    
-        script(type="text/javascript").
+            div#disqus_thread
         
-          var disqus_shortname = 'fcorona';
+            script(type="text/javascript").
+            
+              var disqus_shortname = 'fcorona';
 
-          (function() {
-              var dsq = document.createElement('script');
-              dsq.type = 'text/javascript';
-              dsq.async = true;
-              dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-              (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-          })();
-    
-        noscript Please enable JavaScript to view the
-          a(href="http://disqus.com/?ref_noscript") comments powered by Disqus.
-        a.dsq-brlink(href="http://disqus.com") comments powered by
-          span.logo-disqus Disqus
+              (function() {
+                  var dsq = document.createElement('script');
+                  dsq.type = 'text/javascript';
+                  dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+        
+            noscript Please enable JavaScript to view the
+              a(href="http://disqus.com/?ref_noscript") comments powered by Disqus.
+            a.dsq-brlink(href="http://disqus.com") comments powered by
+              span.logo-disqus Disqus
 
 block aditionalScripts
   script(src='/js/jquery.raty.js')

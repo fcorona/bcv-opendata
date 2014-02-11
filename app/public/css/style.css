@@ -51,7 +51,6 @@ a.format span:hover {
   background-color: #333;
 }
 
-
 .dataset-provider .header {
   padding-bottom: 2em;
 }
@@ -63,4 +62,56 @@ a.format span:hover {
 
 .dataset-provider .socials span {
   font-weight: 800;
+}
+
+.navbar-default {
+  background-color: #003d6e;
+  border-color: #202d3b;
+}
+.label-primary {
+  background-color: #e6642f;
+}
+
+.label-success {
+  background-color: #8cd95c;
+}
+
+.label-info {
+  background-color: #00547e;
+}
+
+.btn-primary {
+  color: #ffffff;
+  background-color: #00547e;
+  border-color: #2c3e50;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  background-color: #315b4e;
+}
+
+.pagination .disabled > a,
+.pagination .disabled > a:hover,
+.pagination .disabled > a:focus,
+.pagination .disabled > span {
+  background-color: #00a985;
+}
+
+.pager .disabled > a,
+.pager .disabled > a:hover,
+.pager .disabled > a:focus,
+.pager .disabled > span {
+  background-color: #00a985;
+}
+
+.form-control:focus {
+  border-color: #64ce4a;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(100, 206, 74, 0.6);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(100, 206, 74, 0.6);
 }

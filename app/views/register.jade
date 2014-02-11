@@ -1,29 +1,34 @@
 extends layout
 
 block content
-  div.page-header
-    h1 Registro de usuario
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1 Registro de usuario
 
-  form(role='form' action='/registro/' method='POST')
-    div.form-group
-      label(for='name') Nombre completo
-      input.form-control#name(type='text' name='name')
+  section.pad-top-25
+    div.container 
+      form(role='form' action='/registro/' method='POST')
+        div.form-group
+          label(for='name') Nombre completo
+          input.form-control#name(type='text' name='name')
 
-    div.form-group
-      label(for='email') email
-      input.form-control#email(type='email' name='email')
+        div.form-group
+          label(for='email') email
+          input.form-control#email(type='email' name='email')
 
-    div.form-group
-      label(for='password') Contrase&ntilde;a
-      input.form-control#password(type='password' name='pass')
-    
-    div.form-group
-      label(for='repassword') Repita la contrase&ntilde;a
-      input.form-control#repassword(type='password' name='repass')
-    
-    button.btn.btn-default(type='submit') Registrar
-    
-    p= msg
-    
-    if (notpass)
-      p Las contrase&ntilde;as no coinciden
+        div.form-group
+          label(for='password') Contrase&ntilde;a
+          input.form-control#password(type='password' name='pass')
+        
+        div.form-group
+          label(for='repassword') Repita la contrase&ntilde;a
+          input.form-control#repassword(type='password' name='repass')
+        
+        button.btn.btn-primary(type='submit') Registrar
+        
+        p= msg
+        
+        if (notpass)
+          p Las contrase&ntilde;as no coinciden

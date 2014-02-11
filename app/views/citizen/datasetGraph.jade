@@ -9,68 +9,71 @@ block meta
   meta(property='og:description' content=dataset.description)
 
 block content
-  div.row
-    div.col-md-3.list-group.dataset-provider
-      div.list-group-item.header
-        img.img-responsive(src='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png' alt='Responsive image')
-        h3 Bogotá Cómo vamos
-        a(href='http://bogotacomovamos.org/') bogotacomovamos.org
-
-      div.list-group-item.socials
-        span Compartir en redes sociales
-      
-      u
-        li.list-group-item
-          div.g-plus(data-action='share')
-
-        li.list-group-item
-          a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
-        
-        li.list-group-item
-          div#fb-root
-          div.fb-share-button(data-type='button_count')
-
-    div.col-md-9
-      div.page-header
-        h2= dataset.title
-      
-      p= dataset.description
-
+  
+  section.pad-top-25
+    div.container  
       div.row
-        h3.col-md-4.text-center Dimensi&oacute;n
-        h3.col-md-4.text-center Categoría
-        h3.col-md-4.text-center Indicador
+        div.col-md-3.list-group.dataset-provider
+          div.list-group-item.header
+            img.img-responsive(src='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png' alt='Responsive image')
+            h3 Bogotá Cómo vamos
+            a(href='http://bogotacomovamos.org/') bogotacomovamos.org
 
-      form.form-inline.row(role="form" action="")
-       
-        div.form-group.col-md-4
-          select.form-control.col-md-12#dimensionSelect
-        
-        div.form-group.col-md-4
-          select.form-control#categorySelect
-        
-        div.form-group.col-md-4
-          select.form-control#indicatorSelect
-      
-      div.row
-        div.col-md-2
-          label(for=description) descripci&oacute;n: 
-          span#description 
-          br
-          label(for=measureType) Tipo de Medida: 
-          span#measureType 
-          br
-          label(for=source) fuente: 
-          span#source 
-          br
-          label(for=coverage) cobertura: 
-          span#coverage 
-          br
-          label(for=period) periodicidad: 
-          span#period 
+          div.list-group-item.socials
+            span Compartir en redes sociales
+          
+          u
+            li.list-group-item
+              div.g-plus(data-action='share')
 
-        div.chart-container
-          svg#chart.chart.col-md-10
+            li.list-group-item
+              a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
+            
+            li.list-group-item
+              div#fb-root
+              div.fb-share-button(data-type='button_count')
+
+        div.col-md-9
+          div.page-header
+            h2= dataset.title
+          
+          p= dataset.description
+
+          div.row
+            h3.col-md-4.text-center Dimensi&oacute;n
+            h3.col-md-4.text-center Categoría
+            h3.col-md-4.text-center Indicador
+
+          form.form-inline.row(role="form" action="")
+           
+            div.form-group.col-md-4
+              select.form-control.col-md-12#dimensionSelect
+            
+            div.form-group.col-md-4
+              select.form-control#categorySelect
+            
+            div.form-group.col-md-4
+              select.form-control#indicatorSelect
+          
+          div.row
+            div.col-md-2
+              label(for=description) descripci&oacute;n: 
+              span#description 
+              br
+              label(for=measureType) Tipo de Medida: 
+              span#measureType 
+              br
+              label(for=source) fuente: 
+              span#source 
+              br
+              label(for=coverage) cobertura: 
+              span#coverage 
+              br
+              label(for=period) periodicidad: 
+              span#period 
+
+            div.chart-container
+              svg#chart.chart.col-md-10
 
     div.col-md-9
       iframe(src='graphIccv.jade' width='100%' height='4000' frameborder='0' scrolling='no')

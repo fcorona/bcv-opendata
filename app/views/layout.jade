@@ -1,62 +1,95 @@
 doctype html
 html
   head
+    meta(charset='utf-8')
     title #{title} - plataforma de opendata BogotaComoVamos
-    meta(name="viewport", content="width=device-width, initial-scale=1.0")
-    link(rel="stylesheet", href="/css/bootstrap.min.css")
-    link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
-    link(rel="stylesheet", href="/css/style.css")
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='shorcut icon' href='/ico/favicon.png')
+    //bootstrap
+    link(rel='stylesheet' href='/css/bootstrap.css')
+    //link(rel='stylesheet', href='/css/bootstrap-theme.min.css')
+    //plugin css
+    link(rel='stylesheet' href='/css/ui.totop.css')
+    link(rel='stylesheet' href='/css/prettyPhoto.css')
+    
+    //revolution banner css settings
+    link(rel='stylesheet' href='/css/settings.css')
+    //font awesome
+    link(rel='stylesheet' href='/css/font-awesome.min.css')
+    
+    link(rel='stylesheet' href='/css/stylesheet.css')
+    link(rel='stylesheet' href='/css/skins.css')
+
+    link(rel='stylesheet' href='/css/style.css')
+   
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic|Montserrat:400,700' rel='stylesheet' type='text/css')
+    //HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+    // [if lt IE 9]<!
+    script(src='/js/retouch/html5shiv.js')
+    script(src='/js/retouch/respond.min.js')
+    // <![endif]
     block meta
 
 
   body
-    if messages && (messages.info || messages.error)
-      p= messages.info
-      p= messages.error
+    div
+      div#header.header(data-spy='affix' data-offset-top=10)
 
-    div.navbar.navbar-default.navbar-fixed-top(role="navigation")
-      div.container
-        div.navbar-header
-          button.navbar-toggle(type="button" data-toggle="collapse" data-target=".navbar-collapse")
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          
-          a.navbar-brand.logo(href="/") BCV OpenData
-        
-        div.navbar-collapse.collapse
-          ul.nav.navbar-nav
-            li
-              a(href="/datasets") Catalogos de Datos
+        if messages && (messages.info || messages.error)
+          p= messages.info
+          p= messages.error
 
-            li
-              a(href="/apps") Aplicaciones
-            li
-              a(href="http://fcorona.github.io/bcv-opendata/") Desarrolladores
-
-          ul.nav.navbar-nav.navbar-right
-            if !login
-              form.navbar-form(role="form" action="/login" method="POST")
-                div.form-group
-                  input.form-control(type="text" name="username" placeholder="Email")
-                
-                div.form-group
-                  input.form-control(type="password" name="password" placeholder="Password")
-                
-                button.btn.btn-success(type="submit") Ingresar
-                a.btn.btn-default(href="/registro") Registrarse
-            else
-              li
-                a(href="/user") Mi Perfil
-              li
-                a(href="/logout") Cerrar Sesi&oacute;n
+        nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
+          div.container
+            div.navbar-header
+              button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-ex1-collapse')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+              
+              a.navbar-brand.logo(href='/') BCV 
+                span Datos Abiertos
             
+            div.collapse.navbar-collapse.navbar-ex1-collapse
+              ul.nav.navbar-nav
+                li(class=menuSelected&&menuSelected==='datasets'?'active':'')
+                  a(href='/datasets') Catalogos de Datos
 
-    div.container
-      block content
+                li(class=menuSelected&&menuSelected==='apps'?'active':'')
+                  a(href='/apps') Aplicaciones
+                li(class=menuSelected&&menuSelected==='devs'?'active':'')
+                  a(href='/devs') Desarrolladores
 
-    script(src="https://code.jquery.com/jquery.js")
-    script(src="/js/bootstrap.min.js")
+                if login
+                  li.divider-vertical
+                  li
+                    a(href='/user') Mi Perfil
+                  li
+                    a(href='/logout') Cerrar Sesi&oacute;n
+                else
+                  li(class=menuSelected&&menuSelected==='login'?'active':'')
+                    a(href='/login') Login/registro
+
+      div#index-1.main-wrapper
+        block content
+
+      footer.footer
+        div.container
+          div.row
+            span ...
+
+      script(src='/js/jquery-2.0.3.min.js')
+      script(src='/js/jquery-migrate-1.2.1.min.js')
+      script(src='/js/bootstrap.min.js')
+      script(src='/js/jquery.themepunch.revolution.min.js')
+      script(src='/js/jquery.carouFredSel-6.2.1.js')
+      script(src='/js/jquery.prettyPhoto.js')
+      script(src='/js/jflickrfeed.min.js')
+      script(src='/js/easing.js')
+      script(src='/js/jquery.ui.totop.min.js')
+      script(src='/js/jquery.isotope.min.js')
+      script(src='/js/jquery.fitvids.js')
+
 
     block scripts

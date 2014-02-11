@@ -16,6 +16,7 @@ module.exports = function(app){
   app.post('/apps/:appId/report', reportApp);
   app.post('/apps/:appId/rate', rateApp);
   app.get('/apps/:appId', viewApp);
+  app.get('/devs', developers);
 }
 
 //inicio para ciudadano
@@ -31,6 +32,10 @@ var home = function(req, res){
     res.render('index', {title:'Plataforma de openData'});
   }
 };
+
+var developers = function(req, res){
+  res.render('developers', {title: 'desarrolladores', menuSelected: 'devs'})
+}
 
 //lista datasets
 var datasets = function(req, res){
@@ -61,6 +66,7 @@ var datasets = function(req, res){
         datasets: datasets,
         tags: tags,
         name: name,
+        menuSelected: 'datasets',
         allTags: allTags
       });
     });
@@ -94,6 +100,7 @@ var listApps = function(req, res){
         total: total,
         name: name,
         tags: tags,
+        menuSelected: 'apps',
         allTags: allTags
       });
     });
@@ -119,7 +126,10 @@ var viewApp = function(req, res){
       res.render(404, '404');
       return;
     }
-    res.render('citizen/app', {title: application.name, app: application});
+    res.render('citizen/app', {title: application.name,
+      menuSelected: 'apps',
+      app: application
+    });
   });
 };
 
@@ -140,6 +150,7 @@ var reportAppForm = function(req, res){
       app: application,
       errors: {},
       email: '',
+      menuSelected: 'apps',
       reason: ''
     });
   });
@@ -164,7 +175,8 @@ var reportApp = function(req, res){
       errors: errors,
       app: {
         id: req.body.id,
-        name: req.body.name
+        name: req.body.name,
+        menuSelected: 'apps'
       }
     });
     return;

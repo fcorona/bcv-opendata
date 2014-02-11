@@ -5,39 +5,44 @@ block meta
 
 
 block content
-  div.page-header
-    h1 Reportar aplicaci&oacute;n #{app.name}
-      small.pull-right
-        a(href='/apps/#{app.id}') volver
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h1 Reportar aplicaci&oacute;n #{app.name}
+            small.pull-right
+              a(href='/apps/#{app.id}') volver
 
-    p por favor complete este formulario para reportar la aplicaci&oacute;n:
+          p por favor complete este formulario para reportar la aplicaci&oacute;n:
 
-  form.form-horizontal(role='form' method='POST')
-    input(type='hidden' name='id' required value=app.id)
-    input(type='hidden' name='name' required value=app.name)
+  section.pad-top-25
+    div.container
+      form.form-horizontal(role='form' method='POST')
+        input(type='hidden' name='id' required value=app.id)
+        input(type='hidden' name='name' required value=app.name)
 
-    div.form-group(class=errors.name?'has-error':'')
-      label.col-sm-2.control-label(for='name') email
-      
-      div.col-sm-10
-        input#name.form-control(type='email' name='email' required value=email)
-        if errors.email
-          p.has-error= errors.email
-        span.help-block Ingrese su email para informarle acerca del proceso de su reporte.
-
-
-    div.form-group(class=errors.reason?'has-error':'')
-      label.col-sm-2.control-label(for='reason') Raz&oacute;n de la denuncia:
-      
-      div.col-sm-10
-        textarea#reason.form-control(name='reason' required)= reason
-        if errors.reason
-          p.has-error= errors.reason
-
-        span.help-block Ingrese los motivos por los cuales reporta esta aplicaci&oacute;n, puede
-          | incluir links si lo desea.
+        div.form-group(class=errors.name?'has-error':'')
+          label.col-sm-2.control-label(for='name') email
+          
+          div.col-sm-10
+            input#name.form-control(type='email' name='email' required value=email)
+            if errors.email
+              p.has-error= errors.email
+            span.help-block Ingrese su email para informarle acerca del proceso de su reporte.
 
 
-    div.form-group
-      div.col-sm-offset-2.col-sm-10
-        button.btn.btn-primary(type='submit') Enviar
+        div.form-group(class=errors.reason?'has-error':'')
+          label.col-sm-2.control-label(for='reason') Raz&oacute;n de la denuncia:
+          
+          div.col-sm-10
+            textarea#reason.form-control(name='reason' required)= reason
+            if errors.reason
+              p.has-error= errors.reason
+
+            span.help-block Ingrese los motivos por los cuales reporta esta aplicaci&oacute;n, puede
+              | incluir links si lo desea.
+
+
+        div.form-group
+          div.col-sm-offset-2.col-sm-10
+            button.btn.btn-primary(type='submit') Enviar
