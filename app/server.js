@@ -111,7 +111,11 @@ app.get('/logout', function(req, res){
   res.redirect('/');
 });
 
+//Routes jade
 
+app.get('/graphIccv', function(req, res){
+  res.render('citizen/graphIccv.jade', {dataset:{'name':'iicv','description':'descripcion','title':'titulo'}});
+});
 
 
 app.listen(process.env.PORT || 3000);
