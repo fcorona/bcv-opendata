@@ -1,7 +1,10 @@
 var fs = require('fs'),
     flash = require('connect-flash'),
     Iconv = require('iconv').Iconv,
-    DatasetModel = require('../models/dataset').DatasetMongo,
+    datasetModels = require('../models/dataset'),
+    DatasetModel = datasetModels.DatasetMongo,
+    DataModel = datasetModels.DataMongo,
+    ValuesModel = datasetModels.ValuesMongo,
     apps = require('../models/apps'),
     UserModel = require('../models/user').User;
 
@@ -23,6 +26,7 @@ module.exports = function(app){
   app.get('/admin/datasets', validAdmin, listDatasets);
   app.get('/admin/datasets/:datasetId', validAdmin, viewDataset);
   app.get('/admin/datasets/:datasetId/edit', validAdmin, editDataset);
+  app.get('/admin/datasets/:datasetId/clean', validAdmin, cleanDataset);
   app.post('/admin/datasets/:datasetId/edit', validAdmin, updateDataset);
   app.get('/admin/datasets/:dataset/metrics', validAdmin, metrics);
 
@@ -165,6 +169,31 @@ var updateDataset = function(req, res){
     });
   });
 
+};
+
+//
+var cleanDataset = function(req, res){
+  DatasetModel.findById(req.params.datasetId, function(err, dataset){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(dataset.type==2){
+      DataModel.remove({dataset:dataset}, function(err2){
+        if(err2){
+          console.log('no se pudo =\'(');
+        }
+        ValuesModel.remove({dataset:dataset},function(err3){
+          if(err3){
+            console.log('no se pudo 2 =\'(');
+          }
+          res.redirect('/admin/datasets/' + dataset.id);
+        });
+      });
+    }else{
+      res.redirect('/admin/datasets/' + dataset.id);
+    }
+  });
 };
 
 //lista las metricas para un dataset
