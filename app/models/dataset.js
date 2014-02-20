@@ -71,12 +71,18 @@ var DimensionSchema = new mongoose.Schema({
   dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
 });
 
+DimensionSchema.plugin(autoIncrement.plugin, { model: 'Dimension', field: 'dimensionId' });
+DimensionMongo = mongoose.model('Dimension', DimensionSchema);
+
 //??
 var CategorySchema = new mongoose.Schema({
   name: String,
   dimension: {type: Schema.ObjectId, ref: 'DimensionSchema'},
   dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
 });
+
+CategorySchema.plugin(autoIncrement.plugin, { model: 'Category', field: 'categoryId' });
+CategoryMongo = mongoose.model('Category', CategorySchema);
 
 //??
 //puede ser un indicador o una pregunta
@@ -91,6 +97,49 @@ var DataSchema = new mongoose.Schema({
   dimension: {type: Schema.ObjectId, ref: 'DimensionSchema'},
   dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
 });
+
+DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb){
+  var schema = this;
+  for (var i = 0; i < dimensions.length; i++) {
+    dimensions[i] = dimensions[i].trim();
+  }
+  if(dimensions.length == 1 && dimensions[0] == ''){
+    dimensions = [];
+  }
+  
+  DimensionMongo.find({name: {$in: dimensions}})
+  .select('_id')
+  .exec(function(err, foundDimensions){
+    queryTotal = schema.find();
+    if(foundDimensions.length > 0){
+      queryTotal = queryTotal.where({dimension: {$in: foundDimensions}});
+    }
+    if(name && name!==''){
+      queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+    }
+    
+    queryTotal
+    .count()
+    .exec(function(err, total){
+      var query = schema.find({});
+      if(foundDimensions.length>0){
+        query = query.where({dimension: {$in: foundDimensions}});
+      }
+      if(name && name!==''){
+        query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+      }
+
+      query.limit(resultsPerPage)
+      .skip((page-1)*resultsPerPage)
+      .sort('-id')
+      .exec(function(err, datas){
+        cb(err, datas, total);
+      });
+    
+    });
+  
+  });  
+}
 
 var ValuesSchema = new mongoose.Schema({
   year: {type: Number, index: true},
@@ -112,11 +161,11 @@ DatasetSchema.virtual('href').get(function () {
 
 exports.DatasetMongo = mongoose.model('Dataset', DatasetSchema);
 
-DimensionSchema.plugin(autoIncrement.plugin, { model: 'Dimension', field: 'dimensionId' });
-exports.DimensionMongo = mongoose.model('Dimension', DimensionSchema);
 
-CategorySchema.plugin(autoIncrement.plugin, { model: 'Category', field: 'categoryId' });
-exports.CategoryMongo = mongoose.model('Category', CategorySchema);
+exports.DimensionMongo = DimensionMongo;
+
+
+exports.CategoryMongo = CategoryMongo;
 
 DataSchema.plugin(autoIncrement.plugin, 'Data');
 exports.DataMongo = mongoose.model('Data', DataSchema);

@@ -18,6 +18,16 @@ block content
             img.img-responsive(src='http://gallery.mailchimp.com/fb9fdd8a176f2f16e486b877d/images/logo_bogota_como_vamos.png' alt='Responsive image')
             h3 Bogotá Cómo vamos
             a(href='http://bogotacomovamos.org/') bogotacomovamos.org
+          
+          ul.list-unstyled
+
+            li.list-group-item
+              b Fuente: 
+              span= dataset.source
+            li.list-group-item
+              b Cobertura: 
+              span= dataset.coverage
+
 
           div.list-group-item.socials
             span Compartir en redes sociales
@@ -38,9 +48,10 @@ block content
         div.col-md-9
 
           div.page-header
-            h2= dataset.title
+            h2= dataset.name
           
           p= dataset.description
+
 
           h3 Datos y recursos
 
@@ -48,7 +59,7 @@ block content
             li.list-group-item 
               a(href='/datasets/#{dataset.name}/graph/') Interactivo
             li.list-group-item
-              a(href='/api/datasets/#{dataset.name}/?key=comovamos/') API REST
+              a(href='/api/datas/#{dataset.id}/?key=comovamos/') API REST
             li.list-group-item
               a(href='http://bogotacomovamos.org') Página web
             li.list-group-item

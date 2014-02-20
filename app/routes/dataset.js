@@ -12,7 +12,7 @@ exports.showDataset = function(req, res, next){
 
   if(format == 'html' || format == 'graph'){
 
-    dataset.DatasetMongo.findOne({name: req.params.name}, function (err, foundDataset){
+    dataset.DataMongo.findOne({name: req.params.name}, function (err, foundDataset){
       if(err){
         res.send(500, err);
         return;

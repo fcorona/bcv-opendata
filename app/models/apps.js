@@ -69,7 +69,7 @@ AppSchema.methods.updateInfo = function(model, cb){
 }
 
 AppSchema.statics.listAll = function(page, resultsPerPage, tags, name, cb){
-  schema = this;
+  var schema = this;
   
   for (var i = 0; i < tags.length; i++) {
     tags[i] = tags[i].trim().toLowerCase();

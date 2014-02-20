@@ -42,6 +42,8 @@ var datasets = function(req, res){
   //valida las entradas
   var name = req.query.name || '';
   var tags = req.query.tags || '';
+  var page = parseInt(req.query.page) || 1;
+  var resultsPerPage = 10;
 
   var tagsToArray = tags.split(',');
   tags = '';
@@ -52,18 +54,24 @@ var datasets = function(req, res){
     }
   };
 
-  dataset.DatasetMongo.listAll(name,  tags.split(','), function(err, datasets){
+
+  dataset.DataMongo.listAll(page, resultsPerPage, tags.split(','), name,
+  function(err, datasets, total){
     if(err){
       res.send(500, err);
       return;
     }
-    TagModel.find(function(err, allTags){
+
+    var total = Math.ceil(total/resultsPerPage);
+    dataset.DimensionMongo.find(function(err, allTags){
       if(err){
         res.send(500, err);
         return;
       }
       res.render('citizen/datasets', {
         datasets: datasets,
+        current: page,
+        total: total,
         tags: tags,
         name: name,
         menuSelected: 'datasets',
