@@ -5,11 +5,11 @@ block content
     div.container
       div.row
         div.col-sm-12
-          h2 Catalogo de Datos
+          h2 Catalogos de Datos
 
-          p los catalogos de datos listados (datasets) son recopilados y entregados 
-          | por la fundación corona y su programa 
-          b Bogot&aacute; C&oacute;mo Vamos?
+          p Los catalogos de datos listados (datasets) son recopilados y entregados 
+            | por la fundación corona y su programa 
+            b Bogot&aacute; C&oacute;mo Vamos
 
   section.pad-top-25
     div.container
@@ -57,10 +57,10 @@ block content
                 p= dataset.description
                 a.format(href='/datasets/#{dataset.name}/graph/')
                   span.label.label-primary Inter&aacute;ctivo
-                &nbsp;|&nbsp;
+                | &nbsp;|&nbsp;
                 a.format(href='/datasets/#{dataset.name}/table/')
                   span.label.label-success CSV
-                &nbsp;|&nbsp;
+                | &nbsp;|&nbsp;
                 a.format(href='/api/datas/#{dataset.id}/?key=comovamos/')
                   span.label.label-info API REST
                 br
