@@ -4,6 +4,7 @@ env.load();
 require('newrelic');
 
 var express = require('express'),
+    datasetRoute = require('./routes/dataset'),
     path = require('path'),
     flash = require('connect-flash'),
     passport = require('passport'),
@@ -116,6 +117,7 @@ app.get('/logout', function(req, res){
 app.get('/graphIccv', function(req, res){
   res.render('citizen/graphIccv.jade', {dataset:{'name':'iicv','description':'descripcion','title':'titulo'}});
 });
+//app.get('/graphIccv/:name/',datasetRoute.showDataset);
 
 
 app.listen(process.env.PORT || 3000);
