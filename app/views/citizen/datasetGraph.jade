@@ -32,8 +32,9 @@ block content
             li.list-group-item
               div#fb-root
               div.fb-share-button(data-type='button_count')
-
+    
         div.col-md-9
+
           div.page-header
             h2= dataset.name
           
@@ -59,9 +60,12 @@ block content
               svg#chart.chart.col-md-10
 
 
+          iframe(src="/graphIccv" id="content-graphid" frameborder=0 scrolling="no ")
+
 block aditionalScripts
-  script(src='/js/dimension.js')
+  
   script(src='/js/d3.v3.min.js')
+  script(src="/js/dimensionIframe.js")
   script(src='/js/graph.js')
   script.
     initGraph('#{dataset.id}');
