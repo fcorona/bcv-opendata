@@ -37,8 +37,12 @@ var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
 
     var margin = {top: 20, right: 30, bottom: 30, left: 40},
+        width = (window.innerWidth)- margin.right,
+        height = (window.innerHeight) - margin.top - margin.bottom;
+
+    /*var margin = {top: 20, right: 30, bottom: 30, left: 40},
         width = 1024 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        height = 500 - margin.top - margin.bottom;*/
 
     var y = d3.scale.linear()
           .range([height, 0]);
