@@ -36,8 +36,8 @@ var loadCategory = function(categoryId){
 var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
 
-    var margin = {top: 20, right: 30, bottom: 30, left: 40},
-        width = (window.innerWidth)- margin.right,
+    var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
+        width = ((window.innerWidth)- margin.right)*0.8,
         height = (window.innerHeight) - margin.top - margin.bottom;
 
     /*var margin = {top: 20, right: 30, bottom: 30, left: 40},
@@ -48,8 +48,8 @@ var loadIndicator = function(indicatorId){
           .range([height, 0]);
 
     var chart = d3.select("#chart")
-          .attr('width', '100%')
-          .attr('height', 500);
+          .attr('width', '80%')
+          .attr('height', width*(3/4));
         //.attr("width", width + margin.left + margin.right)
         //.attr("height", height + margin.top + margin.bottom);
 
