@@ -60,12 +60,20 @@ block content
               svg#chart.chart.col-md-10
 
 
-          iframe(src="/graphIccv" id="content-graphid" frameborder=0 scrolling="no ")
+          iframe(src="/graphIccv" id="content-graphid" width="100%" frameborder=0 scrolling="no ")
 
-block aditionalScripts
+//block aditionalScripts
   
+
   script(src='/js/d3.v3.min.js')
   script(src="/js/dimensionIframe.js")
   script(src='/js/graph.js')
   script.
     initGraph('#{dataset.id}');
+
+  script(src='/js/d3.v3.min.js')
+  script(src="/js/dimensionIframe.js")
+  script(src='/js/graph.js')
+  script.
+  initGraph('#{dataset.name}');
+  
