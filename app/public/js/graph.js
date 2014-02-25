@@ -38,7 +38,7 @@ var loadIndicator = function(indicatorId){
 
     var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
         width = ((window.innerWidth)- margin.right)*0.8,
-        height = ((window.innerHeight) - margin.top - margin.bottom)*0.75;
+        height = ((window.innerHeight) - margin.top - margin.bottom);
 
     /*var margin = {top: 20, right: 30, bottom: 30, left: 40},
         width = 1024 - margin.left - margin.right,
@@ -49,7 +49,7 @@ var loadIndicator = function(indicatorId){
 
     var chart = d3.select("#chart")
           .attr('width', '80%')
-          .attr('height', '75%');
+          .attr('height', '100%');
         //.attr("width", width + margin.left + margin.right)
         //.attr("height", height + margin.top + margin.bottom);
 
@@ -91,8 +91,8 @@ var loadIndicator = function(indicatorId){
           .attr("transform", function(d) { return "translate(" + x(d) + ",0)"; });
 
     bar.append("rect")
-       .attr("y", function(d) { return (y(data.datas[d]) + 225)*0.8; })
-       .attr("height", function(d) { return (height/2 - y(data.datas[d])); })
+       .attr("y", function(d) { return y(data.datas[d]) + 225; })
+       .attr("height", function(d) { return height/2 - y(data.datas[d]); })
        .attr("width", x.rangeBand() - 5);
 
     bar.append("text")

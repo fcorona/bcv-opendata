@@ -33,7 +33,7 @@ window.onresize=function() {
 		//se asignan las variables auxiliares
 		rect_aux = d3.select(conjunto_rect[0][i]);
 		g_aux = d3.select(g_all[0][i]);
-		text_aux = d3.select(texto[0][i]);
+		
 
 		//se modifica el tamaño de cada columna		
 		cx_aux = rect_aux.attr('width');			
@@ -52,14 +52,23 @@ window.onresize=function() {
 		g_attr_transform = g_attr_transform.split("(")[1];
 		g_attr_transform = parseInt(g_attr_transform.split(",")[0])*porcentaje_cambio_ancho;
 		g_aux.attr("transform","translate("+g_attr_transform+",0)");
+		
+	}
 
+	var esp_text=d3.selectAll('.tick');
+	var esp_text_aux, tam_esp;
+	for(var i=0; i<texto[0].length;i++ ){
+		text_aux = d3.select(texto[0][i]);
+		esp_text_aux = d3.select(esp_text[0][i]);
 		//se modifica el tamaño del texto
-		text_size = parseInt(text_aux.style('font-size').split('px'));
+		text_size = parseFloat(text_aux.style('font-size').split('px'));
 		text_aux.style('font-size', text_size*porcentaje_cambio_ancho);
 		text_aux.attr('x', text_aux.attr('x')*porcentaje_cambio_ancho);
 		text_aux.attr('y', text_aux.attr('y')*porcentaje_cambio_alto);
-	}
 
+		//tam_esp = parseInt(esp_text_aux.attr('transform').split('(')[1].split(',')[0]);
+		//esp_text_aux.attr('transform', "translate("+tam_esp	*porcentaje_cambio_ancho+",0)");
+	}
 	dom_size = parseInt(dominio.attr('transform').split('(')[1].split(',')[1].split(')')[0]);
 	dominio.attr('transform', "translate("+0+","+dom_size*porcentaje_cambio_alto+")");
 	
