@@ -114,8 +114,9 @@ app.get('/logout', function(req, res){
 
 //Routes jade
 
-app.get('/graphIccv', function(req, res){
-  res.render('citizen/graphIccv.jade', {dataset:{'name':'iicv','description':'descripcion','title':'titulo'}});
+app.get('/graphIccv/:datasetId', function(req, res){
+
+  res.render('citizen/graphIccv.jade', {dataset:{'id':req.params.datasetId, 'description':'descripcion','title':'titulo'}});
 });
 //app.get('/graphIccv/:name/',datasetRoute.showDataset);
 

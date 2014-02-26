@@ -9,21 +9,6 @@ html
       div.page-header
         h2= dataset.title
           p= dataset.description
-
-        div.row
-          h3.col-md-4.text-center Dimensi&oacute;n
-          h3.col-md-4.text-center Categoría
-          h3.col-md-4.text-center Indicador
-
-        form.form-inline.row(role="form" action="")
-          div.form-group.col-md-4
-            select.form-control.col-md-12#dimensionSelect
-              
-          div.form-group.col-md-4
-            select.form-control#categorySelect
-              
-          div.form-group.col-md-4
-            select.form-control#indicatorSelect
             
         div.row
           div.col-md-2
@@ -50,4 +35,4 @@ html
       script(src='/js/d3.v3.min.js')
       script(src='/js/graph.js')
       script.
-        initGraph('#{dataset.name}');
+        initGraph('#{dataset.id}');
