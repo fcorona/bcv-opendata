@@ -65,8 +65,14 @@ a.format span:hover {
 }
 
 .navbar-default {
-  background-color: #003d6e;
+  background-color: #fff;
   border-color: #202d3b;
+}
+.affix .navbar-default .navbar-nav > li > a {
+  color: #fff;
+}
+.navbar-default .navbar-nav > li > a {
+  color: #000;
 }
 .label-primary {
   background-color: #e6642f;
@@ -114,4 +120,25 @@ a.format span:hover {
   outline: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(100, 206, 74, 0.6);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(100, 206, 74, 0.6);
+}
+
+.text-justify {
+  text-align: justify;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.shadow {
+  text-rendering: optimizeLegibility;
+  color: #fff;
+  letter-spacing: .05em;
+  text-shadow: 
+    2px 2px 0px #000, 
+    3px 3px 0px rgba(0, 0, 0, 0.2);
+}
+.shadowBox {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 1em;
 }

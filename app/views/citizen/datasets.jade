@@ -5,22 +5,25 @@ block content
     div.container
       div.row
         div.col-sm-12
-          h2 Catalogos de Datos
+          h2 C&aacute;talogos de Datos
 
-          p Los catalogos de datos listados (datasets) son recopilados y entregados 
-            | por la fundación corona y su programa 
-            b Bogot&aacute; C&oacute;mo Vamos
+          p Los c&aacute;talogos de datos listados (datasets) son recopilados y entregados 
+            | por la 
+            b Fundación Corona 
+            | y su programa 
+            b
+              a(href='http://www.bogotacomovamos.org/') Bogot&aacute; C&oacute;mo Vamos
 
   section.pad-top-25
     div.container
       div.row
         div.col-md-2.list-group.dataset-provider
           div.list-group-item.socials
-            span Palabras Clave
+            span Palabras clave
           ul.list-unstyled
             li.list-group-item
               a(href='/datasets?name=#{name}')
-                span remover todos
+                span Remover todos
                   span.label.label-danger.pull-right
                     span.glyphicon.glyphicon-minus-sign
 
@@ -44,7 +47,7 @@ block content
           form(class='form-inline' role='form' method='GET')
             input(name='tags' type='hidden' value=tags)
             div.form-group.col-sm-11(style='padding:0')
-              input.form-control( name='name' type='text' placeholder='Buscar catalogo' value=name)
+              input.form-control( name='name' type='text' placeholder='Buscar cátalogo' value=name)
             div.form-group
               button.btn.btn-default(type='submit' title='buscar' value='buscar') 
                 span.glyphicon.glyphicon-search

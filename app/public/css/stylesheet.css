@@ -97,12 +97,12 @@ a:focus {
         transition: all 0.2s ease;
 }
 #header.affix .navbar.navbar-default {
-    background-color: rgba(0, 59, 95, 0.9);
+    background-color: rgba(30, 30, 45, 0.9);
 }
 #header .navbar-brand {
     font-size: 24px;
     font-weight: 800;
-    color: #ffffff !important;
+    color: #000 !important;
     text-transform: uppercase;
     padding-top: 40px;
     padding-bottom: 40px;
@@ -113,6 +113,7 @@ a:focus {
     padding-top: 25px;
     padding-bottom: 25px;
     font-size: 23px;
+    color: #fff !important;
 }
 
 #header .navbar-brand:hover, #header .navbar-brand:focus {
@@ -355,7 +356,7 @@ a:focus {
 .fullwidthbanner-container {
     width: 100% !important;
     position: relative !important;
-    max-height: 400px !important;
+    max-height: 600px !important;
     overflow: hidden !important;
     padding: 0 !important;
 }
