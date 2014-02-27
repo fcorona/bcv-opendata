@@ -35,7 +35,7 @@ block content
             b= app.key ? app.key.limit : 0
             | &nbsp;solicitudes por hora.
         dd 
-          a.generator(href='/dev/apps/#{app.id}/generateKey') recrear mi llave
+          a.btn.btn-xs.btn-info.generator(href='/dev/apps/#{app.id}/generateKey') recrear mi llave
 
         dt Etiquetas
         dd= app.stringTags
