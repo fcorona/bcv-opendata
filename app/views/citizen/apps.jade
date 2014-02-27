@@ -21,7 +21,7 @@ block content
           ul.list-unstyled
             li.list-group-item
               a(href='/apps?page=1&name=#{name}')
-                span remover todos
+                span Remover todos
                   span.label.label-danger.pull-right
                     span.glyphicon.glyphicon-minus-sign
 
@@ -37,7 +37,7 @@ block content
                 else
                   a(href='/apps?page=1&tags=#{tags.replace(tag.title, "")}&name=#{name}')
                     div
-                      span= tag.title
+                      span.text-capitalize= tag.title
                       span.label.label-danger.pull-right
                         span.glyphicon.glyphicon-minus-sign
 
