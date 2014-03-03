@@ -19,6 +19,7 @@ module.exports = function(app){
   app.get('/apps/:appId', viewApp);
   app.get('/devs', developers);
   app.get('/challenges', challenges);
+  app.get('/challenges/:challengeId', viewChallenge);
 }
 
 //inicio para ciudadano
@@ -236,6 +237,26 @@ var challenges = function(req, res){
       title: 'Retos',
       challenges: challenges,
       menuSelected: 'challenges'
+    });
+  });
+};
+
+//ver reto
+var viewChallenge = function(req, res){
+  ChallengeModel.findOne({'_id': req.params.challengeId})
+  .populate('participants')
+  .exec(function(err, challenge){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!challenge){
+      res.render(404, '404');
+      return;
+    }
+    res.render('citizen/challenge', {title: challenge.name,
+      menuSelected: 'challenges',
+      challenge: challenge
     });
   });
 };

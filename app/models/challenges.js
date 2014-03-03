@@ -8,6 +8,19 @@ var ChallengeSchema = new Schema({
   starts: {type: Date, default: Date.now},
   ends: {type: Date, default: Date.now},
   participants: [{type: Schema.ObjectId, ref: 'App'}]
+},
+{
+  strict: false
+});
+
+ChallengeSchema.virtual('startsString').get(function(){
+  var date = this.starts;
+  return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
+});
+
+ChallengeSchema.virtual('endsString').get(function(){
+  var date = this.ends;
+  return date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear();
 });
 
 ChallengeSchema.statics.listAll = function(page, resultsPerPage, name, cb){
@@ -27,7 +40,7 @@ ChallengeSchema.statics.listAll = function(page, resultsPerPage, name, cb){
 
     query.limit(resultsPerPage)
     .skip((page-1)*resultsPerPage)
-    .sort('starts')
+    .sort('-starts')
     .exec(function(err, challenges){
       cb(err, challenges, total);
     });

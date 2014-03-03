@@ -1,0 +1,73 @@
+extends layoutCitizen
+
+block meta
+  meta(name='description' content=challenge.description)
+
+  //og properties
+  meta(property='og:title' content=challenge.name)
+  meta(property='og:image' content=challenge.imageUrl)
+  meta(property='og:description' content=challenge.description)
+
+
+block content
+  section.pad-top-25
+    div.container
+      div.row
+        div.col-md-3.list-group.dataset-provider
+          div.list-group-item.header
+            img.img-responsive(src=challenge.imageUrl alt='Responsive image')
+            
+            br
+            span desde 
+              b= challenge.startsString
+              | &nbsp;hasta&nbsp;
+              b= challenge.endsString
+
+          div.list-group-item.socials
+            span Compartir en redes sociales      
+
+          
+          div.list-group-item
+            div.g-plus(data-action='share')
+          
+          div.list-group-item
+            a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
+          
+          div.list-group-item
+            div#fb-root
+            div.fb-share-button(data-type='button_count')
+
+
+        div.col-md-9
+
+          div.page-header
+            h2= challenge.name
+
+          p= challenge.description
+
+          ul
+            for app in challenge.participants
+              li= app.name
+
+
+          h3 Comentarios
+
+            div#disqus_thread
+        
+            script(type="text/javascript").
+            
+              var disqus_shortname = 'fcorona';
+
+              (function() {
+                  var dsq = document.createElement('script');
+                  dsq.type = 'text/javascript';
+                  dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).challengeendChild(dsq);
+              })();
+        
+            noscript Please enable JavaScript to view the
+              a(href="http://disqus.com/?ref_noscript") comments powered by Disqus.
+            a.dsq-brlink(href="http://disqus.com") comments powered by
+              span.logo-disqus Disqus
+

@@ -27,14 +27,19 @@ block content
               li.row.media(style='margin-bottom: 3em')
                 div.col-md-2(style='height:5em; overflow: hidden;')
                   if challenge.imageUrl
-                    a(href='/challenges/#{challenge.name}')
+                    a(href='/challenges/#{challenge.id}')
                       img.media-object.img-responsive(src=challenge.imageUrl alt=challenge.name )
 
                 div.col-md-10.media-body
                   h4.media-heading
                     a(href='/challenges/#{challenge.id}')= challenge.name
                   
-                  p= challenge.description
+                  p= challenge.description.substring(0,100)
+
+                  span desde 
+                    b= challenge.startsString
+                    | &nbsp;hasta&nbsp;
+                    b= challenge.endsString
 
 
           div.text-center
