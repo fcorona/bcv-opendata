@@ -672,7 +672,7 @@ var createChallenge = function(req, res){
       res.send(500, err);
       return;
     }
-    res.redirect('admin/challenge/' + challenge.id);
+    res.redirect('admin/challenges/' + challenge.id);
   });
 };
 
