@@ -24,8 +24,8 @@ block adminContent
             td
               a(href='/admin/challenges/#{challenge.id}')= challenge.name
             td= challenge.description
-            td= challenge.starts
-            td= challenge.ends
+            td= challenge.startsString
+            td= challenge.endsString
             td= challenge.participants.length
             td
               a(href='/admin/challenges/#{challenge.id}/edit') editar

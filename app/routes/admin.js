@@ -45,6 +45,10 @@ module.exports = function(app){
   app.get('/admin/challenges', validAdmin, listChallenges);
   app.get('/admin/challenges/create', validAdmin, formChallenge);
   app.post('/admin/challenges/create', validAdmin, createChallenge);
+
+  app.get('/admin/challenges/:id', validAdmin, viewChallenge);
+  app.get('/admin/challenges/:id/edit', validAdmin, editChallenge);
+  app.post('/admin/challenges/:id/edit', validAdmin, updateChallenge);
 };
 
 var MENU_STATES = {
@@ -668,8 +672,108 @@ var createChallenge = function(req, res){
       res.send(500, err);
       return;
     }
-    //res.redirect('admin/challenge/' + challenge.id);
-    res.redirect('admin/challenges/');
+    res.redirect('admin/challenge/' + challenge.id);
+  });
+};
+
+var viewChallenge = function(req, res){
+  ChallengeModel.findById(req.params.id, function(err, challenge){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!challenge){
+      res.send(404, 'Reto no encontrado');
+      return; 
+    }
+    res.render('admin/viewChallenge', {challenge: challenge, menu: MENU_STATES.CHALLENGES});
+  });
+};
+
+var editChallenge = function(req, res){
+  ChallengeModel.findOne({'_id': req.params.id})
+  .exec(function(err, challenge){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!challenge){
+      res.send(404, 'Reto no encontrada');
+      return;
+    }
+
+    res.render('admin/editChallenge', {
+      model: challenge,
+      errors: {},
+      menu: MENU_STATES.CHALLENGES
+    });
+  });
+};
+
+var updateChallenge = function(req, res){
+  var model = {},
+     errors = {};
+
+  //validar campos:
+  model.name = req.body.name || '';
+  if(model.name.length < 4 || model.name.length > 40){
+    errors.name = 'El nombre debe tener entre 5 y 40 caracteres';
+  };
+
+  model.description = req.body.description || '';
+  if(model.description.length < 3 || model.description.length > 800){
+    errors.description = 'La descripci&oacute;n debe tener entre 3 y 800 caracteres';
+  };
+
+  model.imageUrl = req.body.imageUrl;
+
+  //cargar las fechas
+  var starts = req.body.starts;
+  var myDate = starts.split('/');
+  model.starts = new Date(myDate[2], myDate[1], myDate[0]);
+  
+  var ends = req.body.ends;
+  myDate = ends.split('/');
+  model.ends = new Date(myDate[2], myDate[1], myDate[0]);
+
+  if(!model.starts.getTime()){
+    errors.starts = 'El formato de fecha es incorrecto (dd/mm/aaaa)';
+  }
+
+  if(!model.ends.getTime()){
+    errors.ends = 'El formato de fecha es incorrecto (dd/mm/aaaa)';
+  }
+
+  if(model.starts.getTime() > model.ends.getTime()){
+    errors.starts = 'La fecha de inicio no puede ser mayor a la fecha de fin';
+    errors.ends = 'La fecha de fin no puede ser menor a la fecha de inicio';
+  }
+
+
+  if(Object.keys(errors).length > 0){
+    model.startsString = starts;
+    model.endsString = ends;
+    res.render('admin/editChallenge', {
+      model: model,
+      errors: errors,
+      menu: MENU_STATES.CHALLENGES
+    });
+    return;
+  }
+
+  ChallengeModel.findById(req.params.id, function(err, challenge){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    challenge.name = model.name;
+    challenge.description = model.description;
+    challenge.imageUrl = model.imageUrl;
+    challenge.starts = model.starts;
+    challenge.ends = model.ends;
+    challenge.save(function(err, challengeSaved){
+      res.redirect('admin/challenges/' + challengeSaved.id);
+    });
   });
 };
 

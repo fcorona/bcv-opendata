@@ -1,0 +1,35 @@
+extends layoutAdmin
+
+block adminContent
+  div.page-header
+    h1= challenge.name 
+      small.pull-right
+        a(href='/admin/challenges') volver
+
+
+  dl.dl-horizontal
+    
+    dt Imag&eacute;n
+    dd.thumbnail
+      img(src=challenge.imageUrl||'')
+
+    dt Nombre
+    dd= challenge.name
+
+    dt Descripci&oacute;n
+    dd= challenge.description
+
+    dt Inicia en:
+    dd= challenge.startsString
+
+    dt Finaliza en:
+    dd= challenge.endsString
+
+    dt N&uacute;mero de participantes
+    dd= challenge.participants.length
+
+  hr
+  div.pull-right
+    a.btn.btn-default(href='/admin/challenges/#{challenge.id}/edit/') Editar
+    | &nbsp; | &nbsp;
+    a.btn.btn-danger(href='#') Eliminar
