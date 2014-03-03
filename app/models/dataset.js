@@ -93,10 +93,11 @@ var DataSchema = new mongoose.Schema({
   source: String,
   coverage: String,
   period: String,
-  category: {type: Schema.ObjectId, ref: 'CategorySchema'},
-  dimension: {type: Schema.ObjectId, ref: 'DimensionSchema'},
-  dataset: {type: Schema.ObjectId, ref: 'DatasetSchema'}
+  category: {type: Schema.ObjectId, ref: 'Category'},
+  dimension: {type: Schema.ObjectId, ref: 'Dimension'},
+  dataset: {type: Schema.ObjectId, ref: 'Dataset'}
 });
+
 
 DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb){
   var schema = this;
@@ -153,6 +154,7 @@ var ValuesSchema = new mongoose.Schema({
 {
   strict: false
 });
+
 
 
 DatasetSchema.virtual('href').get(function () {

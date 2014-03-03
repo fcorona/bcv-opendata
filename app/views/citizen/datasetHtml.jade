@@ -22,12 +22,28 @@ block content
           ul.list-unstyled
 
             li.list-group-item
+              b Cat&aacute;logo de datos: 
+              span= dataset.dataset.title
+            li.list-group-item
+              b Categor&iacute;a: 
+              span= dataset.category.name
+            li.list-group-item
+              b Dimensi&oacute;n: 
+              span= dataset.dimension.name
+
+
+            li.list-group-item
+              b Unidad de medida: 
+              span= dataset.measureType
+            li.list-group-item
               b Fuente: 
               span= dataset.source
             li.list-group-item
               b Cobertura: 
               span= dataset.coverage
-
+            li.list-group-item
+              b Periodicidad: 
+              span= dataset.period
 
           div.list-group-item.socials
             span Compartir en redes sociales
@@ -50,17 +66,26 @@ block content
           div.page-header
             h2= dataset.name
           
+          h4 Descripci&oacute;n: 
           p= dataset.description
-
-
-          h3 Datos y recursos
-
+          br
+          h4 Interactivo:
+          br
+          br
+          div.row
+            div.col-md-1
+            div.chart-container
+              svg#chart.chart.col-md-10
+          
+          h4 Desarrolladores:
           ul.list-group
-            li.list-group-item 
-              a(href='/datasets/#{dataset.name}/graph/') Interactivo
             li.list-group-item
-              a(href='/api/datas/#{dataset.id}/?key=comovamos/') API REST
-            li.list-group-item
-              a(href='http://bogotacomovamos.org') Página web
-            li.list-group-item
-              a(href='/datasets/#{dataset.name}/table/') CSV
+              a(href='/api/datas/#{dataset.id}/?key=comovamos/' target='_blank') API REST
+
+
+block aditionalScripts
+  script(src='/js/dimension.js')
+  script(src='/js/d3.v3.min.js')
+  script(src='/js/graph.js')
+  script.
+    initGraph('#{dataset.id}');

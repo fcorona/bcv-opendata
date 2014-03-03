@@ -1,7 +1,6 @@
 var flash = require('connect-flash'),
     dataset = require('../models/dataset');
 
-
 exports.showDataset = function(req, res, next){
   var renderFormat = {'html': 'citizen/datasetHtml',
                       'table': 'datasetTable',
@@ -12,7 +11,11 @@ exports.showDataset = function(req, res, next){
 
   if(format == 'html' || format == 'graph'){
 
-    dataset.DataMongo.findOne({name: req.params.name}, function (err, foundDataset){
+    dataset.DataMongo.findOne({name: req.params.name})
+    .populate('dataset')
+    .populate('dimension')
+    .populate('category')
+    .exec(function (err, foundDataset){
       if(err){
         res.send(500, err);
         return;
@@ -55,8 +58,8 @@ exports.showDataset = function(req, res, next){
         };
 
         dataset.DataMongo.find({dataset: foundDataset}, function(errDatas, datas){
-          var localDatas = {};
           for (var i = datas.length - 1; i >= 0; i--) {
+          var localDatas = {};
             var localData = datas[i].toJSON();
             localData.id = ''+localData['_id'];
             if(!(localData.category in localDatas)){

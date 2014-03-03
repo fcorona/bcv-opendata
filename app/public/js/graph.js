@@ -77,7 +77,7 @@ var loadIndicator = function(indicatorId){
 
     var chart = d3.select("#chart")
           .attr('width', 300)
-          .attr('height', 500);
+          .attr('height', 400);
         //.attr("width", width + margin.left + margin.right)
         //.attr("height", height + margin.top + margin.bottom);
 
