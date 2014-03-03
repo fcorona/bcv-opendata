@@ -48,12 +48,21 @@ block content
 
           p= challenge.description
 
-          ul
+          h4 Participantes
+          ul.media-list
             for app in challenge.participants
-              li= app.name
+              li.row.media(style='margin-bottom: 3em')
+                div.col-md-2(style='height:5em; overflow: hidden;')
+                  if app.logoUrl
+                    a(href='/apps/#{app.id}')
+                      img.media-object.img-responsive(src=app.logoUrl alt=app.name )
 
+                div.col-md-10.media-body
+                  h4.media-heading
+                    a(href='/apps/#{app.id}')= app.name
+          hr
 
-          h3 Comentarios
+          h3(style='margin-top:2em') Comentarios
 
             div#disqus_thread
         

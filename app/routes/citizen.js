@@ -232,9 +232,12 @@ var challenges = function(req, res){
   var name = req.query.name || '';
   var resultsPerPage = 10;
 
-  ChallengeModel.listAll(page, resultsPerPage, name, function(err, challenges){
+  ChallengeModel.listAll(page, resultsPerPage, name, function(err, challenges, total){
+    total = Math.ceil(total/resultsPerPage);
     res.render('citizen/challenges', {
       title: 'Retos',
+      total: total,
+      current: page,
       challenges: challenges,
       menuSelected: 'challenges'
     });
