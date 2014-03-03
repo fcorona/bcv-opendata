@@ -37,14 +37,14 @@ var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
 
     var margin = {top: 20, right: 30, bottom: 30, left: 40},
-        width = 1024 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        width = 700 - margin.left - margin.right,
+        height = 400 - margin.top - margin.bottom;
 
     var y = d3.scale.linear()
           .range([height, 0]);
 
     var chart = d3.select("#chart")
-          .attr('width', '100%')
+          .attr('width', 300)
           .attr('height', 500);
         //.attr("width", width + margin.left + margin.right)
         //.attr("height", height + margin.top + margin.bottom);
@@ -65,7 +65,7 @@ var loadIndicator = function(indicatorId){
     }
 
     var max = d3.max(the_data);
-    y.domain([0, max]);
+    y.domain([0, max*1.1]);
 
     var barWidth = 30;
     var x = d3.scale.ordinal()
@@ -85,15 +85,21 @@ var loadIndicator = function(indicatorId){
           .data(the_domain)
           .enter().append("g")
           .attr("transform", function(d) { return "translate(" + x(d) + ",0)"; });
+    console.log('bar', bar);
 
     bar.append("rect")
-       .attr("y", function(d) { return y(data.datas[d]) + 225; })
-       .attr("height", function(d) { return height/2 - y(data.datas[d]); })
-       .attr("width", x.rangeBand() - 5);
+      .attr("y", function(d){
+        return y(data.datas[d]); //225 de colchon
+      })
+      .attr("height", function(d){
+        console.log(y(data.datas[d]));
+        return height -y(data.datas[d]);
+      })
+      .attr("width", x.rangeBand() - 5);
 
     bar.append("text")
-       .attr("x", x.rangeBand() / 4)
-       .attr("y", function(d) { return y(data.datas[d]) + 200 ; })
+       .attr("x", x.rangeBand() / 3)
+       .attr("y", function(d) { return y(data.datas[d]) - 20; })
        .attr("dy", ".75em")
        .text(function(d) { return Math.round(data.datas[d]*100) / 100; });
 
