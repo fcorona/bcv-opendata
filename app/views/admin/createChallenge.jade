@@ -1,0 +1,87 @@
+extends layoutAdmin
+
+block meta
+  link(rel='stylesheet' href='/css/datepicker.css')
+
+block adminContent
+
+  div.page-header
+    h2 Crear Reto
+      small.pull-right
+        a(href='/admin/challenges/') volver
+
+  form#createForm.form-horizontal(role='form' method='POST')
+    div.form-group(class=errors.name?'has-error':'')
+      label.col-sm-2.control-label(for='name') Nombre
+      
+      div.col-sm-10
+        input#name.form-control(type='text' name='name' required value=model.name)
+        if errors.name
+          p.has-error= errors.name
+
+    div.form-group(class=errors.imageUrl?'has-error':'')
+      label.col-sm-2.control-label(for='imageUrl') Imag&eacute;n del reto.
+      
+      div.col-sm-10
+        input#imageUrl.form-control(type='url' name='imageUrl' required value=model.imageUrl)
+        span.help-block Copie la url de donde quiere cargar la imag&eacute;n para este reto.
+        if errors.imageUrl
+          p.has-error= errors.imageUrl
+
+    div.form-group(class=errors.description?'has-error':'')
+      label.col-sm-2.control-label(for='description') Descripci&oacute;n
+      
+      div.col-sm-10
+        textarea#description.form-control(name='description' required)= model.description
+        if errors.description
+          p.has-error= errors.description
+
+    div.form-group(class=errors.starts?'has-error':'')
+      label.col-sm-2.control-label(for='starts') Comienza en:
+      
+      div.col-sm-10
+        input#starts.form-control(name='starts' data-date=model.starts data-date-format='dd/mm/yyyy' type='text' required value=model.starts)
+      
+        if errors.starts
+          p.has-error= errors.starts
+
+    div.form-group(class=errors.ends?'has-error':'')
+      label.col-sm-2.control-label(for='ends') Termina en:
+      
+      div.col-sm-10
+        input#ends.input-append.form-control(name='ends' data-date=model.ends data-date-format='dd/mm/yyyy' type='text' required value=model.ends)
+        if errors.ends
+          p.has-error= errors.ends
+
+
+
+    div.form-group
+      div.col-sm-offset-2.col-sm-10
+        button.btn.btn-primary(type='submit') Crear
+
+block scripts
+  script(src='/js/bootstrap-datepicker.js')
+  script.
+    var nowTemp = new Date();
+    var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+     
+    var checkin = $('#starts').datepicker({
+      onRender: function(date) {
+        return date.valueOf() < now.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {
+      if (ev.date.valueOf() > checkout.date.valueOf()) {
+        var newDate = new Date(ev.date)
+        newDate.setDate(newDate.getDate() + 1);
+        checkout.setValue(newDate);
+      }
+      checkin.hide();
+      $('#ends')[0].focus();
+    }).data('datepicker');
+    var checkout = $('#ends').datepicker({
+      onRender: function(date) {
+        return date.valueOf() <= checkin.date.valueOf() ? 'disabled' : '';
+      }
+    }).on('changeDate', function(ev) {
+      checkout.hide();
+    }).data('datepicker');

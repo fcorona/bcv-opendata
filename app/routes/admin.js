@@ -6,6 +6,7 @@ var fs = require('fs'),
     DataModel = datasetModels.DataMongo,
     ValuesModel = datasetModels.ValuesMongo,
     apps = require('../models/apps'),
+    ChallengeModel = require('../models/challenges').ChallengeModel,
     UserModel = require('../models/user').User;
 
 var validAdmin = function(req, res, next){
@@ -40,6 +41,10 @@ module.exports = function(app){
 
   app.get('/admin/upload', validAdmin, uploadFileForm);
   app.post('/admin/upload', validAdmin, uploadFile);
+
+  app.get('/admin/challenges', validAdmin, listChallenges);
+  app.get('/admin/challenges/create', validAdmin, formChallenge);
+  app.post('/admin/challenges/create', validAdmin, createChallenge);
 };
 
 var MENU_STATES = {
@@ -47,6 +52,7 @@ var MENU_STATES = {
   DATASETS: {datasets: 'active'},
   DEVS: {devs: 'active'},
   APPS: {apps: 'active'},
+  CHALLENGES: {challenges: 'active'}
 }
 
 //inicio para admin
@@ -568,11 +574,103 @@ var transformData = function(parsedData, years){
           persistYear();
         }; 
       });
+  };
+};
 
-    
+
+//lista todos los retos
+var listChallenges = function(req, res){
+  ChallengeModel.find({}, function(err, challenges){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    res.render('admin/challenges', {
+      challenges: challenges,
+      menu: MENU_STATES.CHALLENGES
+    });
+  });
+};
+
+//crear un reto
+var formChallenge = function(req, res){
+  var model = {
+    name:'',
+    description: '',
+    imageUrl: '',
+    starts: '',
+    ends: ''
   };
 
+  res.render('admin/createChallenge', {
+    model: model,
+    errors: {},
+    menu: MENU_STATES.CHALLENGES
+  });
+};
+
+
+
+var createChallenge = function(req, res){
+  var model = {},
+     errors = {};
+
+  //validar campos:
+  model.name = req.body.name || '';
+  if(model.name.length < 4 || model.name.length > 40){
+    errors.name = 'El nombre debe tener entre 5 y 40 caracteres';
+  };
+
+  model.description = req.body.description || '';
+  if(model.description.length < 3 || model.description.length > 800){
+    errors.description = 'La descripci&oacute;n debe tener entre 3 y 800 caracteres';
+  };
+
+  model.imageUrl = req.body.imageUrl;
+
+  //cargar las fechas
+  var starts = req.body.starts;
+  var myDate = starts.split('/');
+  model.starts = new Date(myDate[2], myDate[1], myDate[0]);
   
+  var ends = req.body.ends;
+  myDate = ends.split('/');
+  model.ends = new Date(myDate[2], myDate[1], myDate[0]);
+
+  if(!model.starts.getTime()){
+    errors.starts = 'El formato de fecha es incorrecto (dd/mm/aaaa)';
+  }
+
+  if(!model.ends.getTime()){
+    errors.ends = 'El formato de fecha es incorrecto (dd/mm/aaaa)';
+  }
+
+  if(model.starts.getTime() > model.ends.getTime()){
+    errors.starts = 'La fecha de inicio no puede ser mayor a la fecha de fin';
+    errors.ends = 'La fecha de fin no puede ser menor a la fecha de inicio';
+  }
+
+
+  if(Object.keys(errors).length > 0){
+    model.starts = starts;
+    model.ends = ends;
+    res.render('admin/createChallenge', {
+      model: model,
+      errors: errors,
+      menu: MENU_STATES.CHALLENGES
+    });
+    return;
+  }
+
+  new ChallengeModel(model)
+  .save(function(err, challenge){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    //res.redirect('admin/challenge/' + challenge.id);
+    res.redirect('admin/challenges/');
+  });
 };
 
 var processFile = function (err, data) {

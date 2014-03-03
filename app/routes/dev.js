@@ -141,7 +141,6 @@ var createApp = function(req, res){
   model.url = req.body.url;
   model.logoUrl = req.body.logoUrl;
   model.stringTags = req.body.stringTags;
-  //tags pendientes por ahora
 
   model.owner = req.user;
   if(Object.keys(errors).length > 0){

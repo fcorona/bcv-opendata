@@ -1,0 +1,31 @@
+extends layoutAdmin
+
+block adminContent
+  div.page-header
+    h1 Retos
+    p Seleccione y administre los retos
+      small.pull-right
+        a.btn.btn-primary.btn-xs(href='/admin/challenges/create') Nuevo Reto
+
+  div.table-responsive
+    table.table.table-striped
+      thead
+        tr
+          th Nombre
+          th Descripci&oacute;n
+          th Inicio
+          th Fin
+          th Participantes
+          th Opciones
+
+      tbody
+        for challenge in challenges
+          tr
+            td
+              a(href='/admin/challenges/#{challenge.id}')= challenge.name
+            td= challenge.description
+            td= challenge.starts
+            td= challenge.ends
+            td= challenge.participants.length
+            td
+              a(href='/admin/challenges/#{challenge.id}/edit') editar
