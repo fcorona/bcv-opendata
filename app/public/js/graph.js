@@ -33,6 +33,38 @@ var loadCategory = function(categoryId){
   });
 }
 
+var transformData = function(data, type){
+  if(type=='Alfabético'){
+    return data;
+  }
+  var data = Math.round(data*100) / 100;
+  if(type=='Tasa'){
+    return parseFloat(data).toLocaleString();
+  }
+  if(type=='Porcentual'){
+    data = parseFloat(data*100).toLocaleString();
+    
+    return data+'%'; 
+  }
+  if(type=='Númerico'){
+    return parseFloat(data).toLocaleString();
+  }
+
+  return parseFloat(data).toLocaleString();
+}
+
+var valuesAlpha = {
+  'AAA': 10,
+  'AA+': 9,
+  'AA-': 8,
+  'AA': 7,
+  'BBB': 6,
+  'BB+': 5,
+  'BBB-': 4,
+  'CCC': 3,
+  'DD': 2,
+  'E': 1
+};
 var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
 
@@ -49,8 +81,8 @@ var loadIndicator = function(indicatorId){
         //.attr("width", width + margin.left + margin.right)
         //.attr("height", height + margin.top + margin.bottom);
 
-    var the_data=[];
-    var the_domain=[];
+    var the_data = [];
+    var the_domain = [];
 
     chart.selectAll('g').remove();
 
@@ -59,13 +91,23 @@ var loadIndicator = function(indicatorId){
 
     for(var year in data.datas){
       if(data.datas[year]){
-        the_data.push(data.datas[year]);
+        if(data.measureType=='Alfabético'){
+          the_data.push(valuesAlpha[data.datas[year]]);
+        }else{
+          the_data.push(data.datas[year]);
+        }
         the_domain.push(year);
       }
     }
 
     var max = d3.max(the_data);
-    y.domain([0, max*1.1]);
+    console.log(data.measureType=='Porcentual', data.measureType)
+    if(data.measureType=='Porcentual' && max<1)
+      y.domain([0, 1.1]);
+    else if(data.measureType=='Alfabético')
+      y.domain([0, 11]);
+    else
+      y.domain([0, max*1.1]);
 
     var barWidth = 30;
     var x = d3.scale.ordinal()
@@ -89,19 +131,29 @@ var loadIndicator = function(indicatorId){
 
     bar.append("rect")
       .attr("y", function(d){
-        return y(data.datas[d]); //225 de colchon
+        var value = data.datas[d];
+        if(data.measureType=='Alfabético'){
+          value = valuesAlpha[value];
+        }
+        return y(value); //225 de colchon
       })
       .attr("height", function(d){
-        console.log(y(data.datas[d]));
-        return height -y(data.datas[d]);
+        var value = data.datas[d];
+        if(data.measureType=='Alfabético'){
+          value = valuesAlpha[value];
+        }
+        return height -y(value);
       })
       .attr("width", x.rangeBand() - 5);
 
     bar.append("text")
-       .attr("x", x.rangeBand() / 3)
-       .attr("y", function(d) { return y(data.datas[d]) - 20; })
-       .attr("dy", ".75em")
-       .text(function(d) { return Math.round(data.datas[d]*100) / 100; });
+      .attr("x", x.rangeBand() / 3) 
+      .attr("y", function(d) { return y(data.datas[d]) - 20; })
+      .attr("dy", ".75em")
+      .text(function(d){
+        
+        return transformData(data.datas[d], data.measureType);
+      });
 
 
     chart.append("g")
