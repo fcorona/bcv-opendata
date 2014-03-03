@@ -1,0 +1,48 @@
+extends layoutCitizen
+
+block content
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+          h2 Retos
+          p Estos son retos abiertos a los desarrolladores de aplicaciones, para que conozcan
+            | de necesidades existentes y compartan sus soluciones.
+
+  section.pad-top-25
+    div.container
+      div.row
+        div.col-md-12
+
+          form(class='form-inline' role='form')
+            input(name='page' type='hidden' value=1)
+            div.form-group.col-sm-11(style='padding:0')
+              input.form-control(name='name' type='text' placeholder='Buscar Reto' value=name)
+            div.form-group
+              button.btn.btn-default(type='submit' title='buscar' value='buscar') 
+                span.glyphicon.glyphicon-search
+          br
+          ul.media-list
+            for challenge in challenges
+              li.row.media(style='margin-bottom: 3em')
+                div.col-md-2(style='height:5em; overflow: hidden;')
+                  if challenge.imageUrl
+                    a(href='/challenges/#{challenge.name}')
+                      img.media-object.img-responsive(src=challenge.imageUrl alt=challenge.name )
+
+                div.col-md-10.media-body
+                  h4.media-heading
+                    a(href='/challenges/#{challenge.id}')= challenge.name
+                  
+                  p= challenge.description
+
+
+          div.text-center
+            ul.pagination
+              li(class=current==1?'disabled':'')
+                a(href='/challenges?page=#{current==1?1:current-1}') &laquo;
+              - for(var page = 1; page <= total; page++)
+                li(class= page==current?'active':'' )
+                  a(href='/challenges?page=#{page}')= page
+              li(class=current==total?'disabled':'')
+                a(href='/challenges?page=#{current==total?total:current+1}') &raquo;

@@ -3,7 +3,8 @@ var datasetRoute = require('./dataset'),
     apps = require('../models/apps'),
     TagModel = require('../models/basics').TagModel,
     utils = require('../util/validators'),
-    ScoreModel = require('../models/score').ScoreModel;
+    ScoreModel = require('../models/score').ScoreModel,
+    ChallengeModel = require('../models/challenges').ChallengeModel;
 
 module.exports = function(app){
   app.get('/', home);
@@ -17,6 +18,7 @@ module.exports = function(app){
   app.post('/apps/:appId/rate', rateApp);
   app.get('/apps/:appId', viewApp);
   app.get('/devs', developers);
+  app.get('/challenges', challenges);
 }
 
 //inicio para ciudadano
@@ -221,4 +223,19 @@ var rateApp = function(req, res){
       res.send(200, {msg: 'ok'});
     }
   });
-}
+};
+
+var challenges = function(req, res){
+  //valida las entradas
+  var page = parseInt(req.query.page) || 1;
+  var name = req.query.name || '';
+  var resultsPerPage = 10;
+
+  ChallengeModel.listAll(page, resultsPerPage, name, function(err, challenges){
+    res.render('citizen/challenges', {
+      title: 'Retos',
+      challenges: challenges,
+      menuSelected: 'challenges'
+    });
+  });
+};

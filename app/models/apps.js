@@ -85,7 +85,7 @@ AppSchema.statics.listAll = function(page, resultsPerPage, tags, name, cb){
     if(foundTags.length > 0){
       queryTotal = queryTotal.where({tags: {$in: foundTags}});
     }
-    if(name && name!==''){
+    if(name && name !== ''){
       queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
     }
     
