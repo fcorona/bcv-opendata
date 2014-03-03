@@ -1,4 +1,5 @@
 var apps = require('../models/apps'),
+    ChallengeModel = require('../models/challenges').ChallengeModel,
     validUser = require('../util/validators').validUser;
 
 
@@ -10,6 +11,9 @@ module.exports = function(app){
   app.get('/dev/apps/:id/edit', validUser, devValidated, editApp);
   app.post('/dev/apps/:id/edit', validUser, devValidated, updateApp);
   app.get('/dev/apps/:id/generateKey', validUser, generateKey);
+  
+  app.get('/dev/challenge/:id', validUser, selectAppForChallenge);
+  app.post('/dev/challenge/:id', validUser, submitAppForChallenge);
 }
 
 var devValidated = function(req, res, next){
@@ -180,5 +184,69 @@ var generateKey = function(req, res){
     }
     app.generateKey();
     res.redirect('dev/apps/' + app.id);
+  });
+};
+
+var selectAppForChallenge = function(req, res){
+
+  apps.AppModel.find({owner: req.user.id}, function(err, applications){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    ChallengeModel.findById(req.params.id, function(err, challenge){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      if(!challenge){
+        res.send(404,'reto no encontrado');
+        return;
+      }
+      res.render('dev/challengeSubmit', {
+        challenge: challenge,
+        apps: applications,
+      });
+    })
+  });
+};
+
+var submitAppForChallenge = function(req, res){
+  var appId = req.body.appId || '';
+  apps.AppModel.findOne({'_id': appId, owner: req.user.id})
+  .exec(function(err, app){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!app){
+      res.send(404,'app no encontrada');
+      return;
+    }
+
+    ChallengeModel.findById(req.params.id, function(err, challenge){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      if(!challenge){
+        res.send(404,'reto no encontrado');
+        return;
+      }
+      if(challenge.participants.indexOf(appId)!=-1){
+        apps.AppModel.find({owner: req.user.id}, function(err, applications){
+          res.render('dev/challengeSubmit', {
+            challenge: challenge,
+            apps: applications,
+            messages: {error:app.name + ' ya esta registrada en este reto'}
+          });
+        });
+        return;
+      }
+      challenge.participants.push(app);
+      challenge.save(function(err, challengeSaved){
+        res.redirect('/challenges/'+req.params.id);
+      });
+    });
   });
 };

@@ -37,6 +37,9 @@ block content
             div#fb-root
             div.fb-share-button(data-type='button_count')
 
+          div.list-group-item.socials
+            a.btn.btn-flat.btn-primary(href=(login&&user.role=='developer')?'/dev/challenge/#{challenge.id}':'/login' ) Empod&eacute;rate
+
 
         div.col-md-9
 

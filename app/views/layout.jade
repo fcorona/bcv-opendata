@@ -35,10 +35,6 @@ html
     div
       div#header.header(data-spy='affix' data-offset-top=10)
 
-        if messages && (messages.info || messages.error)
-          p= messages.info
-          p= messages.error
-
         nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
           div.container
             div.navbar-header
@@ -74,6 +70,14 @@ html
                     a(href='/login') Login/registro
 
       div#index-1.main-wrapper
+        if messages && messages.info
+          div.alert.alert-info.alert-dismissable(style='z-index:2000;width:100%; position:absolute;')
+            button(type='button' class='close' data-dismiss='alert' aria-hidden='true') &times;
+            p= messages.info
+        if messages && messages.error
+          div.alert.alert-danger.alert-dismissable(style='z-index:2000;width:100%; position:absolute;')
+            button(type='button' class='close' data-dismiss='alert' aria-hidden='true') &times;
+            p(style='text-align:center;font-size:1.5em')= messages.error
         block content
 
       footer.footer

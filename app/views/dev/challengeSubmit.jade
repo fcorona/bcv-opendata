@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+
+  section#page-title-wrapper.page-title-wrapper
+    div.container
+      div.row
+        div.col-sm-12
+        h2 Participar en el reto "#{challenge.name}"
+          small.pull-right
+            a(href='/challenges/') volver
+
+        p para participar en el reto, debes elegir una de tus aplicaciones registradas
+          | en la plataforma.
+
+  section.pad-top-25
+    div.container
+      form.form-horizontal(role='form' method='POST')
+
+
+        div.form-group
+          label.col-sm-2.control-label(for='appId') Aplicaci&oacute;n
+          
+          div.col-sm-10
+            select#appId.form-control(type='text' name='appId')
+              for app in apps
+                option(value=app.id)= app.name
+      
+        div.form-group
+          div.col-sm-offset-2.col-sm-10
+            button.btn.btn-primary(type='submit') Enviar
+            | &nbsp; | &nbsp;
+            a.btn.btn-info(href='/dev/apps/create') Crear una  nueva Aplicaci&oacute;n
