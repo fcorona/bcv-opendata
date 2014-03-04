@@ -129,14 +129,73 @@ a.format span:hover {
 }
 
 .shadow {
-  text-rendering: optimizeLegibility;
-  color: #fff;
-  letter-spacing: .05em;
-  text-shadow: 
-    2px 2px 0px #000, 
-    3px 3px 0px rgba(0, 0, 0, 0.2);
+   
+   color: white;
+   text-shadow:
+     -1px -1px 0 #002a54,
+      1px -1px 0 #002a54,
+      -1px 1px 0 #002a54,
+       1px 1px 0 #002a54;
 }
 .shadowBox {
   background-color: rgba(0, 0, 0, 0.4);
   padding: 1em;
+}
+
+.carousel-inner {
+
+}
+.carousel-inner .back-image {
+  width: 100%;
+  min-width: 1024px;
+  position: absolute;
+  top: 0;
+  z-index: -45;
+  top: -150px;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  -moz-filter: blur(5px);
+  -o-filter: blur(5px);
+  -ms-filter: blur(5px);
+}
+.carousel-inner .front-image {
+  display: block;
+  margin: 0 auto;
+  z-index: 90;
+  filter: brightness(1.5);
+  -webkit-filter: brightness(1.5);
+  -moz-filter: brightness(1.5);
+  -o-filter: brightness(1.5);
+  -ms-filter: brightness(1.5);
+}
+.heading-top {
+  bottom: none;
+  top: 20px;
+  position: relative;
+  display: block;
+  text-align: center;
+  padding: 20px;
+}
+
+.heading-top h1 {
+  font-size: 3em;
+  text-transform: uppercase;
+  color: #5ca632;
+}
+
+.heading-top h3 {
+  font-size: 3em;
+  color: #556b94;
+}
+.heading-top .logo {
+  display: block;
+  margin: 0 auto;
+}
+
+.heading-top h3 .dark-blue {
+  color: #013766;
+}
+#action {
+  margin-top: 1em;
+  font-size: 2em;
 }
