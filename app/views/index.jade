@@ -12,7 +12,7 @@ block content
             span.shadow Plataforma de datos abiertos
           div.tp-caption.very_large_black_text.lft.ltt(data-x="105" data-y="100" data-speed="500" data-start="1200" data-easing="easeOutExpo" style="font-size: 50px;color: #fff")
             span.shadow Bogot&aacute; C&oacute;mo Vamos
-          div.tp-caption.theme_caption3.sfl.stl.shadowBox(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Montserrat', sans-serif; color: #34495e;color: #fff")
+          div.tp-caption.theme_caption3.sfl.stl.shadowBox(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Fjalla One', sans-serif; color: #34495e;color: #fff")
             | Datos recolectados por el programa durante los &uacute;ltimos 15 a&ntilde;os,
             br
             | a disposici&oacute;n de la ciudadan&iacute;a para promover la participaci&oacute;n
@@ -27,7 +27,7 @@ block content
           
           div.tp-caption.very_large_black_text.lft.ltt(data-x="105" data-y="100" data-speed="500" data-start="1200" data-easing="easeOutExpo" style="font-size: 50px;")
             | Aplicaciones
-          div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Montserrat', sans-serif; color: #34495e;")
+          div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Fjalla One', sans-serif; color: #34495e;")
             | Aplicaciones que fomentan la participación ciudadana
             br
             | y ayudan a mejorar la calidad de vida.
@@ -39,7 +39,7 @@ block content
           
           div.tp-caption.very_large_black_text.lft.ltt(data-x="105" data-y="100" data-speed="500" data-start="1200" data-easing="easeOutExpo" style="font-size: 50px;")
             | Desarrolladores
-          div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Montserrat', sans-serif; color: #34495e;")
+          div.tp-caption.theme_caption3.sfl.stl(data-x="105" data-y="180" data-speed="500" data-start="1400" data-easing="easeOutExpo" style="font-family: 'Fjalla One', sans-serif; color: #34495e;")
             | Ofrecemos acceso a los c&aacute;talogos de datos del programa para que puedan
             br
             | construir aplicaciones y servicios para la ciudadan&iacute;a.
@@ -207,6 +207,11 @@ block content
         a(href='http://opendatacommons.org/licenses/odbl/summary/') odbl 
 
 block scripts
+  
+  script(src='/js/jquery.themepunch.revolution.min.js')
+  script(src='/js/jquery.carouFredSel-6.2.1.js')
+
+  
   script.
     var tpj = jQuery;
     tpj.noConflict();
@@ -257,34 +262,7 @@ block scripts
 
         shadow: 0
       });
-      // PrettyPhoto
-      tpj("a[rel^='prettyPhoto']").prettyPhoto({
-        theme: 'light_square',
-        social_tools: false
-      });
-      // FitVids
-      tpj(".responsive-video-wrapper").fitVids();
-      // jflickrfeed
-      tpj('.flickr-photos-list').jflickrfeed({
-        limit: 9,
-        qstrings: {
-          id: '71865026@N00'
-        },
-        itemTemplate: '<li><a href="{{image_b}}"><img src="{{image_s}}" alt="{{title}}" /></a></li>'
-      });
-      // jQuery UItoTop
-      tpj().UItoTop({ easingType: 'easeOutQuart' });
-      // Skin Chooser
-      tpj(".skin-chooser-toggle").click(function () {
-        tpj(".skin-chooser-wrap").toggleClass("show");
-      });
-      tpj(".color-skin").click(function () {
-        var cls = this.id;
-        tpj(".color-skin").removeClass("active");
-        tpj(this).addClass("active");
-        tpj("#utter-wrapper").removeClass();
-        tpj("#utter-wrapper").addClass(cls);
-      });
+ 
     });
     // jQuery CarouFredSel
     var caroufredsel = function () {
@@ -301,40 +279,6 @@ block scripts
         },
         prev: '#portfolio-prev',
         next: '#portfolio-next',
-        auto: {
-          play: false
-        }
-      });
-      tpj('#caroufredsel-blog-posts-container').carouFredSel({
-        responsive: true,
-        scroll: 1,
-        circular: false,
-        infinite: false,
-        items: {
-          visible: {
-              min: 1,
-              max: 3
-          }
-        },
-        prev: '#blog-posts-prev',
-        next: '#blog-posts-next',
-        auto: {
-          play: false
-        }
-      });
-      tpj('#caroufredsel-clients-container').carouFredSel({
-        responsive: true,
-        scroll: 1,
-        circular: false,
-        infinite: false,
-        items: {
-          visible: {
-              min: 1,
-              max: 4
-          }
-        },
-        prev: '#client-prev',
-        next: '#client-next',
         auto: {
           play: false
         }

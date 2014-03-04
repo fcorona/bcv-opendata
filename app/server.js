@@ -20,6 +20,7 @@ var express = require('express'),
     developer = require('./routes/dev');
 
 var app = express();
+app.use(express.compress());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.bodyParser());

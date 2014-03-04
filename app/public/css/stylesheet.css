@@ -2,12 +2,12 @@
  * -------------------------- */
 body {
     font-family: 'Open Sans', sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     color: #434244;
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
     font-weight: 700;
     color: #002a54;
 }
@@ -17,14 +17,14 @@ iframe {
 }
 
 input, button, select, textarea {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 a {
     color: #34495e;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 a:hover, a:focus {
@@ -92,7 +92,7 @@ a:focus {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
     margin-bottom: 0;
     border-radius: 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
      -webkit-transition: all 0.2s ease;
         transition: all 0.2s ease;
 }
@@ -446,7 +446,7 @@ a:focus {
  * -------------------------- */
 #page-title-wrapper {
     padding: 35px 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
     box-shadow: 0 0 5px #ecf0f1;
     border-bottom: 1px solid #ecf0f1;
 }
@@ -513,7 +513,7 @@ a:focus {
 }
 .nav-tabs > li > a {
   font-weight: 700;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Fjalla One', sans-serif;
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
@@ -539,7 +539,7 @@ a:focus {
     background-color: #f5f5f5;
     -webkit-box-shadow: none;
     box-shadow: none;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 .progress-bar {
@@ -617,7 +617,7 @@ blockquote small {
 /* Buttons
  * -------------------------- */
 .btn {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
     text-transform: uppercase;
@@ -1014,7 +1014,7 @@ blockquote small {
  * -------------------------- */
 #footer-2 {
     padding: 35px 0;
-    font-family: 'Montserrat',sans-serif;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 #footer-2 .list-inline {
@@ -1528,7 +1528,7 @@ blockquote small {
     position: relative;
 }
 .post-meta {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
     padding: 10px 0;
     overflow: hidden;
     padding-top: 5px;
@@ -1632,7 +1632,7 @@ blockquote small {
     margin: 0;
     border: 1px solid #ecf0f1;
     overflow: hidden;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 .project-details-list li {
@@ -1749,7 +1749,7 @@ blockquote small {
 
 .member-details .position {
     padding: 10px 0;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
     display: block;
 }
 
@@ -1805,7 +1805,7 @@ address {
     margin-bottom: 25px;
     font-style: normal;
     line-height: 23px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 /* Contact Form
