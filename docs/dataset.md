@@ -37,7 +37,7 @@ Lista todos los datasets registrados en la plataforma.
 
 ### Ejemplo de solicitud
 
-GET http://54.203.249.245/api/datasets/?key=whatever
+GET http://api.bogotacomovamos.org/api/datasets/?key=whatever
 
 #### Resultado
 
@@ -50,12 +50,12 @@ GET http://54.203.249.245/api/datasets/?key=whatever
   {
     "name": "iicv",
     "type": 1,
-    "href": "http://54.203.249.245/api/datasets/iicv?key=whatever"
+    "href": "http://api.bogotacomovamos.org/api/datasets/iicv?key=whatever"
   },
   {
     "name": "epc",
     "type": 2,
-    "href": "http://54.203.249.245/api/datasets/epc?key=whatever"
+    "href": "http://api.bogotacomovamos.org/api/datasets/epc?key=whatever"
   }
 
 ]
@@ -77,7 +77,7 @@ Devuelve el dataset cuyo nombre es {datasetName}
 
 ### Ejemplo de solicitud
 
-GET http://54.203.249.245/api/datasets/iicv?key=whatever
+GET http://api.bogotacomovamos.org/api/datasets/iicv?key=whatever
 
 #### Resultado
 
@@ -92,18 +92,18 @@ GET http://54.203.249.245/api/datasets/iicv?key=whatever
     {
       "dimensionId": 0,
       "name": "Educación",
-      "href": "http://54.203.249.245/api/dimensions/0?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/dimensions/0?key=whatever"
     },
     {
       "dimensionId": 1,
       "name": "Salud",
-      "href": "http://54.203.249.245/api/dimensions/1?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/dimensions/1?key=whatever"
     },
 ...
     {
       "dimensionId": 17,
       "name": "Demográfica",
-      "href": "http://54.203.249.245/api/dimensions/17?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/dimensions/17?key=whatever"
     }
   ]
 }

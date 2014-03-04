@@ -26,6 +26,3 @@ El informe de calidad de vida es un conjunto de indicadores de la ciudad
 estructurados en diferentes dimensiones y categorías. Son datos puntuales acerca
 de algún aspecto de la ciudad y pueden ser medidos en porcentajes, tasas,
 números, miles o descriptivos.
-
-## Estructura
-

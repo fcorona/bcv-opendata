@@ -29,7 +29,7 @@ retornada junto con las categorías que contiene.
 
 ### Ejemplo de solicitud
 
-GET http://54.203.249.245/api/dimensions/0?key=whatever
+GET http://api.bogotacomovamos.org/api/dimensions/0?key=whatever
 
 #### Resultado
 
@@ -45,27 +45,27 @@ GET http://54.203.249.245/api/dimensions/0?key=whatever
     {
       "categoryId": 0,
       "name": "Cobertura",
-      "href": "http://54.203.249.245/api/categories/0?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/categories/0?key=whatever"
     },
     {
       "categoryId": 1,
       "name": "Eficiencia Interna",
-      "href": "http://54.203.249.245/api/categories/1?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/categories/1?key=whatever"
     },
     {
       "categoryId": 2,
       "name": "Años promedio de educación",
-      "href": "http://54.203.249.245/api/categories/2?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/categories/2?key=whatever"
     },
     {
       "categoryId": 3,
       "name": "Analfabetismo",
-      "href": "http://54.203.249.245/api/categories/3?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/categories/3?key=whatever"
     },
     {
       "categoryId": 4,
       "name": "Calidad de la Educación",
-      "href": "http://54.203.249.245/api/categories/4?key=whatever"
+      "href": "http://api.bogotacomovamos.org/api/categories/4?key=whatever"
     }
   ]
 }

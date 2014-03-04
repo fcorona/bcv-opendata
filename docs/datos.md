@@ -129,7 +129,7 @@ Devuelve el conjunto de datos cuyo identificador es {id}.
 
 ### Ejemplo de solicitud para indicadores
 
-GET http://54.203.249.245/api/datas/0?key=whatever
+GET http://api.bogotacomovamos.org/api/datas/0?key=whatever
 
 #### Resultado
 
@@ -177,7 +177,7 @@ GET http://54.203.249.245/api/datas/0?key=whatever
 
 ### Ejemplo de solicitud para preguntas
 
-GET http://54.203.249.245/api/datas/1004?key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?key=whatever
 
 #### Resultado
 
@@ -278,10 +278,10 @@ GET http://54.203.249.245/api/datas/1004?key=whatever
 
 ### Ejemplo de solicitud para preguntas filtrando por años
 
-GET http://54.203.249.245/api/datas/1004?year=2008&key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?year=2008&key=whatever
 
 para mostrar más de un año solo hace falta agregar una coma:
-GET http://54.203.249.245/api/datas/1004?year=2008,2009&key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?year=2008,2009&key=whatever
 
 #### Resultado
 
@@ -318,7 +318,7 @@ GET http://54.203.249.245/api/datas/1004?year=2008,2009&key=whatever
 
 ### Ejemplo de solicitud para preguntas filtrando por género
 
-GET http://54.203.249.245/api/datas/1004?genre=1&key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?genre=1&key=whatever
 
 
 #### Resultado
@@ -359,7 +359,7 @@ GET http://54.203.249.245/api/datas/1004?genre=1&key=whatever
 
 ### Ejemplo de solicitud para preguntas filtrando por edad
 
-GET http://54.203.249.245/api/datas/1004?age=1&key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?age=1&key=whatever
 
 
 #### Resultado
@@ -400,7 +400,7 @@ GET http://54.203.249.245/api/datas/1004?age=1&key=whatever
 
 ### Ejemplo de solicitud para preguntas filtrando por nivel socio economico
 
-GET http://54.203.249.245/api/datas/1004?nse=1&key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?nse=1&key=whatever
 
 
 #### Resultado
@@ -441,7 +441,7 @@ GET http://54.203.249.245/api/datas/1004?nse=1&key=whatever
 
 ### Ejemplo de solicitud para preguntas filtrando por zona
 
-GET http://54.203.249.245/api/datas/1004?zone=1&key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?zone=1&key=whatever
 
 
 #### Resultado
