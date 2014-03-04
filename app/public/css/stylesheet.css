@@ -104,8 +104,8 @@ a:focus {
     font-weight: 800;
     color: #000 !important;
     text-transform: uppercase;
-    padding-top: 40px;
-    padding-bottom: 40px;
+    padding-top: 20px;
+    padding-bottom: 20px;
     font-family: 'Open Sans', sans-serif;
 }
 
@@ -224,7 +224,7 @@ a:focus {
     }
     
     #header .navbar-nav > li > a {
-        padding: 40px 18px;
+        padding: 20px 10px;
         text-transform: uppercase;
     }
 
@@ -252,7 +252,7 @@ a:focus {
 
     #header .navbar-nav > .active > a, #header .navbar-nav > .active > a:hover, #header .navbar-nav > .active > a:focus {
         border-bottom: 3px solid #57aa3a;
-        padding-bottom: 37px;
+        
         background-color: #1a242f;
     }
 
