@@ -37,29 +37,7 @@ block content
 
           div.page-header
             h2= dataset.name
-          
-          
-          div.row
-            div.col-md-2
-              label(for=description) descripci&oacute;n: 
-              span#description 
-              br
-              label(for=measureType) Tipo de Medida: 
-              span#measureType 
-              br
-              label(for=source) fuente: 
-              span#source 
-              br
-              label(for=coverage) cobertura: 
-              span#coverage 
-              br
-              label(for=period) periodicidad: 
-              span#period 
-
-            div.chart-container
-              svg#chart.chart.col-md-10
-
-
+            
           iframe(src="/graphIccv/#{dataset.id}" id="content-graphid" width="100%" frameborder=0 scrolling="no ")
 
 block aditionalScripts

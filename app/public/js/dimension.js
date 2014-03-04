@@ -6,7 +6,7 @@
 function dimension(){
 	margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
     width = (window.innerWidth)- margin.right,
-    height = (window.innerHeight) - margin.top - margin.bottom;
+    height = ((window.innerHeight) - margin.top - margin.bottom)/2;
 }
 var ancho_actual = window.innerWidth;
 var alto_actual = window.innerHeight;

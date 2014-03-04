@@ -6,4 +6,5 @@ function dimension_iframe(){
 	iframe.attr('height', 1000/* ancho_actual*0.75*/);
 	iframe.attr('width', ancho_actual*0.7);
 }
-window.onload=dimension_iframe;
+window.onload=dimension_iframe();
+window.onresize=dimension_iframe();

@@ -38,7 +38,7 @@ var loadIndicator = function(indicatorId){
 
     var margin = {top: 19.5, right: 19.5, bottom: 19.5, left: 39.5},
         width = ((window.innerWidth)- margin.right)*0.8,
-        height = ((window.innerHeight) - margin.top - margin.bottom);
+        height = ((window.innerHeight) - margin.top - margin.bottom)/2;
 
     /*var margin = {top: 20, right: 30, bottom: 30, left: 40},
         width = 1024 - margin.left - margin.right,
@@ -49,7 +49,7 @@ var loadIndicator = function(indicatorId){
 
     var chart = d3.select("#chart")
           .attr('width', '80%')
-          .attr('height', '100%');
+          .attr('height', '70%');
         //.attr("width", width + margin.left + margin.right)
         //.attr("height", height + margin.top + margin.bottom);
 
