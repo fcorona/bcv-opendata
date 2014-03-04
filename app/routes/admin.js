@@ -28,6 +28,7 @@ module.exports = function(app){
   app.get('/admin/datasets/:datasetId', validAdmin, viewDataset);
   app.get('/admin/datasets/:datasetId/edit', validAdmin, editDataset);
   app.get('/admin/datasets/:datasetId/clean', validAdmin, cleanDataset);
+  app.get('/admin/datasets/:datasetId/countData', validAdmin, countDataDataset);
   app.post('/admin/datasets/:datasetId/edit', validAdmin, updateDataset);
   app.get('/admin/datasets/:dataset/metrics', validAdmin, metrics);
 
@@ -205,6 +206,37 @@ var cleanDataset = function(req, res){
     }
   });
 };
+
+var countDataDataset = function(req, res){
+  ValuesModel.find({dataset: req.params.datasetId}, function(err, values){
+    var counter = {};
+    var countKey = function(key){
+      if(!(key in counter)){
+        counter[key] = 0;
+      }
+      counter[key]++;
+    };
+    for(var i=0; i<values.length; i++){
+      value = values[i];
+      var keys = Object.keys(value['_doc']);
+      for(var j = 0; j<keys.length; j++){
+        var key = keys[j];
+        if(value.get(key)){
+          countKey(key);
+        }
+      }
+    }
+
+    DataModel.find({dataset: req.params.datasetId}, function(err, datas){
+      for(var i=0; i<datas.length; i++){
+        var data = datas[i];
+        data.totalValues = counter[data['_id']];
+        data.save();
+      }
+      res.redirect('/admin/datasets/' + req.params.datasetId);
+    });
+  });
+}
 
 //lista las metricas para un dataset
 var metrics = function(req, res){

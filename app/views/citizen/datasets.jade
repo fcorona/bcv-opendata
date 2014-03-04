@@ -67,6 +67,7 @@ block content
                 a.format(href='/api/datas/#{dataset.id}/?key=comovamos/')
                   span.label.label-info API REST
                 br
+                p= dataset.totalValues>0?dataset.totalValues+' años disponibles':'no hay datos.'
 
           div.text-center
             ul.pagination

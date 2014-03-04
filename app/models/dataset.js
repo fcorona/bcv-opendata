@@ -95,7 +95,8 @@ var DataSchema = new mongoose.Schema({
   period: String,
   category: {type: Schema.ObjectId, ref: 'Category'},
   dimension: {type: Schema.ObjectId, ref: 'Dimension'},
-  dataset: {type: Schema.ObjectId, ref: 'Dataset'}
+  dataset: {type: Schema.ObjectId, ref: 'Dataset'},
+  totalValues: Number
 });
 
 
@@ -132,7 +133,7 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
 
       query.limit(resultsPerPage)
       .skip((page-1)*resultsPerPage)
-      .sort('-id')
+      .sort('-totalValues')
       .exec(function(err, datas){
         cb(err, datas, total);
       });

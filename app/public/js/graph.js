@@ -37,20 +37,11 @@ var transformData = function(data, type){
   if(type=='Alfabético'){
     return data;
   }
-  var data = Math.round(data*100) / 100;
-  if(type=='Tasa'){
-    return parseFloat(data).toLocaleString();
-  }
   if(type=='Porcentual'){
-    data = parseFloat(data*100).toLocaleString();
-    
+    data = parseFloat(data*100).toFixed(2).toLocaleString();
     return data+'%'; 
   }
-  if(type=='Númerico'){
-    return parseFloat(data).toLocaleString();
-  }
-
-  return parseFloat(data).toLocaleString();
+  return parseFloat(data).toFixed(2).toLocaleString();
 }
 
 var valuesAlpha = {
