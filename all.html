@@ -56,11 +56,6 @@
             
         </li>
     
-        <li>
-            <a href="index.html#estructura">Estructura</a>
-            
-        </li>
-    
 </ol>
 
             
@@ -183,7 +178,6 @@ conjunto de datos organizados.</p>
 estructurados en diferentes dimensiones y categorías. Son datos puntuales acerca
 de algún aspecto de la ciudad y pueden ser medidos en porcentajes, tasas,
 números, miles o descriptivos.</p>
-<h2 id="estructura">Estructura</h2>
 
 <h1 id="dataset">Dataset</h1>
 <p>Un dataset agrupa el conjunto de datos de cada informe:</p>
@@ -214,7 +208,7 @@ socioeconomico y zona geografica.</p>
 <h3 id="descripci-n">Descripción</h3>
 <p>Lista todos los datasets registrados en la plataforma.</p>
 <h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
-<p>GET <a href="http://54.203.249.245/api/datasets/?key=whatever">http://54.203.249.245/api/datasets/?key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datasets/?key=whatever">http://api.bogotacomovamos.org/api/datasets/?key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -225,12 +219,12 @@ socioeconomico y zona geografica.</p>
   {
     &quot;name&quot;: &quot;iicv&quot;,
     &quot;type&quot;: 1,
-    &quot;href&quot;: &quot;http://54.203.249.245/api/datasets/iicv?key=whatever&quot;
+    &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/datasets/iicv?key=whatever&quot;
   },
   {
     &quot;name&quot;: &quot;epc&quot;,
     &quot;type&quot;: 2,
-    &quot;href&quot;: &quot;http://54.203.249.245/api/datasets/epc?key=whatever&quot;
+    &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/datasets/epc?key=whatever&quot;
   }
 
 ]</code></pre>
@@ -243,7 +237,7 @@ socioeconomico y zona geografica.</p>
 <h3 id="descripci-n">Descripción</h3>
 <p>Devuelve el dataset cuyo nombre es {datasetName}</p>
 <h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
-<p>GET <a href="http://54.203.249.245/api/datasets/iicv?key=whatever">http://54.203.249.245/api/datasets/iicv?key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datasets/iicv?key=whatever">http://api.bogotacomovamos.org/api/datasets/iicv?key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -256,18 +250,18 @@ socioeconomico y zona geografica.</p>
     {
       &quot;dimensionId&quot;: 0,
       &quot;name&quot;: &quot;Educación&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/dimensions/0?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/dimensions/0?key=whatever&quot;
     },
     {
       &quot;dimensionId&quot;: 1,
       &quot;name&quot;: &quot;Salud&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/dimensions/1?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/dimensions/1?key=whatever&quot;
     },
 ...
     {
       &quot;dimensionId&quot;: 17,
       &quot;name&quot;: &quot;Demográfica&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/dimensions/17?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/dimensions/17?key=whatever&quot;
     }
   ]
 }</code></pre>
@@ -296,7 +290,7 @@ tópicos:</p>
 <p>Devuelve la dimensión cuyo identificador es {dimensionId}, la dimensión es
 retornada junto con las categorías que contiene.</p>
 <h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
-<p>GET <a href="http://54.203.249.245/api/dimensions/0?key=whatever">http://54.203.249.245/api/dimensions/0?key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/dimensions/0?key=whatever">http://api.bogotacomovamos.org/api/dimensions/0?key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -310,27 +304,27 @@ retornada junto con las categorías que contiene.</p>
     {
       &quot;categoryId&quot;: 0,
       &quot;name&quot;: &quot;Cobertura&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/0?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/categories/0?key=whatever&quot;
     },
     {
       &quot;categoryId&quot;: 1,
       &quot;name&quot;: &quot;Eficiencia Interna&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/1?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/categories/1?key=whatever&quot;
     },
     {
       &quot;categoryId&quot;: 2,
       &quot;name&quot;: &quot;Años promedio de educación&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/2?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/categories/2?key=whatever&quot;
     },
     {
       &quot;categoryId&quot;: 3,
       &quot;name&quot;: &quot;Analfabetismo&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/3?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/categories/3?key=whatever&quot;
     },
     {
       &quot;categoryId&quot;: 4,
       &quot;name&quot;: &quot;Calidad de la Educación&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/categories/4?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/categories/4?key=whatever&quot;
     }
   ]
 }</code></pre>
@@ -361,7 +355,7 @@ categoría.</li>
 <p>Devuelve la categoría cuyo identificador es {categoryId}, la categoría es
 retornada junto con los datos(indicadores ó preguntas) que contiene.</p>
 <h3 id="ejemplo-de-solicitud">Ejemplo de solicitud</h3>
-<p>GET <a href="http://54.203.249.245/api/categories/0?key=whatever">http://54.203.249.245/api/categories/0?key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/categories/0?key=whatever">http://api.bogotacomovamos.org/api/categories/0?key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -376,23 +370,23 @@ retornada junto con los datos(indicadores ó preguntas) que contiene.</p>
     {
       &quot;_id&quot;: 0,
       &quot;name&quot;: &quot;Tasa de cobertura bruta en básica primaria&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/0?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/datas/0?key=whatever&quot;
     },
     {
       &quot;_id&quot;: 1,
       &quot;name&quot;: &quot;Tasa de cobertura bruta en preescolar&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/1?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/datas/1?key=whatever&quot;
     },
     {
       &quot;_id&quot;: 2,
       &quot;name&quot;: &quot;Tasa de cobertura bruta en media vocacional&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/2?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/datas/2?key=whatever&quot;
     },
 ...
     {
       &quot;_id&quot;: 21,
       &quot;name&quot;: &quot;Tasa de cobertura neta en media vocacional&quot;,
-      &quot;href&quot;: &quot;http://54.203.249.245/api/datas/21?key=whatever&quot;
+      &quot;href&quot;: &quot;http://api.bogotacomovamos.org/api/datas/21?key=whatever&quot;
     }
   ]
 }</code></pre>
@@ -522,7 +516,7 @@ personas que viven en ciertas zonas de la ciudad.</p>
 <h3 id="descripci-n">Descripción</h3>
 <p>Devuelve el conjunto de datos cuyo identificador es {id}.</p>
 <h3 id="ejemplo-de-solicitud-para-indicadores">Ejemplo de solicitud para indicadores</h3>
-<p>GET <a href="http://54.203.249.245/api/datas/0?key=whatever">http://54.203.249.245/api/datas/0?key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datas/0?key=whatever">http://api.bogotacomovamos.org/api/datas/0?key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -563,7 +557,7 @@ personas que viven en ciertas zonas de la ciudad.</p>
 <li>404 Not found</li>
 </ul>
 <h3 id="ejemplo-de-solicitud-para-preguntas">Ejemplo de solicitud para preguntas</h3>
-<p>GET <a href="http://54.203.249.245/api/datas/1004?key=whatever">http://54.203.249.245/api/datas/1004?key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datas/1004?key=whatever">http://api.bogotacomovamos.org/api/datas/1004?key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -658,9 +652,9 @@ personas que viven en ciertas zonas de la ciudad.</p>
 </ul>
 <h2 id="obtener-datos-filtrados">Obtener datos filtrados</h2>
 <h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-a-os">Ejemplo de solicitud para preguntas filtrando por años</h3>
-<p>GET <a href="http://54.203.249.245/api/datas/1004?year=2008&amp;key=whatever">http://54.203.249.245/api/datas/1004?year=2008&amp;key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datas/1004?year=2008&amp;key=whatever">http://api.bogotacomovamos.org/api/datas/1004?year=2008&amp;key=whatever</a></p>
 <p>para mostrar más de un año solo hace falta agregar una coma:
-GET <a href="http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whatever">http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whatever</a></p>
+GET <a href="http://api.bogotacomovamos.org/api/datas/1004?year=2008,2009&amp;key=whatever">http://api.bogotacomovamos.org/api/datas/1004?year=2008,2009&amp;key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -690,7 +684,7 @@ GET <a href="http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whateve
 <li>404 Not found</li>
 </ul>
 <h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-g-nero">Ejemplo de solicitud para preguntas filtrando por género</h3>
-<p>GET <a href="http://54.203.249.245/api/datas/1004?genre=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?genre=1&amp;key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datas/1004?genre=1&amp;key=whatever">http://api.bogotacomovamos.org/api/datas/1004?genre=1&amp;key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -722,7 +716,7 @@ GET <a href="http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whateve
 <li>404 Not found</li>
 </ul>
 <h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-edad">Ejemplo de solicitud para preguntas filtrando por edad</h3>
-<p>GET <a href="http://54.203.249.245/api/datas/1004?age=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?age=1&amp;key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datas/1004?age=1&amp;key=whatever">http://api.bogotacomovamos.org/api/datas/1004?age=1&amp;key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -754,7 +748,7 @@ GET <a href="http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whateve
 <li>404 Not found</li>
 </ul>
 <h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-nivel-socio-economico">Ejemplo de solicitud para preguntas filtrando por nivel socio economico</h3>
-<p>GET <a href="http://54.203.249.245/api/datas/1004?nse=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?nse=1&amp;key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datas/1004?nse=1&amp;key=whatever">http://api.bogotacomovamos.org/api/datas/1004?nse=1&amp;key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>
@@ -786,7 +780,7 @@ GET <a href="http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whateve
 <li>404 Not found</li>
 </ul>
 <h3 id="ejemplo-de-solicitud-para-preguntas-filtrando-por-zona">Ejemplo de solicitud para preguntas filtrando por zona</h3>
-<p>GET <a href="http://54.203.249.245/api/datas/1004?zone=1&amp;key=whatever">http://54.203.249.245/api/datas/1004?zone=1&amp;key=whatever</a></p>
+<p>GET <a href="http://api.bogotacomovamos.org/api/datas/1004?zone=1&amp;key=whatever">http://api.bogotacomovamos.org/api/datas/1004?zone=1&amp;key=whatever</a></p>
 <h4 id="resultado">Resultado</h4>
 <ul>
 <li>HTTP Status: 200 (ok)</li>

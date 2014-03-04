@@ -33,14 +33,7 @@ documentTitles["index.html#informe-de-indicadores-de-calidad-de-vida"] = "Inform
 index.add({
     url: "index.html#informe-de-indicadores-de-calidad-de-vida",
     title: "Informe de Indicadores de Calidad de Vida",
-    body: "## Informe de Indicadores de Calidad de Vida El informe de calidad de vida es un conjunto de indicadores de la ciudad estructurados en diferentes dimensiones y categorías. Son datos puntuales acerca de algún aspecto de la ciudad y pueden ser medidos en porcentajes, tasas, números, miles o descriptivos.  "
-});
-
-documentTitles["index.html#estructura"] = "Estructura";
-index.add({
-    url: "index.html#estructura",
-    title: "Estructura",
-    body: "## Estructura  "
+    body: "## Informe de Indicadores de Calidad de Vida El informe de calidad de vida es un conjunto de indicadores de la ciudad estructurados en diferentes dimensiones y categorías. Son datos puntuales acerca de algún aspecto de la ciudad y pueden ser medidos en porcentajes, tasas, números, miles o descriptivos. "
 });
 
 
@@ -70,14 +63,14 @@ documentTitles["dataset.html#ejemplo-de-solicitud"] = "Ejemplo de solicitud";
 index.add({
     url: "dataset.html#ejemplo-de-solicitud",
     title: "Ejemplo de solicitud",
-    body: "### Ejemplo de solicitud  GET http://54.203.249.245/api/datasets/?key=whatever  "
+    body: "### Ejemplo de solicitud  GET http://api.bogotacomovamos.org/api/datasets/?key=whatever  "
 });
 
 documentTitles["dataset.html#resultado"] = "Resultado";
 index.add({
     url: "dataset.html#resultado",
     title: "Resultado",
-    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json [    {     \&quot;name\&quot;: \&quot;iicv\&quot;,     \&quot;type\&quot;: 1,     \&quot;href\&quot;: \&quot;http://54.203.249.245/api/datasets/iicv?key=whatever\&quot;   },   {     \&quot;name\&quot;: \&quot;epc\&quot;,     \&quot;type\&quot;: 2,     \&quot;href\&quot;: \&quot;http://54.203.249.245/api/datasets/epc?key=whatever\&quot;   }  ] ```  "
+    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json [    {     \&quot;name\&quot;: \&quot;iicv\&quot;,     \&quot;type\&quot;: 1,     \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/datasets/iicv?key=whatever\&quot;   },   {     \&quot;name\&quot;: \&quot;epc\&quot;,     \&quot;type\&quot;: 2,     \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/datasets/epc?key=whatever\&quot;   }  ] ```  "
 });
 
 documentTitles["dataset.html#errores"] = "Errores";
@@ -105,14 +98,14 @@ documentTitles["dataset.html#ejemplo-de-solicitud"] = "Ejemplo de solicitud";
 index.add({
     url: "dataset.html#ejemplo-de-solicitud",
     title: "Ejemplo de solicitud",
-    body: "### Ejemplo de solicitud  GET http://54.203.249.245/api/datasets/iicv?key=whatever  "
+    body: "### Ejemplo de solicitud  GET http://api.bogotacomovamos.org/api/datasets/iicv?key=whatever  "
 });
 
 documentTitles["dataset.html#resultado"] = "Resultado";
 index.add({
     url: "dataset.html#resultado",
     title: "Resultado",
-    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json {   \&quot;name\&quot;: \&quot;iicv\&quot;,   \&quot;type\&quot;: 1,   \&quot;dimensions\&quot;: [     {       \&quot;dimensionId\&quot;: 0,       \&quot;name\&quot;: \&quot;Educación\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/dimensions/0?key=whatever\&quot;     },     {       \&quot;dimensionId\&quot;: 1,       \&quot;name\&quot;: \&quot;Salud\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/dimensions/1?key=whatever\&quot;     }, ...     {       \&quot;dimensionId\&quot;: 17,       \&quot;name\&quot;: \&quot;Demográfica\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/dimensions/17?key=whatever\&quot;     }   ] } ```  "
+    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json {   \&quot;name\&quot;: \&quot;iicv\&quot;,   \&quot;type\&quot;: 1,   \&quot;dimensions\&quot;: [     {       \&quot;dimensionId\&quot;: 0,       \&quot;name\&quot;: \&quot;Educación\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/dimensions/0?key=whatever\&quot;     },     {       \&quot;dimensionId\&quot;: 1,       \&quot;name\&quot;: \&quot;Salud\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/dimensions/1?key=whatever\&quot;     }, ...     {       \&quot;dimensionId\&quot;: 17,       \&quot;name\&quot;: \&quot;Demográfica\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/dimensions/17?key=whatever\&quot;     }   ] } ```  "
 });
 
 documentTitles["dataset.html#errores"] = "Errores";
@@ -149,14 +142,14 @@ documentTitles["dimension.html#ejemplo-de-solicitud"] = "Ejemplo de solicitud";
 index.add({
     url: "dimension.html#ejemplo-de-solicitud",
     title: "Ejemplo de solicitud",
-    body: "### Ejemplo de solicitud  GET http://54.203.249.245/api/dimensions/0?key=whatever  "
+    body: "### Ejemplo de solicitud  GET http://api.bogotacomovamos.org/api/dimensions/0?key=whatever  "
 });
 
 documentTitles["dimension.html#resultado"] = "Resultado";
 index.add({
     url: "dimension.html#resultado",
     title: "Resultado",
-    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json {   \&quot;dimensionId\&quot;: 0,   \&quot;dataset\&quot;: \&quot;52b1d45fecdf70df0a000001\&quot;,   \&quot;name\&quot;: \&quot;Educación\&quot;,   \&quot;categories\&quot;: [     {       \&quot;categoryId\&quot;: 0,       \&quot;name\&quot;: \&quot;Cobertura\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/categories/0?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 1,       \&quot;name\&quot;: \&quot;Eficiencia Interna\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/categories/1?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 2,       \&quot;name\&quot;: \&quot;Años promedio de educación\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/categories/2?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 3,       \&quot;name\&quot;: \&quot;Analfabetismo\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/categories/3?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 4,       \&quot;name\&quot;: \&quot;Calidad de la Educación\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/categories/4?key=whatever\&quot;     }   ] } ```  "
+    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json {   \&quot;dimensionId\&quot;: 0,   \&quot;dataset\&quot;: \&quot;52b1d45fecdf70df0a000001\&quot;,   \&quot;name\&quot;: \&quot;Educación\&quot;,   \&quot;categories\&quot;: [     {       \&quot;categoryId\&quot;: 0,       \&quot;name\&quot;: \&quot;Cobertura\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/categories/0?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 1,       \&quot;name\&quot;: \&quot;Eficiencia Interna\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/categories/1?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 2,       \&quot;name\&quot;: \&quot;Años promedio de educación\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/categories/2?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 3,       \&quot;name\&quot;: \&quot;Analfabetismo\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/categories/3?key=whatever\&quot;     },     {       \&quot;categoryId\&quot;: 4,       \&quot;name\&quot;: \&quot;Calidad de la Educación\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/categories/4?key=whatever\&quot;     }   ] } ```  "
 });
 
 documentTitles["dimension.html#errores"] = "Errores";
@@ -193,14 +186,14 @@ documentTitles["categoria.html#ejemplo-de-solicitud"] = "Ejemplo de solicitud";
 index.add({
     url: "categoria.html#ejemplo-de-solicitud",
     title: "Ejemplo de solicitud",
-    body: "### Ejemplo de solicitud  GET http://54.203.249.245/api/categories/0?key=whatever  "
+    body: "### Ejemplo de solicitud  GET http://api.bogotacomovamos.org/api/categories/0?key=whatever  "
 });
 
 documentTitles["categoria.html#resultado"] = "Resultado";
 index.add({
     url: "categoria.html#resultado",
     title: "Resultado",
-    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json {   \&quot;categoryId\&quot;: 0,   \&quot;dimension\&quot;: \&quot;52b1d45fecdf70df0a000002\&quot;,   \&quot;dataset\&quot;: \&quot;52b1d45fecdf70df0a000001\&quot;,   \&quot;name\&quot;: \&quot;Cobertura\&quot;,   \&quot;datas\&quot;: [     {       \&quot;_id\&quot;: 0,       \&quot;name\&quot;: \&quot;Tasa de cobertura bruta en básica primaria\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/datas/0?key=whatever\&quot;     },     {       \&quot;_id\&quot;: 1,       \&quot;name\&quot;: \&quot;Tasa de cobertura bruta en preescolar\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/datas/1?key=whatever\&quot;     },     {       \&quot;_id\&quot;: 2,       \&quot;name\&quot;: \&quot;Tasa de cobertura bruta en media vocacional\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/datas/2?key=whatever\&quot;     }, ...     {       \&quot;_id\&quot;: 21,       \&quot;name\&quot;: \&quot;Tasa de cobertura neta en media vocacional\&quot;,       \&quot;href\&quot;: \&quot;http://54.203.249.245/api/datas/21?key=whatever\&quot;     }   ] } ```  "
+    body: "#### Resultado  * HTTP Status: 200 (ok) * Response Body:  ```json {   \&quot;categoryId\&quot;: 0,   \&quot;dimension\&quot;: \&quot;52b1d45fecdf70df0a000002\&quot;,   \&quot;dataset\&quot;: \&quot;52b1d45fecdf70df0a000001\&quot;,   \&quot;name\&quot;: \&quot;Cobertura\&quot;,   \&quot;datas\&quot;: [     {       \&quot;_id\&quot;: 0,       \&quot;name\&quot;: \&quot;Tasa de cobertura bruta en básica primaria\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/datas/0?key=whatever\&quot;     },     {       \&quot;_id\&quot;: 1,       \&quot;name\&quot;: \&quot;Tasa de cobertura bruta en preescolar\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/datas/1?key=whatever\&quot;     },     {       \&quot;_id\&quot;: 2,       \&quot;name\&quot;: \&quot;Tasa de cobertura bruta en media vocacional\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/datas/2?key=whatever\&quot;     }, ...     {       \&quot;_id\&quot;: 21,       \&quot;name\&quot;: \&quot;Tasa de cobertura neta en media vocacional\&quot;,       \&quot;href\&quot;: \&quot;http://api.bogotacomovamos.org/api/datas/21?key=whatever\&quot;     }   ] } ```  "
 });
 
 documentTitles["categoria.html#errores"] = "Errores";
@@ -265,7 +258,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-indicadores"] = "Ejemplo de
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-indicadores",
     title: "Ejemplo de solicitud para indicadores",
-    body: "### Ejemplo de solicitud para indicadores  GET http://54.203.249.245/api/datas/0?key=whatever  "
+    body: "### Ejemplo de solicitud para indicadores  GET http://api.bogotacomovamos.org/api/datas/0?key=whatever  "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";
@@ -286,7 +279,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-preguntas"] = "Ejemplo de s
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-preguntas",
     title: "Ejemplo de solicitud para preguntas",
-    body: "### Ejemplo de solicitud para preguntas  GET http://54.203.249.245/api/datas/1004?key=whatever  "
+    body: "### Ejemplo de solicitud para preguntas  GET http://api.bogotacomovamos.org/api/datas/1004?key=whatever  "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";
@@ -314,7 +307,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-aos
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-aos",
     title: "Ejemplo de solicitud para preguntas filtrando por años",
-    body: "### Ejemplo de solicitud para preguntas filtrando por años  GET http://54.203.249.245/api/datas/1004?year=2008&amp;key=whatever  para mostrar más de un año solo hace falta agregar una coma: GET http://54.203.249.245/api/datas/1004?year=2008,2009&amp;key=whatever  "
+    body: "### Ejemplo de solicitud para preguntas filtrando por años  GET http://api.bogotacomovamos.org/api/datas/1004?year=2008&amp;key=whatever  para mostrar más de un año solo hace falta agregar una coma: GET http://api.bogotacomovamos.org/api/datas/1004?year=2008,2009&amp;key=whatever  "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";
@@ -335,7 +328,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-gne
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-gnero",
     title: "Ejemplo de solicitud para preguntas filtrando por género",
-    body: "### Ejemplo de solicitud para preguntas filtrando por género  GET http://54.203.249.245/api/datas/1004?genre=1&amp;key=whatever   "
+    body: "### Ejemplo de solicitud para preguntas filtrando por género  GET http://api.bogotacomovamos.org/api/datas/1004?genre=1&amp;key=whatever   "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";
@@ -356,7 +349,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-eda
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-edad",
     title: "Ejemplo de solicitud para preguntas filtrando por edad",
-    body: "### Ejemplo de solicitud para preguntas filtrando por edad  GET http://54.203.249.245/api/datas/1004?age=1&amp;key=whatever   "
+    body: "### Ejemplo de solicitud para preguntas filtrando por edad  GET http://api.bogotacomovamos.org/api/datas/1004?age=1&amp;key=whatever   "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";
@@ -377,7 +370,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-niv
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-nivel-socio-economico",
     title: "Ejemplo de solicitud para preguntas filtrando por nivel socio economico",
-    body: "### Ejemplo de solicitud para preguntas filtrando por nivel socio economico  GET http://54.203.249.245/api/datas/1004?nse=1&amp;key=whatever   "
+    body: "### Ejemplo de solicitud para preguntas filtrando por nivel socio economico  GET http://api.bogotacomovamos.org/api/datas/1004?nse=1&amp;key=whatever   "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";
@@ -398,7 +391,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-zon
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-zona",
     title: "Ejemplo de solicitud para preguntas filtrando por zona",
-    body: "### Ejemplo de solicitud para preguntas filtrando por zona  GET http://54.203.249.245/api/datas/1004?zone=1&amp;key=whatever   "
+    body: "### Ejemplo de solicitud para preguntas filtrando por zona  GET http://api.bogotacomovamos.org/api/datas/1004?zone=1&amp;key=whatever   "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";
