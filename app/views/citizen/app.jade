@@ -5,7 +5,7 @@ block meta
 
   //og properties
   meta(property='og:title' content=app.name)
-  meta(property='og:image' content=app.logoUrl)
+  meta(property='og:image' content=app.imageUrl)
   meta(property='og:description' content=app.shortDescription)
 
 
@@ -16,7 +16,7 @@ block content
         div.col-md-3.list-group.dataset-provider
           div.list-group-item.header
             a(href=app.url)
-              img.img-responsive(src=app.logoUrl alt='Responsive image')
+              img.img-responsive(src=app.imageUrl alt='Responsive image')
             h4(style='overflow-x: hidden')
               a(href=app.url)= app.url
             small Desarrollada por 

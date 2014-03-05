@@ -58,12 +58,11 @@ block content
             for app in apps
               li.row.media(style='margin-bottom: 3em')
                 div.col-md-2(style='height:5em; overflow: hidden;')
-                  if app.logoUrl
-                    a(href='/apps/#{app.id}')
-                      img.media-object.img-responsive(src=app.logoUrl alt=app.name )
+                  a(href='/apps/#{app.id}')
+                    img.media-object.img-responsive(src=app.imageUrl alt=app.name )
 
                 div.col-md-10.media-body
-                  h4.media-heading
+                  h4(style='text-transform: capitalize').media-heading
                     a(href='/apps/#{app.id}')= app.name
                   
                   p= app.shortDescription

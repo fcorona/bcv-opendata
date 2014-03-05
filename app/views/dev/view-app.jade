@@ -16,7 +16,9 @@ block content
         
         dt Logo
         dd.thumbnail
-          img(src=app.logoUrl||'')
+          img(src=app.imageUrl)
+          if !app.logoUrl
+            span im&aacute;gen por defecto
 
         dt P&aacute;gina
         dd= app.url

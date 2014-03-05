@@ -68,6 +68,14 @@ AppSchema.methods.updateInfo = function(model, cb){
   this.save(cb);
 }
 
+AppSchema.statics.listLast = function(total, cb){
+  this
+  .find()
+  .sort('score')
+  .limit(total)
+  .exec(cb);
+}
+
 AppSchema.statics.listAll = function(page, resultsPerPage, tags, name, cb){
   var schema = this;
   
@@ -122,6 +130,10 @@ AppSchema.virtual('stringTags').get(function(){
     tags += this.tags[i].title + ', ';
   };
   return tags.substring(0, tags.length-2);
+});
+
+AppSchema.virtual('imageUrl').get(function(){
+  return this.logoUrl?this.logoUrl:'/imgs/genericLink_icon.jpg'
 });
 
 var ReportAppModel = mongoose.model('ReportApp', ReportAppSchema);

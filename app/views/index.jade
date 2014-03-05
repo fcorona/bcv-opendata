@@ -102,70 +102,17 @@ block content
 
       div.row.flush
         div#caroufredsel-portfolio-container
-          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
-            div.portfolio-item
-              div.portfolio-thumb
-                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
-                div.image-overlay
-                a.portfolio-link(href='/apps/')
-                  i.fa.fa-link
-              div.portfolio-details
-                h5 app1
-                p esta app busca informaci&oacute;n de los lugares m&aacute;s accesibles
+          for app in apps
+            div.col-xs-12.col-sm-6.col-md-4
+              div.portfolio-item
+                a.portfolio-link(href='/apps/#{app.id}')
+                  div.portfolio-thumb(style='height:200px;overflow:hidden')
+                    img.img-responsive(src=app.imageUrl alt='app')
+                div.portfolio-details(style='height:130px;')
+                  a.portfolio-link(href='/apps/#{app.id}')
+                    h5(style='text-transform:capitalize')= app.name
+                  p= app.shortDescription
 
-          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
-            div.portfolio-item
-              div.portfolio-thumb
-                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
-                div.image-overlay
-                a.portfolio-link(href='/apps/')
-                  i.fa.fa-link
-              div.portfolio-details
-                h5 app2
-                p esta app busca informaci&oacute;n de los lugares m&aacute;s accesibles
-
-          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
-            div.portfolio-item
-              div.portfolio-thumb
-                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
-                div.image-overlay
-                a.portfolio-link(href='/apps/')
-                  i.fa.fa-link
-              div.portfolio-details
-                h5 app3
-                p esta app busca informaci&oacute;n de los lugares m&aacute;s accesibles
-
-          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
-            div.portfolio-item
-              div.portfolio-thumb
-                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
-                div.image-overlay
-                a.portfolio-link(href='/apps/')
-                  i.fa.fa-link
-              div.portfolio-details
-                h5 app4
-                p esta app busca informaci&oacute;n de los lugares m&aacute;s accesibles
-
-          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
-            div.portfolio-item
-              div.portfolio-thumb
-                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
-                div.image-overlay
-                a.portfolio-link(href='/apps/')
-                  i.fa.fa-link
-              div.portfolio-details
-                h5 app5
-                p esta app busca informaci&oacute;n de los lugares m&aacute;s accesibles
-          div.col-xs-12.col-sm-6.col-md-4.portfolio-item-wrapper
-            div.portfolio-item
-              div.portfolio-thumb
-                img.img-responsive(src='http://bogotacomovamos.org/static/img/logo-s23116f47f6.png' alt='app')
-                div.image-overlay
-                a.portfolio-link(href='/apps/')
-                  i.fa.fa-link
-              div.portfolio-details
-                h5 app5
-                p esta app busca informaci&oacute;n de los lugares m&aacute;s accesibles
 
 
       span licenciamiento de los datos: 

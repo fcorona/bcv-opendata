@@ -32,7 +32,12 @@ var home = function(req, res){
   if(req.user){
     res.redirect(HOME_ROUTES[req.user.role]);
   }else{
-    res.render('index', {title:'Plataforma de openData'});
+    apps.AppModel.listLast(6, function(err, apps){
+      res.render('index', {
+        title:'Plataforma de openData',
+        apps: apps
+      });
+    })
   }
 };
 
