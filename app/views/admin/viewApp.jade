@@ -11,7 +11,7 @@ block adminContent
     
     dt Logo
     dd.thumbnail
-      img(src=app.imageUrl||'')
+      img(src=app.imageUrl onError="this.src='/imgs/genericLink_icon.jpg';")
 
     dt P&aacute;gina
     dd= app.url
