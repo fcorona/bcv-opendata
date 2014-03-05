@@ -106,8 +106,8 @@ block content
             div.col-xs-12.col-sm-6.col-md-4
               div.portfolio-item
                 a.portfolio-link(href='/apps/#{app.id}')
-                  div.portfolio-thumb(style='height:180px;overflow:hidden')
-                    img.img-responsive(src=app.imageUrl alt='app' onError="this.src='/imgs/genericLink_icon.jpg';" style='height:100%;display:block;margin:0 auto;')
+                  div.portfolio-thumb(style='height:180px;position:relative')
+                    img.img-responsive(src=app.imageUrl alt='app' onError="this.src='/imgs/genericLink_icon.jpg';" style='max-height:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;')
                 div.portfolio-details(style='height:130px;')
                   a.portfolio-link(href='/apps/#{app.id}')
                     h5(style='text-transform:capitalize')= app.name
