@@ -20,6 +20,12 @@ module.exports = function(app){
   app.get('/devs', developers);
   app.get('/challenges', challenges);
   app.get('/challenges/:challengeId', viewChallenge);
+  app.get('/license', function(req, res){
+    res.render('licenciamiento');
+  });
+  app.get('/about', function(req, res){
+    res.render('about');
+  })
 }
 
 //inicio para ciudadano

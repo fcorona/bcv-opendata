@@ -1,6 +1,5 @@
 body {
   padding-top: 70px;
-  padding-bottom: 30px;
 }
 
 .theme-dropdown .dropdown-menu {
@@ -187,6 +186,7 @@ a.format span:hover {
   font-size: 3em;
   color: #556b94;
 }
+
 .heading-top .logo {
   display: block;
   margin: 0 auto;
@@ -195,7 +195,52 @@ a.format span:hover {
 .heading-top h3 .dark-blue {
   color: #013766;
 }
+
 #action {
   margin-top: 1em;
   font-size: 2em;
+}
+
+#apps .portfolio-thumb {
+  height: 180px;
+  position: relative;
+}
+
+#apps .img-responsive {
+  max-height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;  
+}
+
+#apps .portfolio-details {
+  height:130px;
+}
+
+#apps .portfolio-details h5 {
+  text-transform: capitalize;
+}
+
+.sponsor img {
+  height: 50px;
+  margin: 0 10px;
+}
+
+.subpage-title h2 {
+  text-align: center;
+}
+
+footer {
+  margin-top: 100px;
+  padding: 25px 0 30px;
+  background-color: #1E1E2D;
+  color: #ddd;
+}
+
+footer a {
+  color: #fff;
+  text-transform: uppercase;
 }

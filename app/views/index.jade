@@ -51,12 +51,11 @@ block content
               i.fa-li.fa-lg.fa.fa-check-circle.text-info 
               | Dar visibilidad a aplicaciones c&iacute;vicas
 
-  hr
 
-  section.pad-top-50
+  section.pad-top-25
     div.container
       div.subpage-title
-        h5 C&aacute;talogos de datos
+        h2 C&aacute;talogos de datos
       div.row
         div#isotope-portfolio-container
           div.col-xs-12.col-md-6.portfolio-item-wrapper
@@ -93,27 +92,48 @@ block content
                     | representativa para las seis zonas urbanas de la ciudad, tres niveles
                     | socioeconómicos y por sexo.
 
-  hr
 
-  section#recent-works.pad-top-50
+  section#recent-works.pad-top-25
     div.container
       div.subpage-title
-        h5 Aplicaciones Recientes
+        h2 Aplicaciones Recientes
 
       div.row.flush
-        div#caroufredsel-portfolio-container
+        div#apps
           for app in apps
             div.col-xs-12.col-sm-6.col-md-4
               div.portfolio-item
                 a.portfolio-link(href='/apps/#{app.id}')
-                  div.portfolio-thumb(style='height:180px;position:relative')
-                    img.img-responsive(src=app.imageUrl alt='app' onError="this.src='/imgs/genericLink_icon.jpg';" style='max-height:100%;position:absolute;top:0;bottom:0;left:0;right:0;margin:auto;')
-                div.portfolio-details(style='height:130px;')
+                  div.portfolio-thumb
+                    img.img-responsive(src=app.imageUrl alt='app' onError="this.src='/imgs/genericLink_icon.jpg';")
+                div.portfolio-details
                   a.portfolio-link(href='/apps/#{app.id}')
-                    h5(style='text-transform:capitalize')= app.name
+                    h5= app.name
                   p= app.shortDescription
 
 
+  section#recent-works.pad-top-25
+    div.container
+      div.subpage-title
+        h2 Con el apoyo de:
 
-      span licenciamiento de los datos: 
-        a(href='http://opendatacommons.org/licenses/odbl/summary/') odbl 
+      
+      div.sponsors
+        div.centered
+          
+          a.sponsor(href='http://www.fundacioncorona.org.co/' target='_blank')
+            img(src='/imgs/fcorona.jpg' alt='Fundación Corona')
+          
+          a.sponsor(href='http://www.eltiempo.com/' target='_blank')
+            img(src='/imgs/eltiempo.jpg' alt='El Tiempo')
+          
+          a.sponsor(href='http://www.javeriana.edu.co/' target='_blank')
+            img(src='/imgs/javeriana.JPG' alt='Pontificia Universidad Javeriana')
+          
+          a.sponsor(href='http://www.ccb.org.co' target='_blank')
+            img(src='/imgs/ccb.JPG' alt='Cámara de Comercio de Bogotá')
+          
+          a.sponsor(href='http://www.bogotacomovamos.org' target='_blank')
+            img(src='/imgs/bogota-como-vamos.jpg' alt='Bogotá Cómo Vamos')
+        
+      
