@@ -8,8 +8,8 @@ body {
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: 'Fjalla One', sans-serif;
-    font-weight: 700;
     color: #002a54;
+    text-transform: uppercase;
 }
 
 iframe {
@@ -17,14 +17,12 @@ iframe {
 }
 
 input, button, select, textarea {
-    font-family: 'Fjalla One', sans-serif;
 }
 
 a {
     color: #34495e;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
-    font-family: 'Fjalla One', sans-serif;
 }
 
 a:hover, a:focus {
@@ -92,7 +90,6 @@ a:focus {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
     margin-bottom: 0;
     border-radius: 0;
-    font-family: 'Fjalla One', sans-serif;
      -webkit-transition: all 0.2s ease;
         transition: all 0.2s ease;
 }
@@ -100,7 +97,7 @@ a:focus {
     background-color: rgba(30, 30, 45, 0.9);
 }
 #header .navbar-brand {
-    font-size: 24px;
+    font-size: 1.5em;
     font-weight: 800;
     color: #000 !important;
     text-transform: uppercase;
@@ -446,7 +443,6 @@ a:focus {
  * -------------------------- */
 #page-title-wrapper {
     padding: 35px 0;
-    font-family: 'Fjalla One', sans-serif;
     box-shadow: 0 0 5px #ecf0f1;
     border-bottom: 1px solid #ecf0f1;
 }
@@ -513,7 +509,7 @@ a:focus {
 }
 .nav-tabs > li > a {
   font-weight: 700;
-  font-family: 'Fjalla One', sans-serif;
+  
 }
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
@@ -539,7 +535,6 @@ a:focus {
     background-color: #f5f5f5;
     -webkit-box-shadow: none;
     box-shadow: none;
-    font-family: 'Fjalla One', sans-serif;
 }
 
 .progress-bar {
@@ -617,7 +612,6 @@ blockquote small {
 /* Buttons
  * -------------------------- */
 .btn {
-    font-family: 'Fjalla One', sans-serif;
     -webkit-transition: all 0.2s ease;
     transition: all 0.2s ease;
     text-transform: uppercase;
@@ -1014,7 +1008,6 @@ blockquote small {
  * -------------------------- */
 #footer-2 {
     padding: 35px 0;
-    font-family: 'Fjalla One', sans-serif;
 }
 
 #footer-2 .list-inline {
@@ -1528,7 +1521,6 @@ blockquote small {
     position: relative;
 }
 .post-meta {
-    font-family: 'Fjalla One', sans-serif;
     padding: 10px 0;
     overflow: hidden;
     padding-top: 5px;
@@ -1632,7 +1624,6 @@ blockquote small {
     margin: 0;
     border: 1px solid #ecf0f1;
     overflow: hidden;
-    font-family: 'Fjalla One', sans-serif;
 }
 
 .project-details-list li {
@@ -1749,7 +1740,6 @@ blockquote small {
 
 .member-details .position {
     padding: 10px 0;
-    font-family: 'Fjalla One', sans-serif;
     display: block;
 }
 
@@ -1805,7 +1795,6 @@ address {
     margin-bottom: 25px;
     font-style: normal;
     line-height: 23px;
-    font-family: 'Fjalla One', sans-serif;
 }
 
 /* Contact Form

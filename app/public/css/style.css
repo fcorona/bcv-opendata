@@ -204,19 +204,40 @@ a.format span:hover {
   -o-filter: brightness(1.5);
   -ms-filter: brightness(1.5);
 }
+
+#main {
+  background:url('/imgs/tequendama.jpg') no-repeat 50% 70%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 600px;
+}
+
+
 .heading-top {
   bottom: none;
   top: 20px;
-  position: relative;
-  display: block;
+  position: absolute;
   text-align: center;
-  padding: 20px;
+  margin: auto;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 400px;
 }
 
 .heading-top h1 {
   font-size: 3em;
   text-transform: uppercase;
-  color: #5ca632;
+  color: #fff;
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.7);
+  text-shadow: 3px 3px 4px rgba(0,0,0,0.8);
+}
+
+.heading-top h1.enphasis {
+  font-size: 3.5em;
 }
 
 .heading-top h3 {
@@ -281,3 +302,4 @@ footer a {
   color: #fff;
   text-transform: uppercase;
 }
+

@@ -1,11 +1,52 @@
 extends layout
 
 block content
-  div.container
-    div.heading-top
-      h1 Plataforma de datos abiertos
-      img.logo(src='/imgs/bogota-como-vamos.jpg')
-      a#action.btn.btn-flat.flat-info(href='/datasets') EMPOD&Eacute;RATE
+  section#main
+    div.container()
+      div.heading-top
+        h1 Tecnología, información e innovación al servicio
+        h1.enphasis de los bogotanos
+        a#action.btn.btn-info(href='/datasets') EMPOD&Eacute;RATE
+
+  hr
+  section.pad-top-25
+    div.container
+      div(style='font-family: "Monserrat", sans-serif;text-align:center;font-size:2em')
+        p Trabajemos juntos: tú tienes las ideas, nosotros la información.
+          br 
+          | Construyamos juntos una ciudad mejor.
+
+  hr
+
+  section.pad-top-5
+    div.container
+      div.row
+        div.col-xs-12.col-sm-4
+          div.service.service-2
+            span.service-icon
+              i.fa.fa-group
+            
+            div.service-details
+              h4 Ciudadanos
+              //p Donec in velit vel ipsum auctor pulvinar. Vesti bulum iaculis lacinia est. Proin dictum elementum velit. Fusce euismod auctor pulvinar.
+
+        div.col-xs-12.col-sm-4
+          div.service.service-2
+            span.service-icon
+              i.fa.fa-laptop
+            
+            div.service-details
+              h4 Desarrolladores
+              //p Donec in velit vel ipsum auctor pulvinar. Vesti bulum iaculis lacinia est. Proin dictum elementum velit. Fusce euismod auctor pulvinar.
+
+        div.col-xs-12.col-sm-4
+          div.service.service-2
+            span.service-icon
+              i.fa.fa-pencil
+            
+            div.service-details
+              h4 Diseñadores
+              //p Donec in velit vel ipsum auctor pulvinar. Vesti bulum iaculis lacinia est. Proin dictum elementum velit. Fusce euismod auctor pulvinar.
 
 
   section.pad-top-25
