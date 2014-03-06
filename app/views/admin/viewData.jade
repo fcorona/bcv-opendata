@@ -1,0 +1,32 @@
+extends layoutAdmin
+
+block adminContent
+  div.page-header
+    h1= data.name
+      small.pull-right
+        a(href='/admin/datas?page=#{page}') volver 
+
+
+  dl.dl-horizontal
+    
+    dt Nombre
+    dd= data.name
+
+    dt Descripci&oacute;n
+    dd= data.description
+
+    dt Tipo de medida
+    dd= data.measureType
+
+    dt Fuente
+    dd= data.source
+
+    dt Cobertura
+    dd= data.coverage
+
+    dt Periodicidad
+    dd= data.period
+
+    hr
+    div.pull-right
+      a.btn.btn-default(href='/admin/datas/#{data.id}/edit/#{page}') Editar

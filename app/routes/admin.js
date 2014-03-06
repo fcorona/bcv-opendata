@@ -50,6 +50,12 @@ module.exports = function(app){
   app.get('/admin/challenges/:id', validAdmin, viewChallenge);
   app.get('/admin/challenges/:id/edit', validAdmin, editChallenge);
   app.post('/admin/challenges/:id/edit', validAdmin, updateChallenge);
+
+  app.get('/admin/datas', validAdmin, listDatas);
+  app.get('/admin/datas/:dataId/edit/:page', validAdmin, editData);
+  app.post('/admin/datas/:dataId/edit/:page', validAdmin, updateData);
+  app.get('/admin/datas/:dataId/:page', validAdmin, viewData);
+  
 };
 
 var MENU_STATES = {
@@ -57,7 +63,8 @@ var MENU_STATES = {
   DATASETS: {datasets: 'active'},
   DEVS: {devs: 'active'},
   APPS: {apps: 'active'},
-  CHALLENGES: {challenges: 'active'}
+  CHALLENGES: {challenges: 'active'},
+  DATAS: {datas: 'active'}
 }
 
 //inicio para admin
@@ -805,6 +812,119 @@ var updateChallenge = function(req, res){
     challenge.ends = model.ends;
     challenge.save(function(err, challengeSaved){
       res.redirect('admin/challenges/' + challengeSaved.id);
+    });
+  });
+};
+
+var listDatas = function(req, res){
+  //valida las entradas
+  var page = parseInt(req.query.page) || 1;
+  var resultsPerPage = 20;
+
+
+  DataModel.listAll(page, resultsPerPage, [], '',
+  function(err, datas, total){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+
+    var total = Math.ceil(total/resultsPerPage);
+    res.render('admin/datas', {
+      datas: datas,
+      current: page,
+      total: total,
+      menu: MENU_STATES.DATAS
+    });
+  });
+};
+
+var viewData = function(req, res){
+  var id = req.params.dataId;
+  var page = req.params.page;
+  DataModel.findById(id, function(err, data){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!data){
+      res.send(404, 'Indicador no encontrado');
+      return;
+    }
+    res.render('admin/viewData', {
+      data: data,
+      page: page,
+      menu: MENU_STATES.DATAS
+    });
+  });
+};
+
+var editData = function(req, res){
+  var id = req.params.dataId;
+  var page = req.params.page;
+  DataModel.findById(id)
+  .exec(function(err, data){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    if(!data){
+      res.send(404, 'Indicador no encontrado');
+      return;
+    }
+
+    res.render('admin/editData', {
+      model: data,
+      errors: {},
+      page: page,
+      menu: MENU_STATES.DATAS
+    });
+  });
+};
+
+
+var updateData = function(req, res){
+  var id = req.params.dataId;
+  var page = req.params.page;
+  var model = {},
+     errors = {};
+
+  //validar campos:
+  model.name = req.body.name || '';
+  if(model.name.length == 0 ){
+    errors.name = 'El nombre no puede estar vacio.';
+  };
+
+  model.description = req.body.description || '';
+  if(model.description.length == 0){
+    errors.description = 'La descripci&oacute;n no puede estar vacia';
+  };
+
+  model.source = req.body.source || '';
+  if(model.source.length == 0){
+    errors.source = 'La fuente no puede estar vacia';
+  };
+
+  if(Object.keys(errors).length > 0){
+    res.render('admin/editData', {
+      model: model,
+      errors: errors,
+      page: page,
+      menu: MENU_STATES.DATAS
+    });
+    return;
+  }
+
+  DataModel.findById(id, function(err, data){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    data.name = model.name;
+    data.description = model.description;
+    data.source = model.source;
+    data.save(function(err, dataSaved){
+      res.redirect('admin/datas/' + dataSaved.id + '/' + page);
     });
   });
 };

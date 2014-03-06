@@ -229,7 +229,7 @@ a:focus {
     }
 
     #header.affix .navbar-nav > li > a {
-        padding: 25px 18px;
+        padding: 25px 10px;
         text-transform: uppercase;
     }
 

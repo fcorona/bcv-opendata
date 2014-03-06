@@ -1,0 +1,38 @@
+extends layoutAdmin
+
+block adminContent
+
+  div.page-header
+    h2 Editando #{model.name}
+      small.pull-right
+        a(href='/admin/datas/#{model.id}/#{page}') volver
+
+  form.form-horizontal(role='form' method='POST')
+    div.form-group(class=errors.name?'has-error':'')
+      label.col-sm-2.control-label(for='name') Nombre
+
+      div.col-sm-10
+        input#name.form-control(type='text' name='name' required value=model.name)
+        if model.name
+          span.help-block= model.name
+
+    div.form-group(class=errors.description?'has-error':'')
+      label.col-sm-2.control-label(for='description') Descripci&oacute;n
+      
+      div.col-sm-10
+        textarea#description.form-control(name='description' minlength=10 required)= model.description
+        if errors.description
+          span.help-block= errors.description
+
+    div.form-group(class=errors.source?'has-error':'')
+      label.col-sm-2.control-label(for='source') Fuente
+      
+      div.col-sm-10
+        textarea#source.form-control(name='source' minlength=10 required)= model.source
+        if errors.source
+          span.help-block= errors.source
+  
+    div.form-group
+    
+      div.col-sm-offset-2.col-sm-10
+        button.btn.btn-primary.pull-right(type='submit') Guardar
