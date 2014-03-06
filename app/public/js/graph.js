@@ -41,6 +41,9 @@ var transformData = function(data, type){
     data = parseFloat(data*100).toFixed(2).toLocaleString();
     return data+'%'; 
   }
+  if(data%1 === 0){
+    return parseInt(data).toLocaleString();
+  }
   return parseFloat(data).toFixed(2).toLocaleString();
 }
 
@@ -59,21 +62,22 @@ var valuesAlpha = {
 var loadIndicator = function(indicatorId){
   d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
 
-    var margin = {top: 20, right: 30, bottom: 30, left: 40},
+    var margin = {top: 20, right: 30, bottom: 30, left: 100},
         width = 700 - margin.left - margin.right,
         height = 400 - margin.top - margin.bottom;
 
     var y = d3.scale.linear()
-          .range([height, 0]);
+          .range([height, 25]);
 
     var chart = d3.select("#chart")
-          .attr('width', 300)
+          .attr('width', 400)
           .attr('height', 400);
         //.attr("width", width + margin.left + margin.right)
         //.attr("height", height + margin.top + margin.bottom);
 
     var the_data = [];
     var the_domain = [];
+
 
     chart.selectAll('g').remove();
 
@@ -92,19 +96,23 @@ var loadIndicator = function(indicatorId){
     }
 
     var max = d3.max(the_data);
-    console.log(data.measureType=='Porcentual', data.measureType)
-    if(data.measureType=='Porcentual' && max<1)
-      y.domain([0, 1.1]);
-    else if(data.measureType=='Alfabético')
+    if(data.measureType=='Alfabético')
       y.domain([0, 11]);
     else
       y.domain([0, max*1.1]);
 
-    var barWidth = 30;
     var x = d3.scale.ordinal()
           .domain(the_domain)
-          .rangeRoundBands([0, width - 100], .1);
+          .rangeRoundBands([70, width], .2);
 
+    var tip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([-10, 0])
+    .html(function(d) {
+      return "<span style='color:steelblue'>" + transformData(data.datas[d], data.measureType) + "</span>";
+    });
+
+    chart.call(tip);
     var xAxis = d3.svg.axis()
          .scale(x)
          .orient("bottom");
@@ -113,12 +121,14 @@ var loadIndicator = function(indicatorId){
         .scale(y)
         .orient("left")
         .ticks(10, "");
+    if(data.measureType=='Porcentual'){
+      yAxis.tickFormat(d3.format(".0%"));
+    }
 
     var bar = chart.selectAll("g")
           .data(the_domain)
           .enter().append("g")
           .attr("transform", function(d) { return "translate(" + x(d) + ",0)"; });
-    console.log('bar', bar);
 
     bar.append("rect")
       .attr("y", function(d){
@@ -133,34 +143,25 @@ var loadIndicator = function(indicatorId){
         if(data.measureType=='Alfabético'){
           value = valuesAlpha[value];
         }
-        return height -y(value);
+        return height - y(value);
       })
-      .attr("width", x.rangeBand() - 5);
+      .attr("class", "bar")
+      .attr("width", x.rangeBand() - 5)
+      .on('mouseover', tip.show)
+      .on('mouseout', tip.hide);
 
-    bar.append("text")
-      .attr("x", x.rangeBand() / 3) 
-      .attr("y", function(d) { return y(data.datas[d]) - 20; })
-      .attr("dy", ".75em")
-      .text(function(d){
-        
-        return transformData(data.datas[d], data.measureType);
-      });
 
 
     chart.append("g")
          .attr("class", "x axis")
-         .attr("transform", "translate(0," + height + ")")
+         .attr("transform", "translate(-4," + height + ")")
          .call(xAxis);
 
     chart.append("g")
          .attr("class", "y axis")
-         .call(yAxis)
-         .append("text")
-         .attr("transform", "rotate(-90)")
-         .attr("y", 6)
-         .attr("dy", ".71em")
-         .style("text-anchor", "end")
-         .text(data.measureType);
+         .attr("transform", "translate(66," + 0 + ")")
+         .call(yAxis);
+
 
     d3.select('#dataset').html(data.dataset);
     d3.select('#dimension').html(data.dimension);

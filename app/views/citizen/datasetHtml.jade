@@ -71,9 +71,7 @@ block content
           br
           h4 Gr&aacute;fico:
           br
-          br
           div.row
-            div.col-md-1
             div.chart-container
               svg#chart.chart.col-md-10
           
@@ -86,6 +84,7 @@ block content
 block aditionalScripts
   script(src='/js/dimension.js')
   script(src='/js/d3.v3.min.js')
+  script(src='http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js')
   script(src='/js/graph.js')
   script.
     initGraph('#{dataset.id}');
