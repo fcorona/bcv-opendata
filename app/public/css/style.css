@@ -18,10 +18,6 @@ body {
 #chart {
 }
 
-.chart rect {
-  fill: steelblue;
-}
-
 .chart text {
   fill: black;
   font: 0.7em sans-serif;
@@ -41,8 +37,11 @@ body {
   stroke: #000;
   shape-rendering: crispEdges;
 }
+.bar {
+  fill: #315b4e;
+}
 .bar:hover {
-  fill: #57aa3a;
+  fill: #e6642f;
 }
 
 .d3-tip {
@@ -303,3 +302,13 @@ footer a {
   text-transform: uppercase;
 }
 
+.project-details-list {
+  font-size: 0.8em;
+}
+.project-details-list h6 {
+  text-transform: capitalize;
+  color: #999;
+}
+.project-terms {
+  text-align: right;
+}

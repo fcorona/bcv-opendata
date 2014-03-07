@@ -119,6 +119,7 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
     if(name && name!==''){
       queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
     }
+    queryTotal.where({totalValues: { $gt: 0 }});
     
     queryTotal
     .count()
@@ -130,6 +131,7 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
       if(name && name!==''){
         query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
       }
+      query.where({totalValues: { $gt: 0 }});
 
       query.limit(resultsPerPage)
       .skip((page-1)*resultsPerPage)

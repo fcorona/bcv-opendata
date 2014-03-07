@@ -19,34 +19,32 @@ block content
             h3 Bogotá Cómo Vamos
             a(href='http://bogotacomovamos.org/') bogotacomovamos.org
           
-          ul.list-unstyled
+          ul.project-details-list
 
-            li.list-group-item
-              b Cat&aacute;logo de datos: 
-              span= dataset.dataset.title
-            li.list-group-item
-              b Categor&iacute;a: 
-              span= dataset.category.name
-            li.list-group-item
-              b Dimensi&oacute;n: 
-              span= dataset.dimension.name
-
-
-            li.list-group-item
-              b Unidad de medida: 
-              span= dataset.measureType
-            li.list-group-item
-              b Fuente: 
-              span= dataset.source
-            li.list-group-item
-              b Cobertura: 
-              span= dataset.coverage
-            li.list-group-item
-              b Periodicidad: 
-              span= dataset.period
+            li
+              h6 Cat&aacute;logo de datos: 
+              div.project-terms= dataset.dataset.title
+            li
+              h6 Categor&iacute;a: 
+              div.project-terms= dataset.category.name
+            li
+              h6 Dimensi&oacute;n: 
+              div.project-terms= dataset.dimension.name
+            li
+              h6 Unidad de medida: 
+              div.project-terms= dataset.measureType
+            li
+              h6 Fuente: 
+              div.project-terms= dataset.source
+            li
+              h6 Cobertura: 
+              div.project-terms= dataset.coverage
+            li
+              h6 Periodicidad: 
+              div.project-terms= dataset.period
 
           div.list-group-item.socials
-            span Compartir en redes sociales
+            h5 Compartir en redes sociales
           
           ul.list-unstyled
             li.list-group-item
