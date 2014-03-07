@@ -205,12 +205,20 @@ a.format span:hover {
 }
 
 #main {
-  background:url('/imgs/tequendama.jpg') no-repeat 50% 70%;
+  background:url('/imgs/FOTO3.jpg') no-repeat 50% 70%;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
   height: 600px;
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+  width: 100%;
+  position: absolute;
+  top:0;
 }
 
 
