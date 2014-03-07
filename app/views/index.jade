@@ -11,7 +11,7 @@ block content
   hr
   section.pad-top-25
     div.container
-      div(style='font-family: "Monserrat", sans-serif;text-align:center;font-size:2em')
+      div(style='font-family: "Monserrat", sans-serif;text-align:center;font-size:2em;font-weight: 800;color: #768594;')
         p Trabajemos juntos: tú tienes las ideas, nosotros la información.
           br 
           | Construyamos juntos una ciudad mejor.
@@ -82,8 +82,8 @@ block content
     div.container
       div.subpage-title
         h2 Aplicaciones Populares
-        div.controls
-          span#blog-posts-prev.prev.disabled(style='display: inline-block;')
+        div.controls(style='top:initial; bottom:5px;')
+          span#blog-posts-prev.prev(style='display: inline-block;')
             i.fa.fa-angle-left
           span#blog-posts-next.next(style='display: inline-block;')
             i.fa.fa-angle-right
@@ -140,7 +140,6 @@ block scripts
   script(src='/js/jquery-migrate-1.2.1.min.js')
   script(src='/js/jquery.carouFredSel-6.2.1.js')
   script.
-    console.log('que hae?');
     var tpj = jQuery;
     tpj.noConflict();
     tpj(document).ready(function () {
@@ -148,7 +147,7 @@ block scripts
         tpj('#apps').carouFredSel({
           responsive: true,
           scroll: 1,
-          circular: false,
+          circular: true,
           infinite: false,
           items: {
             visible: {
@@ -159,13 +158,12 @@ block scripts
           prev: '#blog-posts-prev',
           next: '#blog-posts-next',
           auto: {
-            play: false
+            play: true
           }
         });
       }
       tpj(window).load(function () {
         caroufredsel();
-        console.log('alo');
       });
       tpj(window).resize(function () {
         caroufredsel();

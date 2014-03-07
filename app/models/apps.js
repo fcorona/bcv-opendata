@@ -70,7 +70,7 @@ AppSchema.methods.updateInfo = function(model, cb){
 
 AppSchema.statics.listLast = function(total, cb){
   this
-  .find()
+  .find({allowed:true})
   .sort('-score')
   .limit(total)
   .exec(cb);
