@@ -59,17 +59,17 @@ var datasets = function(req, res){
   var page = parseInt(req.query.page) || 1;
   var resultsPerPage = 10;
 
-  var tagsToArray = tags.split(',');
+  var tagsToArray = tags.split(';');
   tags = '';
   for(var i = 0; i < tagsToArray.length; i++){
     var tag = (tagsToArray[i] || '').trim();
     if(tag !== ''){
-      tags += tag+',';
+      tags += tag+';';
     }
   };
 
 
-  dataset.DataMongo.listAll(page, resultsPerPage, tags.split(','), name,
+  dataset.DataMongo.listAll(page, resultsPerPage, tags.split(';'), name,
   function(err, datasets, total){
     if(err){
       res.send(500, err);

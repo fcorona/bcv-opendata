@@ -16,30 +16,32 @@ block content
       div.row
         div.col-md-3.list-group.dataset-provider
           div.list-group-item.socials
-            span Palabras Clave
+            h5 Palabras Clave
           
           ul.list-unstyled
             li.list-group-item
               a(href='/apps?page=1&name=#{name}')
-                span Remover todos
-                  span.label.label-danger.pull-right
-                    span.glyphicon.glyphicon-minus-sign
+                div(style='position:relative')
+                  span Remover todos
+                  span(style='display:block;position:absolute;top:0;right:0')
+                    i.fa.fa-minus-square-o 
 
             for tag in allTags
               li.list-group-item
                 if tags.indexOf(tag.title) == -1
                   a(href='/apps?page=1&tags=#{tag.title+","+tags}&name=#{name}')
-                    div
-                      span.text-capitalize= tag.title
-                      span.label.label-success.pull-right
-                        span.glyphicon.glyphicon-plus-sign
+                    div(style='position:relative')
+                      span.text-capitalize(style='padding-right: 1.2em;')= tag.title
+                      span(style='display:block;position:absolute;top:0;right:0')
+                        i.fa.fa-square-o
 
                 else
                   a(href='/apps?page=1&tags=#{tags.replace(tag.title, "")}&name=#{name}')
-                    div
-                      span.text-capitalize= tag.title
-                      span.label.label-danger.pull-right
-                        span.glyphicon.glyphicon-minus-sign
+                    div(style='position:relative')
+                      span.text-capitalize(style='padding-right: 1.2em;')
+                        b= tag.title
+                      span(style='display:block;position:absolute;top:0;right:0')
+                        i.fa.fa-check-square-o
 
 
 

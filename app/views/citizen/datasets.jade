@@ -17,29 +17,31 @@ block content
       div.row
         div.col-md-3.list-group.dataset-provider
           div.list-group-item.socials
-            span Palabras clave
+            h5 Categor&iacute;as
           ul.list-unstyled
             li.list-group-item
               a(href='/datasets?name=#{name}')
-                span Remover todos
-                  span.label.label-danger.pull-right
-                    span.glyphicon.glyphicon-minus-sign
+                div(style='position:relative')
+                  span Remover todos
+                  span(style='display:block;position:absolute;top:0;right:0')
+                    i.fa.fa-minus-square-o
 
             for tag in allTags
               li.list-group-item
                 if tags.indexOf(tag.name) == -1
-                  a(href='/datasets?tags=#{tag.name+","+tags}&name=#{name}')
-                    div
-                      span= tag.name
-                      span.label.label-success.pull-right
-                        span.glyphicon.glyphicon-plus-sign
+                  a(href='/datasets?tags=#{tag.name+";"+tags}&name=#{name}')
+                    div(style='position:relative')
+                      span(style='padding-right:1.2em')= tag.name
+                      span(style='display:block;position:absolute;top:0;right:0')
+                        i.fa.fa-square-o
 
                 else
                   a(href='/datasets?tags=#{tags.replace(tag.name, "")}&name=#{name}')
-                    div
-                      span= tag.name
-                      span.label.label-danger.pull-right
-                        span.glyphicon.glyphicon-minus-sign
+                    div(style='position:relative')
+                      span(style='padding-right: 1em;')
+                        b= tag.name
+                      span(style='display:block;position:absolute;top:0;right:0')
+                        i.fa.fa-check-square-o
 
         div.col-md-9
           form(class='form-inline' role='form' method='GET')
