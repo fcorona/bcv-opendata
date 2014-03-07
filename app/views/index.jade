@@ -81,20 +81,37 @@ block content
   section#recent-works.pad-top-25
     div.container
       div.subpage-title
-        h2 Aplicaciones Recientes
+        h2 Aplicaciones Populares
+        div.controls
+          span#blog-posts-prev.prev.disabled(style='display: inline-block;')
+            i.fa.fa-angle-left
+          span#blog-posts-next.next(style='display: inline-block;')
+            i.fa.fa-angle-right
 
       div.row.flush
-        div#apps
-          for app in apps
+        div.caroufredsel_wrapper
+          div#apps.caroufredsel-portfolio-container
+            for app in apps
+              div.col-xs-12.col-sm-6.col-md-4
+                div.portfolio-item
+                  a.portfolio-link(href='/apps/#{app.id}')
+                    div.portfolio-thumb
+                      img.img-responsive(src=app.imageUrl alt=app.name onError="this.src='/imgs/genericLink_icon.jpg';")
+                  div.portfolio-details
+                    a.portfolio-link(href='/apps/#{app.id}')
+                      h5= app.name
+                    p= app.shortDescription
+            
             div.col-xs-12.col-sm-6.col-md-4
               div.portfolio-item
-                a.portfolio-link(href='/apps/#{app.id}')
+                a.portfolio-link(href='/apps')
                   div.portfolio-thumb
-                    img.img-responsive(src=app.imageUrl alt='app' onError="this.src='/imgs/genericLink_icon.jpg';")
+                    span.img-responsive(style='text-align:center')
+                      i.fa.fa-plus-circle(style='font-size: 13em')
                 div.portfolio-details
-                  a.portfolio-link(href='/apps/#{app.id}')
-                    h5= app.name
-                  p= app.shortDescription
+                  a.portfolio-link(href='/apps')
+                    h5 Ver más aplicaciones
+                  p Descubre las diferentes aplicaciones construidas para mejorar nuestra calidad de vida.
 
 
   section#recent-works.pad-top-25
@@ -119,3 +136,38 @@ block content
             img(src='/imgs/ccb.JPG' alt='Cámara de Comercio de Bogotá')
           
       
+block scripts
+  script(src='/js/jquery-migrate-1.2.1.min.js')
+  script(src='/js/jquery.carouFredSel-6.2.1.js')
+  script.
+    console.log('que hae?');
+    var tpj = jQuery;
+    tpj.noConflict();
+    tpj(document).ready(function () {
+      var caroufredsel = function () {
+        tpj('#apps').carouFredSel({
+          responsive: true,
+          scroll: 1,
+          circular: false,
+          infinite: false,
+          items: {
+            visible: {
+              min: 1,
+              max: 3
+            }
+          },
+          prev: '#blog-posts-prev',
+          next: '#blog-posts-next',
+          auto: {
+            play: false
+          }
+        });
+      }
+      tpj(window).load(function () {
+        caroufredsel();
+        console.log('alo');
+      });
+      tpj(window).resize(function () {
+        caroufredsel();
+      });
+    });
