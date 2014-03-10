@@ -339,3 +339,40 @@ footer a {
 .project-terms {
   text-align: right;
 }
+
+.dataset-home {
+  position:relative;
+  height:256px;
+}
+.dataset-home .portfolio-details {
+  background-color: #4d2b3c;
+  color: #fff;
+  height: 100%;
+  z-index:-1;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  margin: auto;
+  position:absolute;
+}
+.dataset-home img {
+  z-index:2;
+}
+.dataset-home img {
+  position:absolute;
+  opacity: 1;
+  height: 100%;
+  background-color: #fff;
+}
+.dataset-home h5 {
+  color: #fff;
+}
+.dataset-home:hover img {
+  -webkit-transform: translate(0px, -100%);
+  -moz-transform:    translate(0px, -100%);
+  -ms-transform:     translate(0px, -100%);
+  -o-transform:      translate(0px, -100%);
+  transform:         translate(0px, -100%);
+}
