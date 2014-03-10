@@ -877,10 +877,6 @@ blockquote small {
     transition: all 0.2s ease;
 }
 
-.portfolio-item:hover .portfolio-thumb img {
-    transform: scale(1.1);
-}
-
 .portfolio-item .portfolio-thumb .image-overlay {
     background-color: #57aa3a;
     width: 100%;
