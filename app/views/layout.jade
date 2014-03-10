@@ -32,6 +32,14 @@ html
 
       ga('create', 'UA-48622324-1', 'bogotacomovamos.org');
       ga('send', 'pageview');
+    script.
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1&appId=196293643902816";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
     block meta
 
 
@@ -84,6 +92,51 @@ html
             p(style='text-align:center;font-size:1.5em')= messages.error
         block content
 
+    footer#footer-1.footer
+      div.container
+        div.row
+          div.col-md-4
+            div.widget.about-us
+              div.footer-brand
+                | BCV
+                span &nbsp;Datos Abiertos
+              p Plataforma de datos abiertos del programa&nbsp;
+                b Bogotá Cómo Vamos
+                | &nbsp;
+
+            
+            div.widget.stay-connedted
+              div.subpage-title
+                h5 Contacto
+
+              ul.social-links
+                li
+                  a.facebook(href='https://www.facebook.com/programabogotacomovamos')
+                    i.fa.fa-facebook
+                li
+                  a.twitter(href='https://twitter.com/bogotacomovamos')
+                    i.fa.fa-twitter
+                li
+                  a.rss(href='http://www.bogotacomovamos.org/blog/')
+                    i.fa.fa-rss
+
+          div.col-md-4
+            div.widget.popular-posts
+              div.subpage-title
+                h5 Aplicaciones Populares
+              
+              ul.recent-posts
+                for app in popApps
+                  li
+                    a(href='/apps/#{app.id}')
+                      img(src=app.imageUrl alt=app.name)
+                    h5
+                      a(href='/apps/#{app.id}')= app.name
+                      small= app.shortDescription
+
+          div.col-md-4
+            div.widget
+              div.fb-like-box(data-href="https://www.facebook.com/programabogotacomovamos" data-width="100%" data-height="300px" data-colorscheme="dark" data-show-faces="false" data-header="false" data-stream="true" data-show-border="false")
 
     footer.footer
       div.container
@@ -100,7 +153,7 @@ html
           span
             a(target='_blank' href='http://www.bogotacomovamos.org')  Bogotá Cómo Vamos
           br
-          span --2014--
+          span © BOGOTÁ CÓMO VAMOS 2014
 
             
 

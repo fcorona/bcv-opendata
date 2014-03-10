@@ -308,10 +308,20 @@ a.format span:hover {
 }
 
 footer {
-  margin-top: 100px;
   padding: 25px 0 30px;
-  background-color: #1E1E2D;
+  background-color: #434244;
   color: #ddd;
+}
+#footer-1 {
+  padding: 5px 0;
+  background-color: #1E1E2D;
+  margin-top: 50px;
+}
+#footer-1 .subpage-title h5 {
+  color: #fff;
+}
+.footer-brand {
+  color: #fff;
 }
 
 footer a {

@@ -17,7 +17,8 @@ var express = require('express'),
     login = require('./routes/login'),
     api = require('./routes/api'),
     citizen = require('./routes/citizen'),
-    developer = require('./routes/dev');
+    developer = require('./routes/dev'),
+    apps = require('./models/apps');
 
 var app = express();
 app.use(express.compress());
@@ -78,7 +79,11 @@ passport.deserializeUser(function(id, done) {
 app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  next();
+  //carga apps populares en el home:
+  apps.AppModel.listLast(3, function(err, apps){
+    res.locals.popApps = apps;
+    next();
+  })
 });
 
 // configurando las rutas
