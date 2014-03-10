@@ -261,6 +261,15 @@ a.format span:hover {
   color: #013766;
 }
 
+.author {
+  position: absolute;
+  bottom: 0.5em;
+  right: 1em;
+  background-color: rgba(0,0,0,0.5);
+  padding: 0.5em 1em;
+  color: #fff;
+}
+
 #action {
   margin-top: 1em;
   font-size: 2em;
