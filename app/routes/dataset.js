@@ -25,7 +25,10 @@ exports.showDataset = function(req, res, next){
         return;
       }
 
-      res.render(renderFormat[format], {dataset: foundDataset});
+      res.render(renderFormat[format], {
+        title: foundDataset.name,
+        dataset: foundDataset
+      });
       return;
     });
     return;
