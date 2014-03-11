@@ -140,7 +140,5 @@ var loadIndicator = function(indicatorId){
 
 
 var initGraph = function(dataset){
-  d3.json('/api/datas/'+ dataset +'?key=asdasd', function(datasets) {
-    loadIndicator(dataset);
-  });  
+  loadIndicator(dataset);
 };

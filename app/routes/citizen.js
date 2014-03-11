@@ -4,12 +4,13 @@ var datasetRoute = require('./dataset'),
     TagModel = require('../models/basics').TagModel,
     utils = require('../util/validators'),
     ScoreModel = require('../models/score').ScoreModel,
-    ChallengeModel = require('../models/challenges').ChallengeModel;
+    ChallengeModel = require('../models/challenges').ChallengeModel,
+    MetricModel = require('../models/metric').MetricModel,
+    METRIC_VIAS = require('../models/metric').METRIC_VIAS;
 
 module.exports = function(app){
   app.get('/', home);
   app.get('/datasets', datasets);
-  app.get('/datasets/:name/interactive', datasetInteractivo);
   app.get('/datasets/:name/:format?', datasetRoute.showDataset);
   app.get('/apps', listApps);
   app.get('/apps/successfullReport', successfullReport);
@@ -27,21 +28,7 @@ module.exports = function(app){
     res.render('about');
   })
 
-  app.get('/graphIccv/:id', function(req, res){
-    dataset.DataMongo.findById(req.params.id)
-      .exec(function (err, foundDataset){
-        if(err){
-          res.send(500, err);
-          return;
-        }
-        if(!foundDataset){
-          res.render(404, '404');
-          return;
-        }
-        res.render('citizen/graphIccv.jade', {dataset:foundDataset});
-      });
-  });
-
+  app.get('/graphIccv/:id', embebedDataset);
 }
 
 //inicio para ciudadano
@@ -145,10 +132,6 @@ var listApps = function(req, res){
   });
 };
 
-//lista datasets
-var datasetInteractivo = function(req, res){
-  res.render('citizen/iicvInteractivo');
-};
 
 //ver app
 var viewApp = function(req, res){
@@ -289,4 +272,20 @@ var viewChallenge = function(req, res){
       challenge: challenge
     });
   });
+};
+
+var embebedDataset = function(req, res){
+  dataset.DataMongo.findById(req.params.id)
+    .exec(function (err, foundDataset){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      if(!foundDataset){
+        res.render(404, '404');
+        return;
+      }
+      MetricModel.saveMetric(METRIC_VIAS.embebed, null, foundDataset['_id']);
+      res.render('citizen/graphIccv.jade', {dataset:foundDataset});
+    });
 };

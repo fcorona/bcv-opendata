@@ -1,4 +1,6 @@
-var dataset = require('../models/dataset');
+var dataset = require('../models/dataset'),
+    MetricModel = require('../models/metric').MetricModel,
+    METRIC_VIAS = require('../models/metric').METRIC_VIAS;
 
 module.exports = function(app){
   app.get('/api/datasets', listDataset);
@@ -231,6 +233,10 @@ var readDatasetIndicator = function(req, res, next){
     if(!data){
       res.json(404, {message: 'no existe la data '+ req.params.indicator});
       return;
+    }
+    //guarda el registro de la petición del dataset por api
+    if(req.ip!==req.socket.address().address){
+      MetricModel.saveMetric(METRIC_VIAS.json, null, data['_id']);
     }
 
     dataset.DatasetMongo.findOne({'_id':data.dataset}, function(err, datasetDB){

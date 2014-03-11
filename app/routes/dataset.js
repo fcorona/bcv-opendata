@@ -1,5 +1,7 @@
 var flash = require('connect-flash'),
     dataset = require('../models/dataset'),
+    MetricModel = require('../models/metric').MetricModel,
+    METRIC_VIAS = require('../models/metric').METRIC_VIAS,
     Iconv = require('iconv').Iconv,
     csv = require('csv');
 
@@ -75,6 +77,7 @@ exports.showDataset = function(req, res, next){
         res.render(404, '404');
         return;
       }
+      MetricModel.saveMetric(METRIC_VIAS[format], null, foundDataset['_id']);
 
       if(format==='csv'){
         exportCSV(foundDataset, res);
