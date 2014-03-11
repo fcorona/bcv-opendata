@@ -1,15 +1,64 @@
 var flash = require('connect-flash'),
-    dataset = require('../models/dataset');
+    dataset = require('../models/dataset'),
+    csv = require('csv');
+
+var exportCSV = function(foundDataset, res){
+  var headers = ['Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
+  var content = [];
+  content.push(foundDataset.dimension.name);
+  content.push(foundDataset.category.name);
+  content.push(foundDataset.name);
+  content.push(foundDataset.description);
+  content.push(foundDataset.measureType);
+  content.push(foundDataset.source);
+  content.push(foundDataset.coverage);
+  content.push(foundDataset.period);
+  var filter = {year:1};
+  var id = foundDataset['_id'];
+  filter[''+id]=1;
+  dataset.ValuesMongo.find({
+    dataset: foundDataset.dataset
+  },
+  filter,
+  {
+    sort: {year: 1}
+  },
+  function(err, values){
+    if(err){
+      res.send(500, err);
+      return;
+    }
+    for (var i = 0; i < values.length; i++) {
+      var value = values[i];
+      headers.push(value.year);
+      content.push(value.getValue(''+id));
+    };
+    
+    res.contentType('csv');
+    res.set('Content-Disposition', 'attachment; filename='+foundDataset.name+'.csv');
+    var result = [];
+    csv()
+    .from([headers, content], { delimiter: ';'})
+    .to(id+'.csv')
+    .on('data', function(data) {
+      result.push(data);
+    })
+    .on('end', function() {
+      res.send(result.join(''));
+    });
+  });
+}
 
 exports.showDataset = function(req, res, next){
   var renderFormat = {'html': 'citizen/datasetHtml',
                       'table': 'datasetTable',
                       'list': 'dataset',
-                      'graph': 'citizen/datasetGraph'};
+                      'graph': 'citizen/datasetGraph',
+                      'csv': 'none'};
   var format = req.params.format || 'html';
   format = format in renderFormat ? format : 'html';
 
-  if(format == 'html' || format == 'graph'){
+  if(format == 'html' || format == 'graph' || format === 'csv'){
 
     dataset.DataMongo.findOne({name: req.params.name})
     .populate('dataset')
@@ -25,10 +74,14 @@ exports.showDataset = function(req, res, next){
         return;
       }
 
-      res.render(renderFormat[format], {
-        title: foundDataset.name,
-        dataset: foundDataset
-      });
+      if(format==='csv'){
+        exportCSV(foundDataset, res);
+      }else{
+        res.render(renderFormat[format], {
+          title: foundDataset.name,
+          dataset: foundDataset
+        });
+      }
       return;
     });
     return;

@@ -232,7 +232,7 @@ a.format span:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 400px;
+  height: 250px;
 }
 
 .heading-top h1 {
@@ -244,7 +244,7 @@ a.format span:hover {
 }
 
 .heading-top h1.enphasis {
-  font-size: 3.5em;
+  font-size: 4.5em;
 }
 
 .heading-top h3 {
@@ -375,4 +375,7 @@ footer a {
   -ms-transform:     translate(0px, -100%);
   -o-transform:      translate(0px, -100%);
   transform:         translate(0px, -100%);
+}
+#action {
+  font-weight: normal;
 }

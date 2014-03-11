@@ -80,7 +80,7 @@ app.all('*', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   //carga apps populares en el home:
-  apps.AppModel.listLast(3, function(err, apps){
+  apps.AppModel.listLast(4, function(err, apps){
     res.locals.popApps = apps;
     next();
   })

@@ -946,5 +946,4 @@ var processFile = function (err, data) {
   
   transformData(parsedData, years);
 };
-
 exports.validateHeaders = validateHeaders;
