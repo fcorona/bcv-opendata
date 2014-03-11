@@ -75,12 +75,24 @@ block content
           
           ul.list-group
             li.list-group-item
-              a(href='/datasets/#{dataset.name}/csv' target='_blank') descargar CSV
-          
+              a.panel-title(href='/datasets/#{dataset.name}/csv' target='_blank') Descargar CSV
+            li#accordion.panel-group
+                div.panel.panel-default
+                  div.panel-heading(style='background-color:#fff')
+                    span.panel-title
+                      a.accordion-toggle.collapsed(data-toggle='collapse' data-parent='#accordion' href='#collapseOne')
+                        | Insertar gr&aacute;fica en p&aacute;gina web
+                  div#collapseOne.panel-collapse.collapse
+                    div.panel-body
+                      span Copie y pegue el siguiente c&oacute;digo para agregarlo en su p&aacute;gina web.
+                      textarea.col-md-6
+                        | &lt;iframe width="100%" height="600" src="http://api.bogotacomovamos.org/graphIccv/#{dataset.id}" frameborder="0"&gt;&lt;/iframe&gt;
+            
+          br
           h4 Desarrolladores:
           ul.list-group
             li.list-group-item
-              a(href='/api/datas/#{dataset.id}/?key=comovamos/' target='_blank') API REST
+              a.panel-title(href='/api/datas/#{dataset.id}/?key=comovamos/' target='_blank') API REST
 
 
 block aditionalScripts
