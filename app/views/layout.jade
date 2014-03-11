@@ -129,7 +129,7 @@ html
                 for app in popApps
                   li
                     a(href='/apps/#{app.id}')
-                      img(src=app.imageUrl alt=app.name)
+                      img(src=app.imageUrl alt=app.name onError="this.src='/imgs/genericLink_icon.jpg';")
                     h5
                       a(href='/apps/#{app.id}')= app.name
                       small= app.shortDescription
