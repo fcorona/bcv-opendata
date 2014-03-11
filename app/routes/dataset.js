@@ -35,6 +35,7 @@ var exportCSV = function(foundDataset, res){
     };
     
     res.contentType('csv');
+    res.charset = 'utf-8';
     res.set('Content-Disposition', 'attachment; filename='+foundDataset.name+'.csv');
     var result = [];
     csv()
