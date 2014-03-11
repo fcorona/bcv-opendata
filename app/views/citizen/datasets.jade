@@ -54,20 +54,18 @@ block content
 
           ul.list-unstyled
             for dataset in datasets
-              li
+              li(style='padding: 10px;')
                 h3 
                   a(href='/datasets/#{dataset.name}')= dataset.name
                 p= dataset.description
-                a.format(href='/datasets/#{dataset.name}/graph/')
-                  span.label.label-primary Interactivo
-                | &nbsp;|&nbsp;
-                a.format(href='/datasets/#{dataset.name}/csv')
-                  span.label.label-success CSV
-                | &nbsp;|&nbsp;
-                a.format(href='/api/datas/#{dataset.id}/?key=comovamos/')
-                  span.label.label-info API REST
-                br
-                p= dataset.totalValues>0?dataset.totalValues+' años disponibles':'no hay datos.'
+                div(style='display:inline-block;width:50%')
+                  a.format(href='/datasets/#{dataset.name}/csv')
+                    span.label.label-success CSV
+                  | &nbsp;|&nbsp;
+                  a.format(href='/api/datas/#{dataset.id}/?key=comovamos/')
+                    span.label.label-info API REST
+                div(style='display:inline-block;width:50%;text-align:right;font-size:0.8em')
+                  i= dataset.totalValues>0?'Información de '+dataset.totalValues+' años disponible.':'no hay datos.'
 
           div.text-center
             ul.pagination
