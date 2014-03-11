@@ -16,6 +16,11 @@ body {
 }
 
 #chart {
+  width:100%;
+}
+.row {
+  margin-right: 0;
+  margin-left: 0;
 }
 
 .chart text {
@@ -23,13 +28,21 @@ body {
   font: 0.7em sans-serif;
   text-anchor: middle;
 }
-.chart-container {
-  padding: 0 3em;
-}
-
 .axis text {
   font: 10px sans-serif;
 }
+@media (max-width: 767px) {
+  .chart text {
+    font-size: 0.5em;
+  } 
+  .axis text {
+    font-size: 0.5em;
+  }
+}
+.chart-container {
+  padding: 0;
+}
+
 
 .axis path,
 .axis line {

@@ -1,45 +1,104 @@
-div.page-header
-  h2= dataset.title
-    p= dataset.description
+doctype html
+html
+  head
+    style.
+      body {
+        padding: 0.5em;
+      }
+      #chart {
+        width:100%;
+      }
+      .row {
+        margin-right: 0;
+        margin-left: 0;
+      }
 
-  div.row
-    h3.col-md-4.text-center Dimensi&oacute;n
-    h3.col-md-4.text-center Categoría
-    h3.col-md-4.text-center Indicador
+      .chart text {
+        fill: black;
+        font: 0.7em sans-serif;
+        text-anchor: middle;
+      }
+      .axis text {
+        font: 10px sans-serif;
+      }
+      .chart-container {
+        padding: 0;
+      }
 
-  form.form-inline.row(role="form" action="")
-    div.form-group.col-md-4
-      select.form-control.col-md-12#dimensionSelect
+
+      .axis path,
+      .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+      }
+      .bar {
+        fill: #315b4e;
+      }
+      .bar:hover {
+        fill: #e6642f;
+      }
+
+      .d3-tip {
+        line-height: 1;
+        font-weight: bold;
+        padding: 12px;
+        background: rgba(250, 250, 250, 0.6);
+        color: #fff;
+        border-radius: 2px;
+      }
+
+      /* Creates a small triangle extender for the tooltip */
+      .d3-tip:after {
+        box-sizing: border-box;
+        display: inline;
+        font-size: 10px;
+        width: 100%;
+        line-height: 1;
+        color: rgba(0, 0, 0, 0.8);
+        content: "\25BC";
+        position: absolute;
+        text-align: center;
+      }
+
+      /* Style northward tooltips differently */
+      .d3-tip.n:after {
+        margin: -1px 0 0 0;
+        top: 100%;
+        left: 0;
+      }
+      footer {
+        text-align: center;
+      }
+      h3{
+
+      }
+      @media (max-width: 767px) {
+        .chart text,
+        .axis text {
+          font-size: 0.5em;
+        } 
+        body, h3 {
+          font-size: 0.8em;
+          line-height: 0.8em;
+        } 
         
-    div.form-group.col-md-4
-      select.form-control#categorySelect
-        
-    div.form-group.col-md-4
-      select.form-control#indicatorSelect
-      
-  div.row
-    div.col-md-2
-      label(for=description) descripci&oacute;n: 
-      span#description 
-      br
-      label(for=measureType) Tipo de Medida: 
-      span#measureType 
-      br
-      label(for=source) fuente: 
-      span#source 
-      br
-      label(for=coverage) cobertura: 
-      span#coverage 
-      br
-      label(for=period) periodicidad: 
-      span#period 
+      }
+    //close style
+
+  body
+    div.page-header
+
 
     div.chart-container
       svg#chart.chart.col-md-10
+    footer
+      h3 Indicador objetivo de #{dataset.name}
+      a(href='/datasets/#{dataset.name}' target='_blank' alt='Ver en la plataforma') Datos abiertos Bogot&aacute; C&oacute;mo Vamos
 
-block aditionalScripts
-  script(src='/js/dimension.js')
-  script(src='/js/d3.v3.min.js')
-  script(src='/js/graph.js')
-  script.
-    initGraph('#{dataset.name}');
+    block aditionalScripts
+      script(src='/js/d3.v3.min.js')
+      script(src='http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js')
+      script(src='/js/graph.js')
+      script.
+        initGraph('#{dataset.id}');

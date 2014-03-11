@@ -26,6 +26,22 @@ module.exports = function(app){
   app.get('/about', function(req, res){
     res.render('about');
   })
+
+  app.get('/graphIccv/:id', function(req, res){
+    dataset.DataMongo.findById(req.params.id)
+      .exec(function (err, foundDataset){
+        if(err){
+          res.send(500, err);
+          return;
+        }
+        if(!foundDataset){
+          res.render(404, '404');
+          return;
+        }
+        res.render('citizen/graphIccv.jade', {dataset:foundDataset});
+      });
+  });
+
 }
 
 //inicio para ciudadano
