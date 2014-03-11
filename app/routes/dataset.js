@@ -1,5 +1,6 @@
 var flash = require('connect-flash'),
     dataset = require('../models/dataset'),
+    Iconv = require('iconv').Iconv,
     csv = require('csv');
 
 var exportCSV = function(foundDataset, res){
@@ -34,18 +35,18 @@ var exportCSV = function(foundDataset, res){
       content.push(value.getValue(''+id));
     };
     
-    res.contentType('csv');
-    res.charset = 'utf-8';
+    res.set('Content-Type', 'text/csv');
     res.set('Content-Disposition', 'attachment; filename='+foundDataset.name+'.csv');
+    var iconv = new Iconv('UTF-8', 'ISO-8859-1');
     var result = [];
     csv()
     .from([headers, content], { delimiter: ';'})
-    .to(id+'.csv')
     .on('data', function(data) {
       result.push(data);
     })
     .on('end', function() {
-      res.send(result.join(''));
+      var buffer = iconv.convert(result.join(''));
+      res.send(buffer);
     });
   });
 }
