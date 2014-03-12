@@ -32,7 +32,7 @@ var x = undefined;
 var the_domain = [];
 
 var loadIndicator = function(indicatorId){
-  d3.json('/api/datas/' + indicatorId + '?key=asdasdas', function(data) {
+  d3.json('/api/datas/' + indicatorId + '?key=asdasdas&no_track=1', function(data) {
     chart = d3.select("#chart");
     var clientWidth = parseInt(chart.style('width'));
     var clientHeight = clientWidth*0.6;

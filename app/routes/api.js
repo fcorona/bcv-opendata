@@ -235,7 +235,7 @@ var readDatasetIndicator = function(req, res, next){
       return;
     }
     //guarda el registro de la petición del dataset por api
-    if(req.ip!==req.socket.address().address){
+    if(req.query.no_track!=='1'){
       MetricModel.saveMetric(METRIC_VIAS.json, null, data['_id']);
     }
 
