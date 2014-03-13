@@ -6,7 +6,8 @@ var datasetRoute = require('./dataset'),
     ScoreModel = require('../models/score').ScoreModel,
     ChallengeModel = require('../models/challenges').ChallengeModel,
     MetricModel = require('../models/metric').MetricModel,
-    METRIC_VIAS = require('../models/metric').METRIC_VIAS;
+    METRIC_VIAS = require('../models/metric').METRIC_VIAS,
+    subjective = require('../models/subjectiveData');
 
 module.exports = function(app){
   app.get('/', home);
@@ -29,6 +30,10 @@ module.exports = function(app){
   })
 
   app.get('/graphIccv/:id', embebedDataset);
+  app.get('/eliminarcosas', function(req, res){
+    subjective.deleteCollections();
+    res.send('ok');
+  });
 }
 
 //inicio para ciudadano
