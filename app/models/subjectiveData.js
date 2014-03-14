@@ -109,3 +109,42 @@ exports.transferDataTo = function(questionId, cb){
     });
   })
 };
+
+exports.retrieveDataFrom = function(questionId, filter, cb){
+  console.log(questionId, filter);
+  mongo.collection('pr' + questionId).aggregate([
+    {
+      '$match': filter
+    },
+    {
+      '$sort': {
+        year: 1
+      }
+    },
+    {
+      '$group': {
+        '_id': {
+          year: '$year',
+          data: '$data'
+        },
+        total: {
+          '$sum': 1
+        }
+      }
+    },
+    {
+      '$group': {
+        '_id': '$_id.year',
+        values: {
+          '$addToSet': {
+            option: '$_id.data',
+            total: '$total'
+          }
+        }
+      }
+    }
+    ], function(err, results){
+      console.log('134', results);
+      cb(err, results);
+    });
+}
