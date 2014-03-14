@@ -37,6 +37,13 @@ exports.createCollection = function(collectionName, cb){
     }
   });
 };
+exports.createCrude = function(){
+  mongo.createCollection('crudeEpc', function(err, collection){
+    if(err){
+      console.log('43 createCrude', err);
+    }
+  });
+}
 
 exports.insertDataB = function(collectionName, datas, cb){
   console.log(collectionName);
@@ -49,13 +56,24 @@ exports.deleteCollections = function(){
   for (var i = 0; i < 1445; i++) {
     var collectionName = 'prp'+i;
     mongo.collection(collectionName).drop(function(err,res){
-      if(err) console.log(err);
+      if(err){
+        console.log('deleteCollections:', collectionName, err);
+      }
     });
   };
+  mongo.collection('crudeEpc').drop(function(err, res){
+    if(err){
+      console.log('deleteCollections:', collectionName, err);
+    }
+    console.log('eliminado crudeEpc');
+  })
 }
 
 exports.insertIntoCrudeConsolidate = function(data, cb){
   mongo.collection('crudeEpc').insert(data, {w:1}, function(err, result){
+    if(err){
+      console.log('subjectiveData:75', data);
+    }
     cb(err);
   });
 }

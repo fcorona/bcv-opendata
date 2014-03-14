@@ -253,7 +253,7 @@ var readDatasetIndicator = function(req, res, next){
     }else if(data.dataset.type==2){
       if(req.query.gender){
         var gender = req.query.gender.toLowerCase();
-        filter.gender = parseInt(gender) || {'m':1,'f':2}[gender];
+        filter.gender = !!parseInt(gender)?gender:{'m':'1','f':'2'}[gender];
       }
       if(req.query.nse){
         transformQueryParameters(req.query.nse, 'nse');

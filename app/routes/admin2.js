@@ -126,7 +126,7 @@ var transformData = function(rows, headers, datasetDB){
         crude[headers[j]] = row[j];
       }
     };
-    crude.dataset = datasetDB;
+    //crude.dataset = datasetDB;
     return crude;
   }
 
@@ -138,7 +138,7 @@ var transformData = function(rows, headers, datasetDB){
   var saveData = function(datas){
     var nextLot = function(err){
       if(err){
-        console.log(err);
+        console.log('admin2, 141', err);
         return;
       }
       console.log(i*100/(rows.length-1));
@@ -194,7 +194,7 @@ var transformData = function(rows, headers, datasetDB){
 
 var transformDictionary = function(rows, headers, datasetDB){
 
-
+  subjective.createCrude();
   for (var i = 1; i < rows.length; i++) {
     var row = rows[i];
     var multiple = row.indexOf('"');
@@ -213,12 +213,13 @@ var transformDictionary = function(rows, headers, datasetDB){
     }
     subjective.createCollection('pr' + row[2].toLowerCase(), function(err, collection){
       if(err){
-        console.log(err);
+        console.log('admin2 216', err);
         return;
       }
     });
     new dataset.DataMongo({name: row[2].toLowerCase(), description: row[1], dataset: datasetDB}).save();
   };
+
 };
 
 var processFile = function (err, data, transformFunction, datasetDB) {
