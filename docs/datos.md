@@ -318,7 +318,7 @@ GET http://api.bogotacomovamos.org/api/datas/1004?year=2008,2009&key=whatever
 
 ### Ejemplo de solicitud para preguntas filtrando por género
 
-GET http://api.bogotacomovamos.org/api/datas/1004?genre=1&key=whatever
+GET http://api.bogotacomovamos.org/api/datas/1004?gender=1&key=whatever
 
 
 #### Resultado

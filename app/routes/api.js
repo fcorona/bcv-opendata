@@ -224,7 +224,9 @@ var multipleValueStrategy = function(res, data, filter){
 var readDatasetIndicator = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
-  dataset.DataMongo.findOne({'_id':req.params.indicator}, {'__v': 0}, function (err, data){
+  dataset.DataMongo.findOne({'_id':req.params.indicator}, {'__v': 0})
+  .populate('dataset')
+  .exec(function (err, data){
     if(err){
       console.log(err);
       res.json(500, {message: 'Un error ha ocurrido'});
@@ -239,46 +241,43 @@ var readDatasetIndicator = function(req, res, next){
       MetricModel.saveMetric(METRIC_VIAS.json, null, data['_id']);
     }
 
-    dataset.DatasetMongo.findOne({'_id':data.dataset}, function(err, datasetDB){
-
-      //read parameters
-      var filter = {dataset: data.dataset};
-      var transformQueryParameters = function(params, name){
-        var params = params.split(',');
-        for (var i = 0; i < params.length; i++) {
-          params[i] = parseInt(params[i].trim());
-        };
-        if(params.length==1){
-          filter[name] = params[0];
-        }else{
-          filter[name] = {$in:params};
-        }
+    //read parameters
+    var filter = {dataset: data.dataset};
+    var transformQueryParameters = function(params, name){
+      var params = params.split(',');
+      for (var i = 0; i < params.length; i++) {
+        params[i] = parseInt(params[i].trim());
       };
-
-      if(req.query.year){
-        transformQueryParameters(req.query.year, 'year');
+      if(params.length==1){
+        filter[name] = params[0];
+      }else{
+        filter[name] = {$in:params};
       }
+    };
 
-      //determine the type of the dataset.
-      if(datasetDB.type==1){
-        simpleValueStrategy(res, data, filter);
-      }else if(datasetDB.type==2){
-        if(req.query.genre){
-          var genre = req.query.genre.toLowerCase();
-          filter.genre = parseInt(genre) || {'m':1,'f':2}[genre];
-        }
-        if(req.query.nse){
-          transformQueryParameters(req.query.nse, 'nse');
-        }
-        if(req.query.age){
-          transformQueryParameters(req.query.age, 'age');
-        }
-        if(req.query.zone){
-          transformQueryParameters(req.query.zone, 'zone');
-        }
-        multipleValueStrategy(res, data, filter);
+    if(req.query.year){
+      transformQueryParameters(req.query.year, 'year');
+    }
+
+    //determine the type of the dataset.
+    if(data.dataset.type==1){
+      simpleValueStrategy(res, data, filter);
+    }else if(data.dataset.type==2){
+      if(req.query.gender){
+        var gender = req.query.gender.toLowerCase();
+        filter.gender = parseInt(gender) || {'m':1,'f':2}[gender];
       }
-    });
+      if(req.query.nse){
+        transformQueryParameters(req.query.nse, 'nse');
+      }
+      if(req.query.age){
+        transformQueryParameters(req.query.age, 'age');
+      }
+      if(req.query.zone){
+        transformQueryParameters(req.query.zone, 'zone');
+      }
+      multipleValueStrategy(res, data, filter);
+    }
 
   });
 
