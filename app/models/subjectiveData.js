@@ -84,7 +84,8 @@ exports.transferDataTo = function(questionId, cb){
     'year': 1,
     'nse': 1,
     'zone': 1,
-    'age': 1
+    'age': 1,
+    'gender': 1
   };
   filter[questionId] = {'$exists':true};
   values[questionId] = 1;

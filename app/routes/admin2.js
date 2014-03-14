@@ -122,7 +122,7 @@ var transformData = function(rows, headers, datasetDB){
     crude.zone = parseInt(crude.zone) ? crude.zone : ZONES[crude.zone];
     for (var j = 0; j < row.length; j++) {
       if(j == 8 || j == 9 || j == 11 || j == 12 || j == 15) continue;
-      if(row[j]!=''&&row[j]!='-'&&row[j]!='#NULL!'){
+      if(row[j]!=''&&row[j]!='#NULL!'){
         crude[headers[j]] = row[j];
       }
     };
