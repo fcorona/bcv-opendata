@@ -68,7 +68,7 @@ var countTotalAnswers = function(questionId, cb){
     'zone': 1,
     'age': 1
   };
-  filter[questionId] = {$exists:true};
+  filter[questionId] = {'$exists':true};
   values[questionId] = 1;
   mongo.collection('crudeEpc')
   .find(filter, values)
@@ -86,10 +86,11 @@ exports.transferDataTo = function(questionId, cb){
     'zone': 1,
     'age': 1
   };
-  filter[questionId] = {$exists:true};
+  filter[questionId] = {'$exists':true};
   values[questionId] = 1;
   mongo.collection('crudeEpc')
   .find(filter, values).toArray(function(err, values){
+    if(err){console.log('93', err);}
     if(values.length === 0) cb();
     for(var i = 0; i < values.length; i++){
       var val = values[i];
@@ -100,9 +101,9 @@ exports.transferDataTo = function(questionId, cb){
 
     mongo.collection('pr' + questionId).insert(values, {w:1}, function(err, result){
       if(err){
-        console.log(err);
+        console.log('103', err);
         console.log(questionId);
-        return;
+        cb();
       }
       cb();
     });
