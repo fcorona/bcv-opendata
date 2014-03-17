@@ -328,7 +328,7 @@ documentTitles["datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-gne
 index.add({
     url: "datos.html#ejemplo-de-solicitud-para-preguntas-filtrando-por-gnero",
     title: "Ejemplo de solicitud para preguntas filtrando por género",
-    body: "### Ejemplo de solicitud para preguntas filtrando por género  GET http://api.bogotacomovamos.org/api/datas/1004?genre=1&amp;key=whatever   "
+    body: "### Ejemplo de solicitud para preguntas filtrando por género  GET http://api.bogotacomovamos.org/api/datas/1004?gender=1&amp;key=whatever   "
 });
 
 documentTitles["datos.html#resultado"] = "Resultado";

@@ -1,7 +1,8 @@
 var fs = require('fs'),
     flash = require('connect-flash'),
     Iconv = require('iconv').Iconv,
-    dataset = require('../models/dataset');
+    dataset = require('../models/dataset'),
+    subjective = require('../models/subjectiveData');
 
 exports.uploadFileForm = function(req, res){
   res.render('upload2', {title:'Plataforma de openData', messages: req.flash()});
@@ -50,7 +51,7 @@ var AGES = {
   'MAS DE 55 ANOS': 5,
   'MAS DE 56 ANOS': 5
 }
-var GENRES = {
+var GENderS = {
   'HOMBRES': 1,
   'MUJERES': 2
 }
@@ -80,16 +81,17 @@ var NIVEL_SOCIO_ECONOMICO = {
 
 
 var transformData = function(rows, headers, datasetDB){
-
   var crudeData = function(){
     return {
       year: '',
       nse: '',
       zone: '',
       age: '',
-      genre: ''
+      gender: ''
     };
   };
+
+  var people = {};
   
   var i = 1;
 
@@ -114,31 +116,37 @@ var transformData = function(rows, headers, datasetDB){
     crude.nse = parseInt(crude.nse) ? crude.nse : NIVEL_SOCIO_ECONOMICO[crude.nse];
     crude.age = row[11].trim();
     crude.age = parseInt(crude.age) ? crude.age : AGES[crude.age];
-    crude.genre = row[12].trim();
-    crude.genre = parseInt(crude.genre) ? crude.genre : GENRES[crude.genre];
+    crude.gender = row[12].trim();
+    crude.gender = parseInt(crude.gender) ? crude.gender : GENderS[crude.gender];
     crude.zone = row[15].trim();
     crude.zone = parseInt(crude.zone) ? crude.zone : ZONES[crude.zone];
     for (var j = 0; j < row.length; j++) {
       if(j == 8 || j == 9 || j == 11 || j == 12 || j == 15) continue;
-      crude[headers[j]] = row[j];
+      if(row[j]!=''&&row[j]!='#NULL!'){
+        crude[headers[j]] = row[j];
+      }
     };
-    crude.dataset = datasetDB;
+    //crude.dataset = datasetDB;
     return crude;
   }
 
-  var lot = {size: 10, current: 1, upTo: function(max){
+  var lot = {size: 20, current: 1, upTo: function(max){
     var nextValue = this.size + this.current;
-    return nextValue > max ? max : nextValue; 
+    return nextValue > max ? max : nextValue;
   }};
 
   var saveData = function(datas){
-    dataset.ValuesMongo.create(datas, function(err){
+    var nextLot = function(err){
       if(err){
-        console.log(err);
+        console.log('admin2, 141', err);
         return;
       }
-      createLot(lot.current, lot.upTo(rows.length-1));
-    });
+      console.log(i*100/(rows.length-1));
+      createLot(lot.current, lot.upTo(rows.length-1));  
+    };
+
+    subjective.insertIntoCrudeConsolidate(datas, nextLot)
+
   }
 
 
@@ -152,15 +160,66 @@ var transformData = function(rows, headers, datasetDB){
       saveData(datas);
     }
   }
+
+  var transformIntoCollection = function(){
+    var j = -1;
+    var max = headers.length-1;
+    var nextCollection = function(){
+      j++;
+      console.log('transfered:', j*100/(max));
+      if(j>1444) return;
+      if(j == 8 || j == 9 || j == 11 || j == 12 || j == 15)
+        nextCollection();
+      else
+        subjective.transferDataTo(headers[j], nextCollection);
+    };
+    nextCollection();
+  };
+
   createLot(lot.current, lot.upTo(rows.length - 1));
+  var validateFinishLoad = function(){
+    if(i==rows.length-1){
+      transformIntoCollection();
+    }else{
+      setTimeout(function(){
+        validateFinishLoad();
+      }, 10000);    
+    }
+  };
+  validateFinishLoad();
+
+  
   
 };
 
 var transformDictionary = function(rows, headers, datasetDB){
+
+  subjective.createCrude();
   for (var i = 1; i < rows.length; i++) {
-    var row = rows[i].split(';');
-    new dataset.DataMongo({name: row[2], description: row[1], dataset: datasetDB}).save();
+    var row = rows[i];
+    var multiple = row.indexOf('"');
+    var semicolonRe = new RegExp(';', 'g');
+
+    while(multiple!=-1){
+      var ending = row.indexOf('"', multiple + 1);
+      var substring = row.substring(multiple, ending + 1);
+      row = row.replace(substring, substring.replace(semicolonRe, '|'));
+      multiple = row.indexOf('"', ending+1);
+    };
+    row = row.replace(/\"/g, '');
+    row = row.split(';');
+    if(!row[2]){
+      continue;
+    }
+    subjective.createCollection('pr' + row[2].toLowerCase(), function(err, collection){
+      if(err){
+        console.log('admin2 216', err);
+        return;
+      }
+    });
+    new dataset.DataMongo({name: row[2].toLowerCase(), description: row[1], dataset: datasetDB}).save();
   };
+
 };
 
 var processFile = function (err, data, transformFunction, datasetDB) {

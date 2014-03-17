@@ -152,7 +152,7 @@ var ValuesSchema = new mongoose.Schema({
   nse: {type: Number, index: true},
   zone: {type: Number, index: true},
   age: {type: Number, index: true},
-  genre: {type: Number , index: true} 
+  gender: {type: Number , index: true} 
 },
 {
   strict: false

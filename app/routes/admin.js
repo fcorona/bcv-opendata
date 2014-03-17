@@ -3,6 +3,8 @@ var fs = require('fs'),
     Iconv = require('iconv').Iconv,
     datasetModels = require('../models/dataset'),
     DatasetModel = datasetModels.DatasetMongo,
+    CategoryModel = datasetModels.CategoryMongo,
+    DimensionModel = datasetModels.DimensionMongo,
     DataModel = datasetModels.DataMongo,
     ValuesModel = datasetModels.ValuesMongo,
     apps = require('../models/apps'),
@@ -516,7 +518,7 @@ var processedData = function(){
     myDimension.name = dimension;
 
     //mongo creation 
-    var dimensionDb = new dataset.DimensionMongo(myDimension);
+    var dimensionDb = new DimensionModel(myDimension);
     dimensionDb.dataset = datasetId;
     dimensionDb.save();
 
@@ -535,7 +537,7 @@ var processedData = function(){
     myCategory.name = category;
 
     //mongo creation
-    var categoryDb = new dataset.CategoryMongo(myCategory);
+    var categoryDb = new CategoryModel(myCategory);
     categoryDb.dataset = datasetId;
     categoryDb.dimension = myDimension['_id'];
     categoryDb.save();
@@ -548,7 +550,7 @@ var processedData = function(){
   function pushIndicator(datasetId, dimension, category, indicator, crudeData, processFunction, callback){
     var myCategory = getCategory(datasetId, dimension, category);
 
-    var indicatorDb = new dataset.DataMongo(indicator);
+    var indicatorDb = new DataModel(indicator);
     indicatorDb.category = myCategory['_id'];
     indicatorDb.dimension = myCategory.dimension;
     indicatorDb.dataset = myCategory.dataset;
@@ -566,7 +568,7 @@ var processedData = function(){
 
 var transformData = function(parsedData, years){
   var myProcessedData = processedData();
-  dataset.DimensionMongo.remove(function (err, dimension) {
+  DimensionModel.remove(function (err, dimension) {
     if (err) return handleError(err);
   });
 
@@ -585,7 +587,7 @@ var transformData = function(parsedData, years){
     for(var i = 0; i<docYears.length; i++){
       var docYear = docYears[i];
       docYear.dataset = datasetDB;
-      (new dataset.ValuesMongo(docYear)).save();
+      (new ValuesModel(docYear)).save();
     };
   };
 

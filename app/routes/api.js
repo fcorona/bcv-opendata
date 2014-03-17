@@ -1,6 +1,7 @@
 var dataset = require('../models/dataset'),
     MetricModel = require('../models/metric').MetricModel,
-    METRIC_VIAS = require('../models/metric').METRIC_VIAS;
+    METRIC_VIAS = require('../models/metric').METRIC_VIAS,
+    subjective = require('../models/subjectiveData');
 
 module.exports = function(app){
   app.get('/api/datasets', listDataset);
@@ -171,26 +172,7 @@ var simpleValueStrategy = function(res, data, filter){
 
 var multipleValueStrategy = function(res, data, filter){
   var name= data.name.toLowerCase();
-  var project =  {year:1};
-  project[name] = 1;
-  name = '$'+name;
-  dataset.ValuesMongo.aggregate(
-    {$match: filter},
-    {$project: project,
-    },
-    {$sort: {
-      year: 1
-    }},
-    {$group: {
-      '_id': {varValue: name, year: '$year'},
-      total: {$sum: 1}
-    }},
-    {$group: {
-      '_id': '$_id.year',
-      values: {
-        $addToSet: {option: '$_id.varValue', total: '$total'}
-      }
-    }},
+  subjective.retrieveDataFrom(name, filter,
     function(err, results){
       if (err) console.log(err);
       var jsonResponse = data.toJSON();
@@ -202,7 +184,8 @@ var multipleValueStrategy = function(res, data, filter){
           var values = result.values[j];
           if(!values.option || values.option===''){
             valuesByYear['empty'] = values.total + (valuesByYear['empty']||0);
-          }if(values.option.indexOf('|')!=-1){
+          }
+          if(values.option.indexOf('|')!=-1){
             var multipleValues = values.option.split('|');
             for(var k=0; k<multipleValues.length; k++){
               valuesByYear[multipleValues[k]] = values.total + (valuesByYear[multipleValues[k]]||0);
@@ -223,15 +206,22 @@ var multipleValueStrategy = function(res, data, filter){
 
 var readDatasetIndicator = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
-
-  dataset.DataMongo.findOne({'_id':req.params.indicator}, {'__v': 0}, function (err, data){
+  var id = req.params.indicator;
+  var indexBy = !!parseInt(id)?'_id':'name';
+  console.log(indexBy);
+  var query = {};
+  query[indexBy] = id;
+  dataset.DataMongo.findOne(query)
+  .select({'__v': 0})
+  .populate('dataset')
+  .exec(function (err, data){
     if(err){
       console.log(err);
       res.json(500, {message: 'Un error ha ocurrido'});
       return;
     }
     if(!data){
-      res.json(404, {message: 'no existe la data '+ req.params.indicator});
+      res.json(404, {message: 'no existe la data '+ id});
       return;
     }
     //guarda el registro de la petición del dataset por api
@@ -239,46 +229,43 @@ var readDatasetIndicator = function(req, res, next){
       MetricModel.saveMetric(METRIC_VIAS.json, null, data['_id']);
     }
 
-    dataset.DatasetMongo.findOne({'_id':data.dataset}, function(err, datasetDB){
-
-      //read parameters
-      var filter = {dataset: data.dataset};
-      var transformQueryParameters = function(params, name){
-        var params = params.split(',');
-        for (var i = 0; i < params.length; i++) {
-          params[i] = parseInt(params[i].trim());
-        };
-        if(params.length==1){
-          filter[name] = params[0];
-        }else{
-          filter[name] = {$in:params};
-        }
+    //read parameters
+    var filter = {};
+    var transformQueryParameters = function(params, name){
+      var params = params.split(',');
+      for (var i = 0; i < params.length; i++) {
+        params[i] = params[i].trim();
       };
-
-      if(req.query.year){
-        transformQueryParameters(req.query.year, 'year');
+      if(params.length==1){
+        filter[name] = params[0];
+      }else{
+        filter[name] = {$in:params};
       }
+    };
 
-      //determine the type of the dataset.
-      if(datasetDB.type==1){
-        simpleValueStrategy(res, data, filter);
-      }else if(datasetDB.type==2){
-        if(req.query.genre){
-          var genre = req.query.genre.toLowerCase();
-          filter.genre = parseInt(genre) || {'m':1,'f':2}[genre];
-        }
-        if(req.query.nse){
-          transformQueryParameters(req.query.nse, 'nse');
-        }
-        if(req.query.age){
-          transformQueryParameters(req.query.age, 'age');
-        }
-        if(req.query.zone){
-          transformQueryParameters(req.query.zone, 'zone');
-        }
-        multipleValueStrategy(res, data, filter);
+    if(req.query.year){
+      transformQueryParameters(req.query.year, 'year');
+    }
+
+    //determine the type of the dataset.
+    if(data.dataset.type==1){
+      simpleValueStrategy(res, data, filter);
+    }else if(data.dataset.type==2){
+      if(req.query.gender){
+        var gender = req.query.gender.toLowerCase();
+        filter.gender = !!parseInt(gender)?gender:{'m':'1','f':'2'}[gender];
       }
-    });
+      if(req.query.nse){
+        transformQueryParameters(req.query.nse, 'nse');
+      }
+      if(req.query.age){
+        transformQueryParameters(req.query.age, 'age');
+      }
+      if(req.query.zone){
+        transformQueryParameters(req.query.zone, 'zone');
+      }
+      multipleValueStrategy(res, data, filter);
+    }
 
   });
 
