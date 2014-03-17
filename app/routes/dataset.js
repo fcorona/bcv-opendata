@@ -56,17 +56,17 @@ var exportCSV = function(foundDataset, res){
 exports.showDataset = function(req, res, next){
   var format = req.params.format || 'html';
   format = format ==='html' || format==='csv' ? format : 'html';
-  dataset.DataMongo.findOne({name: req.params.name})
+  dataset.DataMongo.findOne({'_id': req.params.datasetId})
   .populate('dataset')
   .populate('dimension')
   .populate('category')
   .exec(function (err, foundDataset){
     if(err){
-      res.send(500, err);
+      console.log('dataset:65', err);
+      res.render(404, '404');
       return;
     }
     if(!foundDataset){
-      res.render(404, '404');
       return;
     }
     MetricModel.saveMetric(METRIC_VIAS[format], null, foundDataset['_id']);

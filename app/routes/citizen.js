@@ -12,7 +12,7 @@ var datasetRoute = require('./dataset'),
 module.exports = function(app){
   app.get('/', home);
   app.get('/datasets', datasets);
-  app.get('/datasets/:name/:format?', datasetRoute.showDataset);
+  app.get('/datasets/:datasetId/:format?', datasetRoute.showDataset);
   app.get('/apps', listApps);
   app.get('/apps/successfullReport', successfullReport);
   app.get('/apps/:appId/report', reportAppForm);
