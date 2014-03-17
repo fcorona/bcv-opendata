@@ -358,7 +358,7 @@ footer a {
   height:256px;
 }
 .dataset-home .portfolio-details {
-  background-color: #4d2b3c;
+  background-color: #57aa3a;
   color: #fff;
   height: 100%;
   z-index:-1;
@@ -376,7 +376,7 @@ footer a {
 .dataset-home img {
   position:absolute;
   opacity: 1;
-  height: 100%;
+  width: 100%;
   background-color: #fff;
 }
 .dataset-home h5 {
