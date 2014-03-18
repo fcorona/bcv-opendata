@@ -381,6 +381,37 @@ footer a {
 }
 .dataset-home h5 {
   color: #fff;
+
+}
+.dataset-home .author {
+  z-index: 3;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.dataset-home h4 {
+  color: #fff;
+  z-index: 3;
+  position: absolute;
+  display: block;
+  width: 100%;
+  text-align: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  padding: 0.5em 0.5em;
+  margin: auto;
+  height: 39px;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+.dataset-home:hover h4 {
+  -webkit-transform: translate(0px, -450%);
+  -moz-transform:    translate(0px, -450%);
+  -ms-transform:     translate(0px, -450%);
+  -o-transform:      translate(0px, -450%);
+  transform:         translate(0px, -450%);
 }
 .dataset-home:hover img {
   -webkit-transform: translate(0px, -100%);
@@ -388,6 +419,13 @@ footer a {
   -ms-transform:     translate(0px, -100%);
   -o-transform:      translate(0px, -100%);
   transform:         translate(0px, -100%);
+}
+.dataset-home:hover .author {
+  -webkit-transform: translate(400px, 0);
+  -moz-transform:    translate(400px, 0);
+  -ms-transform:     translate(400px, 0);
+  -o-transform:      translate(400px, 0);
+  transform:         translate(400px, 0);
 }
 #action {
   font-weight: normal;
