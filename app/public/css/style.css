@@ -43,13 +43,104 @@ body {
   padding: 0;
 }
 
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+path {
+    stroke: steelblue;
+    stroke-width: 2px;
+    fill: none;
 }
+
+.color0{
+  stroke: #3875A3;
+  background-color: #3875A3;
+}
+.color1{
+  stroke: #D7F44A;
+  background-color: #D7F44A;
+}
+.color2{
+  stroke: #A432A4;
+  background-color: #A432A4;
+}
+.color3{
+  stroke: #FDB14C;
+  background-color: #FDB14C;
+}
+.color4{
+  stroke: #0C3A5D;
+  background-color: #0C3A5D;
+}
+.color5{
+  stroke: #768B10;
+  background-color: #768B10;
+}
+.color6{
+  stroke: #5E0B5E;
+  background-color: #5E0B5E;
+}
+.color7{
+  stroke: #905A11;
+  background-color: #905A11;
+}
+.color8{
+  stroke: #B8D4E9;
+  background-color: #B8D4E9;
+}
+.color9{
+  stroke: #F3FCC4;
+  background-color: #F3FCC4;
+}
+.color10{
+  stroke: #E9B5E9;
+  background-color: #E9B5E9;
+}
+.color11{
+  stroke: #FFE6C6;
+  background-color: #FFE6C6;
+}
+.color12{
+  stroke: #3E5B71;
+  background-color: #3E5B71;
+}
+.color13{
+  stroke: #9BA957;
+  background-color: #9BA957;
+}
+.color14{
+  stroke: #723B72;
+  background-color: #723B72;
+}
+.color15{
+  stroke: #AF8B5A;
+  background-color: #AF8B5A;
+}
+.color16{
+  stroke: #8AC0E9;
+  background-color: #8AC0E9;
+}
+.color17{
+  stroke: #EAFC8F;
+  background-color: #EAFC8F;
+}
+.color18{
+  stroke: #E984E9;
+  background-color: #E984E9;
+}
+.color19{
+  stroke: #FFCF90;
+  background-color: #FFCF90;
+}
+ 
+line {
+  stroke: black;
+  stroke-width: 1.5px;
+  fill: black;
+}
+ 
+text {
+    font-family: Arial;
+    font-size: 9pt;
+}
+
 .bar {
   fill: #315b4e;
 }

@@ -214,6 +214,7 @@ var readDatasetIndicator = function(req, res, next){
   dataset.DataMongo.findOne(query)
   .select({'__v': 0})
   .populate('dataset')
+  .populate('optionValues')
   .exec(function (err, data){
     if(err){
       console.log(err);

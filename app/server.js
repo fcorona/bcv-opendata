@@ -92,10 +92,7 @@ admin(app);
 api(app);
 developer(app);
 citizen(app);
-
-// temporal stuff
-app.get('/admin/upload2', admin2.uploadFileForm);
-app.post('/admin/upload2', admin2.uploadFile);
+admin2(app);
 
 // login y registro
 app.get('/registro', registro.formulario);

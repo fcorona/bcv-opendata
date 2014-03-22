@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  form(method='POST', enctype="multipart/form-data")
+    label(for='options') Opciones de preguntas:
+    input#options(type='file', name='options')
+    br
+    button(type='submit') Subir

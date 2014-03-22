@@ -84,6 +84,14 @@ var CategorySchema = new mongoose.Schema({
 CategorySchema.plugin(autoIncrement.plugin, { model: 'Category', field: 'categoryId' });
 CategoryMongo = mongoose.model('Category', CategorySchema);
 
+
+var OptionSchema = new mongoose.Schema({
+  option: String,
+  description: String
+});
+
+OptionMongo = mongoose.model('Option', OptionSchema);
+
 //??
 //puede ser un indicador o una pregunta
 var DataSchema = new mongoose.Schema({
@@ -96,7 +104,8 @@ var DataSchema = new mongoose.Schema({
   category: {type: Schema.ObjectId, ref: 'Category'},
   dimension: {type: Schema.ObjectId, ref: 'Dimension'},
   dataset: {type: Schema.ObjectId, ref: 'Dataset'},
-  totalValues: Number
+  totalValues: Number,
+  optionValues: [{type: Schema.ObjectId, ref: 'Option'}]
 });
 
 
@@ -171,6 +180,7 @@ exports.DimensionMongo = DimensionMongo;
 
 
 exports.CategoryMongo = CategoryMongo;
+exports.OptionMongo = OptionMongo;
 
 DataSchema.plugin(autoIncrement.plugin, 'Data');
 exports.DataMongo = mongoose.model('Data', DataSchema);

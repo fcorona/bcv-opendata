@@ -60,27 +60,31 @@ exports.showDataset = function(req, res, next){
   .populate('dataset')
   .populate('dimension')
   .populate('category')
-  .exec(function (err, foundDataset){
+  .populate('optionValues')
+  .exec(function (err, foundData){
     if(err){
       console.log('dataset:65', err);
       res.render(404, '404');
       return;
     }
-    if(!foundDataset){
+    if(!foundData){
       return;
     }
-    MetricModel.saveMetric(METRIC_VIAS[format], null, foundDataset['_id']);
+    MetricModel.saveMetric(METRIC_VIAS[format], null, foundData['_id']);
     if(format==='csv'){
-      exportCSV(foundDataset, res);
+      exportCSV(foundData, res);
       return;
     }
-    if(foundDataset.dataset.type==1){
+    if(foundData.dataset.type==1){
       res.render('citizen/datasetHtml', {
-        title: foundDataset.name,
-        dataset: foundDataset
+        title: foundData.name,
+        dataset: foundData
       });
     }else{
-      res.send('not implemented yet');
+      res.render('citizen/datasetHtmlSubjective', {
+        title: foundData.name,
+        dataset: foundData
+      });
     }
     return;
   });

@@ -1,0 +1,216 @@
+extends layoutCitizen
+
+block meta
+  meta(name="description" content=dataset.description)
+
+  //og properties
+  meta(property="og:title" content="#{dataset.name} - Plataforma de datos abiertos Bogotá Cómo Vamos")
+  meta(property="og:image" content="http://api.bogotacomovamos.org/imgs/bogota-como-vamos.jpg")
+  meta(property="og:description" content=dataset.description)
+
+block content
+
+  section.pad-top-25
+    div.container
+      div.row
+        div.col-md-3.list-group.dataset-provider
+          div.list-group-item.header
+            img.img-responsive(src='/imgs/bogota-como-vamos.jpg' alt='Responsive image')
+            h3 Bogotá Cómo Vamos
+            a(href='http://bogotacomovamos.org/') bogotacomovamos.org
+          
+          ul.project-details-list
+
+            li
+              h6 Cat&aacute;logo de datos: 
+              div.project-terms= dataset.dataset.title
+            li
+              h6 c&oacute;digo: 
+              div.project-terms= dataset.name
+            li
+              h6 Tipo de respuesta: 
+              div.project-terms= dataset.typeResponse=='simple'?dataset.typeResponse:'múltiple'
+
+          div.list-group-item.socials
+            h5 Compartir en redes sociales
+          
+          ul.list-unstyled
+            li.list-group-item
+              div.g-plus(data-action='share')
+
+            li.list-group-item
+              a.twitter-share-button(href='https://twitter.com/share' data-via='bogotacomovamos' data-lang='es') Tweet
+            
+            li.list-group-item
+              div#fb-root
+              div.fb-share-button(data-type='button_count')
+
+
+
+        div.col-md-9
+
+          div.page-header
+            h2= dataset.name
+          
+          h4 Pregunta: 
+          p= dataset.description
+          br
+          h4 Gr&aacute;fico:
+          br
+          div.row
+            div.chart-container.col-md-12
+              svg#chart.chart
+
+          h4 Leyenda:
+          ul#options.list-unstyled
+            for option in dataset.optionValues
+              li
+                label(id='op#{option.option}')= option.option
+                span &nbsp;&nbsp;#{option.description}
+
+          br
+          h4 Desarrolladores:
+          ul.list-group
+            li.list-group-item
+              a.panel-title(href='/api/datas/#{dataset.id}/?key=comovamos/' target='_blank') API REST
+
+
+block aditionalScripts
+  //script(src='/js/dimension.js')
+  script(src='/js/d3.v3.min.js')
+  script(src='http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js')
+  //script(src='/js/graph.js')
+  script.
+    //initGraph('#{dataset.id}');
+    d3.json('/api/datas/#{dataset.id}?key=asdasdas&no_track=1', function(datos) {
+
+
+      //1. sacar todos los años en orden consecutivo
+      var years = Object.keys(datos.datas).sort();
+      //2. sacar todos los posibles valores de llaves
+      var keys = [];
+      var max = -Infinity;
+      for(var i = 0; i<years.length; i++){
+        var year = datos.datas[years[i]]
+        var keysT = Object.keys(year);
+        for(var j = 0; j<keysT.length; j++){
+          var key = keysT[j];
+          if(keys.indexOf(key)==-1){
+            keys.push(key);
+          }
+          if(year[key] > max){
+            max = year[key];
+          }
+        }
+      }
+      //3. sacar el maximo de todos los posibles valores
+      //4. crear un arreglo de anios
+      //5. crear un arreglo por cada posible valor.
+      var rects = {};
+      for(var i = 0; i < keys.length; i++){
+        var key = keys[i];
+        var rect = [];
+        for(var j = 0; j < years.length; j++){
+          var value = datos.datas[years[j]][key]||0;
+          rect.push(value);
+        }
+        rects[key] = rect;
+      }
+
+      //6. agregar cada uno de los arreglos como recta.
+
+      //-----
+      //1. agregar filtros para refrescar.
+      //2. filtro por sexo-
+      
+      var w = 600,
+      h = 200,
+      margin = 20,
+      y = d3.scale.linear().domain([0, max]).range([0 + margin, h - margin]),
+      x = d3.scale.linear().domain([0, years.length]).range([0 + margin, w - margin])
+
+      var vis = d3.select("#chart");
+      var clientWidth = parseInt(vis.style('width'));
+      var clientHeight = 230 || clientWidth*0.4;
+
+      vis.attr('height', clientHeight);
+      var g = vis.append("svg:g")
+      .attr("transform", "translate(20, 200)");
+
+      //la magia esta entre esto:
+      var line = d3.svg.line()
+        .x(function(d, i){
+          return x(i)+10;
+        })
+        .y(function(d){
+          return -1 * y(d);
+        });
+
+      for(var i = 0; i < keys.length; i++){
+        g.append("svg:path").attr("d", line(rects[keys[i]])).attr('class', 'color'+i);
+        try{
+          var label = d3.select('#op'+keys[i]);
+          console.log(keys[i]);
+          if(!label.empty()){
+            label.attr('class', 'label color'+i);
+          }else{
+            var li = d3.select('#options').append('li');
+            li.append('label').attr('class', 'label color'+i).html(keys[i]);
+          }
+        }catch(err){}
+      }
+
+
+      g.append("svg:line")
+      .attr("x1", x(0))
+      .attr("y1", -1 * y(0))
+      .attr("x2", x(years.length))
+      .attr("y2", -1 * y(0))
+   
+      g.append("svg:line")
+          .attr("x1", x(0))
+          .attr("y1", -1 * y(0))
+          .attr("x2", x(0))
+          .attr("y2", -1 * y(max))
+
+      //ticks
+      g.selectAll(".xLabel")
+          .data(x.ticks(years.length))
+          .enter().append("svg:text")
+          .attr("class", "xLabel")
+          .text(function(d){
+            return years[d];
+            })
+          .attr("x", function(d) { return x(d) + 10 })
+          .attr("y", 0)
+          .attr("text-anchor", "middle")
+       
+      g.selectAll(".yLabel")
+          .data(y.ticks(4))
+          .enter().append("svg:text")
+          .attr("class", "yLabel")
+          .text(String)
+          .attr("x", 0)
+          .attr("y", function(d) { return -1 * y(d) })
+          .attr("text-anchor", "right")
+          .attr("dy", 4)
+
+
+      g.selectAll(".xTicks")
+          .data(x.ticks(years.length))
+          .enter().append("svg:line")
+          .attr("class", "xTicks")
+          .attr("x1", function(d) { return x(d); })
+          .attr("y1", -1 * y(0))
+          .attr("x2", function(d) { return x(d); })
+          .attr("y2", -1 * y(-0.1))
+       
+      g.selectAll(".yTicks")
+          .data(y.ticks(4))
+          .enter().append("svg:line")
+          .attr("class", "yTicks")
+          .attr("y1", function(d) { return -1 * y(d); })
+          .attr("x1", x(-0.1))
+          .attr("y2", function(d) { return -1 * y(d); })
+          .attr("x2", x(0))
+    });

@@ -4,11 +4,84 @@ var fs = require('fs'),
     dataset = require('../models/dataset'),
     subjective = require('../models/subjectiveData');
 
-exports.uploadFileForm = function(req, res){
+
+
+module.exports = function(app){
+  // temporal stuff
+  app.get('/admin/upload2', uploadFileForm);
+  app.post('/admin/upload2', uploadFile);
+  app.get('/admin/uploadOptions', uploadOptionsForm);
+  app.post('/admin/uploadOptions', uploadOptions);
+};
+
+var uploadFileForm = function(req, res){
   res.render('upload2', {title:'Plataforma de openData', messages: req.flash()});
 };
 
-exports.uploadFile = function(req, res, next){
+var uploadOptionsForm = function(req, res){
+  res.render('uploadOptions', {title:'Plataforma de openData', messages: req.flash()});
+};
+
+var uploadOptions = function(req, res){
+  if(req.files.options.headers['content-type']!=='text/csv'){
+    req.flash('error', req.files.options.name +' no es un archivo valido, por favor suba un archivo CSV.')
+    res.redirect('/admin/uploadOptions/');
+    return;
+  }
+  fs.readFile(req.files.options.path, processOptions);
+  res.redirect('/admin/uploadOptions/');
+};
+
+var processOptions = function(err, data){
+  var iconv = new Iconv('ISO-8859-1', 'UTF-8');
+  var buffer = iconv.convert(data);
+  var rows = buffer.toString('utf8').split('\r\n');
+  var headers = rows[0].split(';');
+
+  var i = 0;
+  var nextQuestion = function(){
+    i++;
+    if(i>=rows.length){return;}
+
+    var row = rows[i];
+    row = row.split(';');
+    var questionId = row[0];
+    dataset.OptionMongo.findOneAndUpdate({
+      "option": row[1],
+      "description": row[2]
+    },
+    {
+      "option": row[1],
+      "description": row[2]
+    },
+    {
+      upsert:true
+    },
+    function(err, option){
+      if(err){
+        console.log(err);
+        return;
+      }
+      dataset.DataMongo.findOne({name:questionId}, function(err, data){
+        if(!data.optionValues){
+          data.optionValues = [];
+        }
+        data.optionValues.push(option);
+        data.save(function(err, savedData){
+          if(err){
+            console.log('admin2:65', err);
+          }
+          nextQuestion();
+        })
+      })
+    });
+  };
+  nextQuestion();
+
+};
+
+
+var uploadFile = function(req, res, next){
   if(req.files.dictionary.headers['content-type']!=='text/csv'){
     req.flash('error', req.files.dictionary.name +' no es un archivo valido, por favor suba un archivo CSV.')
     res.redirect('/admin/upload2/');
