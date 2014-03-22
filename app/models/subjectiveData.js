@@ -121,7 +121,6 @@ exports.transferDataTo = function(questionId, cb){
     mongo.collection('pr' + questionId).insert(values, {w:1}, function(err, result){
       if(err){
         console.log('103', err);
-        console.log(questionId);
         cb();
       }
       cb();
@@ -130,7 +129,6 @@ exports.transferDataTo = function(questionId, cb){
 };
 
 exports.retrieveDataFrom = function(questionId, filter, cb){
-  console.log(questionId, filter);
   mongo.collection('pr' + questionId).aggregate([
     {
       '$match': filter
@@ -163,7 +161,6 @@ exports.retrieveDataFrom = function(questionId, filter, cb){
       }
     }
     ], function(err, results){
-      console.log('134', results);
       cb(err, results);
     });
 }

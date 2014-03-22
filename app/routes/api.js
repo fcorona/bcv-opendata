@@ -208,7 +208,6 @@ var readDatasetIndicator = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
   var id = req.params.indicator;
   var indexBy = !!parseInt(id)?'_id':'name';
-  console.log(indexBy);
   var query = {};
   query[indexBy] = id;
   dataset.DataMongo.findOne(query)
