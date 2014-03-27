@@ -65,6 +65,8 @@ DatasetSchema.virtual('stringTags').get(function(){
   return tags.substring(0, tags.length-2);
 });
 
+var DatasetMongo = mongoose.model('Dataset', DatasetSchema)
+
 
 //??
 var DimensionSchema = new mongoose.Schema({
@@ -204,31 +206,36 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
 
 DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
   var schema = this;
-  
-  var queryTotal = schema.find();
-  if(name && name!==''){
-    queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
-  }
-  queryTotal.where({'$where': "this.optionValues.length > 0" });
-  
-  queryTotal
-  .count()
-  .exec(function(err, total){
-    console.log('217', err);
-    var query = schema.find({});
-    if(name && name!==''){
-      query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
-    }
-    query.where({'$where': "this.optionValues.length > 0"});
 
-    query.limit(resultsPerPage)
-    .skip((page-1)*resultsPerPage)
-    .sort('-totalValues')
-    .exec(function(err, datas){
-      console.log('228', err);
-      cb(err, datas, total);
+  DatasetMongo.findOne({type:2}, function(err, dataset){
+    console.log(err);
+    var queryTotal = schema.find({dataset: dataset['_id']});
+    
+    if(name && name!==''){
+      queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+    }
+    queryTotal.where({'$where': "this.optionValues.length > 0" });
+    
+    queryTotal
+    .count()
+    .exec(function(err, total){
+      console.log('223', err);
+      console.log('224 total:', total);
+      var query = schema.find({dataset: dataset['_id']});
+      if(name && name!==''){
+        query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+      }
+      query.where({'$where': "this.optionValues.length > 0"});
+
+      query.limit(resultsPerPage)
+      .skip((page-1)*resultsPerPage)
+      .sort('-totalValues')
+      .exec(function(err, datas){
+        console.log('228', err);
+        cb(err, datas, total);
+      });
+    
     });
-  
   });
 
 };
@@ -263,7 +270,7 @@ DatasetSchema.virtual('href').get(function () {
   return 'loq puse';
 });
 
-exports.DatasetMongo = mongoose.model('Dataset', DatasetSchema);
+exports.DatasetMongo = DatasetMongo;
 
 
 exports.DimensionMongo = DimensionMongo;
