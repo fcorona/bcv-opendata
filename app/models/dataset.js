@@ -214,7 +214,7 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
     if(name && name!==''){
       queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
     }
-    queryTotal.where({'$where': "this.optionValues.length > 0" });
+    //queryTotal.where({'$where': "this.optionValues.length > 0" });
     
     queryTotal
     .count()
@@ -225,7 +225,7 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
       if(name && name!==''){
         query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
       }
-      query.where({'$where': "this.optionValues.length > 0"});
+      //query.where({'$where': "this.optionValues.length > 0"});
 
       query.limit(resultsPerPage)
       .skip((page-1)*resultsPerPage)
