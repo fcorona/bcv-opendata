@@ -77,6 +77,10 @@ exports.insertIntoCrudeConsolidate = function(data, cb){
     cb(err);
   });
 }
+
+exports.countTotalYears = function(questionId, cb){
+  mongo.collection('pr' + questionId).distinct('year',cb);
+}
 //temporally unused
 var countTotalAnswers = function(questionId, cb){
   var filter = {};

@@ -1,6 +1,7 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     autoIncrement = require('mongoose-auto-increment'),
+    subjective = require('./subjectiveData'),
     TagModel = require('./basics').TagModel;
 /*
 * mongo connection
@@ -152,7 +153,16 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
     });
   
   });  
-}
+};
+
+DataSchema.methods.countQuestions = function(){
+  var data = this;
+
+  subjective.countTotalYears(this.name, function(err, values){
+    data.totalValues = values.length;
+    data.save();
+  });
+};
 
 var ValuesSchema = new mongoose.Schema({
   year: {type: Number, index: true},

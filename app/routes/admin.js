@@ -216,8 +216,8 @@ var cleanDataset = function(req, res){
   });
 };
 
-var countDataDataset = function(req, res){
-  ValuesModel.find({dataset: req.params.datasetId}, function(err, values){
+var countIndicators = function(datasetId, res){
+  ValuesModel.find({dataset: datasetId}, function(err, values){
     var counter = {};
     var countKey = function(key){
       if(!(key in counter)){
@@ -236,15 +236,39 @@ var countDataDataset = function(req, res){
       }
     }
 
-    DataModel.find({dataset: req.params.datasetId}, function(err, datas){
+    DataModel.find({dataset: datasetId}, function(err, datas){
       for(var i=0; i<datas.length; i++){
         var data = datas[i];
         data.totalValues = counter[data['_id']];
         data.save();
       }
-      res.redirect('/admin/datasets/' + req.params.datasetId);
+      res.redirect('/admin/datasets/' + datasetId);
     });
   });
+};
+
+var countQuestions = function(datasetId, res){
+  DataModel.find({dataset: datasetId}, function(err, datas){
+    for (var i = 0; i < datas.length; i++) {
+      data = datas[i];
+      data.countQuestions();
+    };
+    res.redirect('/admin/datasets/' + datasetId);
+  });
+};
+
+var countDataDataset = function(req, res){
+
+  //validate what type of dataset is:
+  DatasetModel.findById(req.params.datasetId, function(err, dataset){
+    console.log(dataset);
+    if(dataset.type == 1){
+      countIndicators(req.params.datasetId, res);
+    }else if(dataset.type == 2){
+      countQuestions(req.params.datasetId, res);
+    }
+  });
+
 }
 
 //lista las metricas para un dataset
