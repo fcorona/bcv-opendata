@@ -155,6 +155,84 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
   });  
 };
 
+
+DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb){
+  var schema = this;
+  for (var i = 0; i < dimensions.length; i++) {
+    dimensions[i] = dimensions[i].trim();
+  }
+  if(dimensions.length == 1 && dimensions[0] == ''){
+    dimensions = [];
+  }
+  
+  DimensionMongo.find({name: {$in: dimensions}})
+  .select('_id')
+  .exec(function(err, foundDimensions){
+    queryTotal = schema.find();
+    if(foundDimensions.length > 0){
+      queryTotal = queryTotal.where({dimension: {$in: foundDimensions}});
+    }
+    if(name && name!==''){
+      queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+    }
+    queryTotal.where({totalValues: { $gt: 0 }});
+    
+    queryTotal
+    .count()
+    .exec(function(err, total){
+      var query = schema.find({});
+      if(foundDimensions.length>0){
+        query = query.where({dimension: {$in: foundDimensions}});
+      }
+      if(name && name!==''){
+        query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+      }
+      query.where({totalValues: { $gt: 0 }});
+
+      query.limit(resultsPerPage)
+      .skip((page-1)*resultsPerPage)
+      .sort('-totalValues')
+      .exec(function(err, datas){
+        cb(err, datas, total);
+      });
+    
+    });
+  
+  });  
+};
+
+
+DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
+  var schema = this;
+  
+  var queryTotal = schema.find();
+  if(name && name!==''){
+    queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+  }
+  queryTotal.where({$where: "this.optionValues.length > 0" });
+  
+  queryTotal
+  .count()
+  .exec(function(err, total){
+    var query = schema.find({});
+    if(name && name!==''){
+      query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+    }
+    query.where({$where: "this.optionValues.length > 0"});
+
+    query.limit(resultsPerPage)
+    .skip((page-1)*resultsPerPage)
+    .sort('-totalValues')
+    .exec(function(err, datas){
+      cb(err, datas, total);
+    });
+  
+  });
+
+};
+
+
+
 DataSchema.methods.countQuestions = function(){
   var data = this;
 

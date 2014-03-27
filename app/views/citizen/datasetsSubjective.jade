@@ -14,11 +14,11 @@ block content
       
       div.row
         ul.nav.nav-tabs
-          li.active
-            a(href='#') Datos Objetivos
           li
-            a(href='/datasetsSubjective') Datos Subjetivos
-
+            a(href='/datasets') Datos Objetivos
+          li.active
+            a(href='#') Datos Subjetivos
+  
   section.pad-top-25
     div.container
       div.row
@@ -27,7 +27,7 @@ block content
             h5 Categor&iacute;as
           ul.list-unstyled
             li.list-group-item
-              a(href='/datasets?name=#{name}')
+              a(href='/datasetsSubjective?name=#{name}')
                 div(style='position:relative')
                   span Remover todos
                   span(style='display:block;position:absolute;top:0;right:0')
@@ -36,14 +36,14 @@ block content
             for tag in allTags
               li.list-group-item
                 if tags.indexOf(tag.name) == -1
-                  a(href='/datasets?tags=#{tag.name+";"+tags}&name=#{name}')
+                  a(href='/datasetsSubjective?tags=#{tag.name+";"+tags}&name=#{name}')
                     div(style='position:relative')
                       span(style='padding-right:1.2em')= tag.name
                       span(style='display:block;position:absolute;top:0;right:0')
                         i.fa.fa-square-o
 
                 else
-                  a(href='/datasets?tags=#{tags.replace(tag.name, "")}&name=#{name}')
+                  a(href='/datasetsSubjective?tags=#{tags.replace(tag.name, "")}&name=#{name}')
                     div(style='position:relative')
                       span(style='padding-right: 1em;')
                         b= tag.name
@@ -63,8 +63,7 @@ block content
             for dataset in datasets
               li(style='padding: 10px;')
                 h3 
-                  a(href='/datasets/#{dataset.id}')= dataset.name
-                p= dataset.description
+                  a(href='/datasets/#{dataset.id}') #{dataset.description} (#{dataset.name})
                 div(style='display:inline-block;width:50%')
                   a.format(href='/datasets/#{dataset.id}/csv')
                     span.label.label-success CSV
@@ -77,10 +76,10 @@ block content
           div.text-center
             ul.pagination
               li(class=current==1?'disabled':'')
-                a(href='/datasets?page=#{current==1?1:current-1}&tags=#{tags}&name=#{name}') &laquo;
+                a(href='/datasetsSubjective?page=#{current==1?1:current-1}&tags=#{tags}&name=#{name}') &laquo;
               - var firstIndex = total<=11?1: current-5>1?current-5:1;
               - for(var page = firstIndex; page <= total && page <= firstIndex+10; page++)
                 li(class= page==current?'active':'' )
-                  a(href='/datasets?page=#{page}&tags=#{tags}&name=#{name}')= page
+                  a(href='/datasetsSubjective?page=#{page}&tags=#{tags}&name=#{name}')= page
               li(class=current==total?'disabled':'')
-                a(href='/datasets?page=#{current==total?total:current+1}&tags=#{tags}&name=#{name}') &raquo;
+                a(href='/datasetsSubjective?page=#{current==total?total:current+1}&tags=#{tags}&name=#{name}') &raquo;

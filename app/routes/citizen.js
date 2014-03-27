@@ -12,6 +12,7 @@ var datasetRoute = require('./dataset'),
 module.exports = function(app){
   app.get('/', home);
   app.get('/datasets', datasets);
+  app.get('/datasetsSubjective', datasetsSubjective);
   app.get('/datasets/:datasetId/:format?', datasetRoute.showDataset);
   app.get('/apps', listApps);
   app.get('/apps/successfullReport', successfullReport);
@@ -102,6 +103,32 @@ var datasets = function(req, res){
     });
   });
 };
+
+var datasetsSubjective = function(req, res){
+  //valida las entradas
+  var name = req.query.name || '';
+  var page = parseInt(req.query.page) || 1;
+  var resultsPerPage = 10;
+
+  dataset.DataMongo.listSubjective(page, resultsPerPage, name,
+  function(err, datasets, total){
+    console.log('total', total);
+    if(err){
+      res.send(500, err);
+      return;
+    }
+
+    var total = Math.ceil(total/resultsPerPage);
+    res.render('citizen/datasetsSubjective', {
+      datasets: datasets,
+      current: page,
+      total: total,
+      name: name,
+      menuSelected: 'datasets',
+      allTags:[]
+    });
+  });  
+}
 
 //lista apps
 var listApps = function(req, res){
