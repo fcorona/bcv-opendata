@@ -209,21 +209,23 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
   if(name && name!==''){
     queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
   }
-  queryTotal.where({$where: "this.optionValues.length > 0" });
+  queryTotal.where({'$where': "this.optionValues.length > 0" });
   
   queryTotal
   .count()
   .exec(function(err, total){
+    console.log('217', err);
     var query = schema.find({});
     if(name && name!==''){
       query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
     }
-    query.where({$where: "this.optionValues.length > 0"});
+    query.where({'$where': "this.optionValues.length > 0"});
 
     query.limit(resultsPerPage)
     .skip((page-1)*resultsPerPage)
     .sort('-totalValues')
     .exec(function(err, datas){
+      console.log('228', err);
       cb(err, datas, total);
     });
   
