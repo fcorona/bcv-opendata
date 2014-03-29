@@ -123,7 +123,9 @@ var readDatasetDimension = function(req, res, next){
 var readDatasetCategory = function(req, res, next){
   if(!parseKey(req.query.key, res)) return;
 
-  dataset.CategoryMongo.findOne({categoryId: req.params.category}, {'__v': 0}, function (err, category){
+  dataset.CategoryMongo.findOne({categoryId: req.params.category})
+  .select({'__v': 0})
+  .exec(function (err, category){
     if(err){
       console.log(err);
       res.json(500, {message: 'Un error ha ocurrido'});
@@ -134,17 +136,28 @@ var readDatasetCategory = function(req, res, next){
       return;
     }
 
-    dataset.DataMongo.find({category: category}, {'_id': 1, 'name': 1}, {sort: {'_id':1}}, function(err, datas){
-      var jsonResponse = category.toJSON();
-      for(var i = 0; i < datas.length; i++){
-        datas[i] = datas[i].toJSON();
-        datas[i].href = getFullURL(req) + '/api/datas/' + datas[i]['_id'] + '?key=' + req.query.key;
+    dataset.DimensionMongo.findById(category.dimension, function(err, dimension){
+      if(err){
+        console.log(err);
+        res.json(500, {message: 'Un error ha ocurrido'});
+        return;   
       }
-      jsonResponse.datas = datas;
-      delete jsonResponse['_id'];
-      res.json(jsonResponse);
-      return;
+      dataset.DataMongo.find({category: category}, {'_id': 1, 'name': 1}, {sort: {'_id':1}}, function(err, datas){
+        var jsonResponse = category.toJSON();
+        jsonResponse['dimensionId'] = dimension.dimensionId;
+        delete jsonResponse['dimension'];
+        for(var i = 0; i < datas.length; i++){
+          datas[i] = datas[i].toJSON();
+          datas[i].href = getFullURL(req) + '/api/datas/' + datas[i]['_id'] + '?key=' + req.query.key;
+        }
+        jsonResponse.datas = datas;
+        delete jsonResponse['_id'];
+        res.json(jsonResponse);
+        return;
+      });
+
     });
+
   });
 
 };
