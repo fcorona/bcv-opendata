@@ -160,6 +160,8 @@ var simpleValueStrategy = function(res, data, filter){
       return;
     }
     var jsonResponse = data.toJSON();
+    jsonResponse['categoryId'] = jsonResponse.category.categoryId;
+    delete jsonResponse['category'];
     jsonResponse.datas = {};
     for (var i = 0; i < values.length; i++) {
       var value = values[i];
@@ -213,6 +215,7 @@ var readDatasetIndicator = function(req, res, next){
   dataset.DataMongo.findOne(query)
   .select({'__v': 0})
   .populate('dataset')
+  .populate('category')
   .populate('optionValues')
   .exec(function (err, data){
     if(err){
