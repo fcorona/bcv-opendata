@@ -173,6 +173,8 @@ var simpleValueStrategy = function(res, data, filter){
       return;
     }
     var jsonResponse = data.toJSON();
+    jsonResponse['dimensionId'] = jsonResponse.dimension.dimensionId;
+    delete jsonResponse['dimension'];
     jsonResponse['categoryId'] = jsonResponse.category.categoryId;
     delete jsonResponse['category'];
     jsonResponse.datas = {};
@@ -229,6 +231,7 @@ var readDatasetIndicator = function(req, res, next){
   .select({'__v': 0})
   .populate('dataset')
   .populate('category')
+  .populate('dimension')
   .populate('optionValues')
   .exec(function (err, data){
     if(err){
