@@ -207,6 +207,11 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
 DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
   var schema = this;
 
+  var excluded = [];
+  for (var i = 1; i <= 70; i++) {
+    excluded.push('p'+i);
+  };
+
   DatasetMongo.findOne({type:2}, function(err, dataset){
     console.log(err);
     var queryTotal = schema.find({dataset: dataset['_id']});
@@ -215,17 +220,16 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
       queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
     }
     queryTotal.where({'$where': "this.optionValues.length > 0" });
-    
+    queryTotal.where({name:{'$nin':excluded}});
     queryTotal
     .count()
     .exec(function(err, total){
-      console.log('223', err);
-      console.log('224 total:', total);
       var query = schema.find({dataset: dataset['_id']});
       if(name && name!==''){
         query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
       }
       query.where({'$where': "this.optionValues.length > 0"});
+      query.where({name:{'$nin':excluded}});
 
       query.limit(resultsPerPage)
       .skip((page-1)*resultsPerPage)
