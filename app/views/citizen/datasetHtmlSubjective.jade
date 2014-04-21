@@ -53,7 +53,7 @@ block content
             h2= dataset.name
           
           h4 Pregunta: 
-          p= dataset.description
+          p= (dataset.description.trim()[dataset.description.trim().length-1]=='?'?dataset.description.trim():dataset.description.trim()+'?')
           br
           h4 Gr&aacute;fico:
           br

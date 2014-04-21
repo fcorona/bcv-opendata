@@ -22,6 +22,13 @@ block content
   section.pad-top-25
     div.container
       div.row
+        div.col-md-12(style='font-size:1.2em')
+          p Indican la percepci&oacute;n que tiene la ciudadan&iacute;a de como la calidad
+            | de vida afecta sus vidas. Se obtienen a partir de una Encuesta 
+            | de Percepci&oacute;n Ciudadana anual que es representativa para toda
+            | la ciudad, seis zonas, grupos de edad y niveles 
+            | socioecon&oacute;micos.
+          br
         div.col-md-3.list-group.dataset-provider
           div.list-group-item.socials
             h5 Categor&iacute;as
@@ -63,7 +70,7 @@ block content
             for dataset in datasets
               li(style='padding: 10px;')
                 h3 
-                  a(href='/datasets/#{dataset.id}') #{dataset.description} (#{dataset.name})
+                  a(href='/datasets/#{dataset.id}') #{(dataset.description.trim()[dataset.description.trim().length-1]=='?'?dataset.description.trim():dataset.description.trim()+'?')}
                 div(style='display:inline-block;width:50%')
                   a.format(href='/datasets/#{dataset.id}/csv')
                     span.label.label-success CSV
