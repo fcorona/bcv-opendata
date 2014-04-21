@@ -20,7 +20,7 @@ var METRIC_VIAS = {
 MetricSchema.statics.saveMetric = function(via, user, data){
   new this({
     via: via,
-    usuer: user,
+    user: user,
     data: data
   }).save();
 }
