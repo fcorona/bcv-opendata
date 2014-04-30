@@ -158,53 +158,7 @@ DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb
 };
 
 
-DataSchema.statics.listAll = function(page, resultsPerPage, dimensions, name, cb){
-  var schema = this;
-  for (var i = 0; i < dimensions.length; i++) {
-    dimensions[i] = dimensions[i].trim();
-  }
-  if(dimensions.length == 1 && dimensions[0] == ''){
-    dimensions = [];
-  }
-  
-  DimensionMongo.find({name: {$in: dimensions}})
-  .select('_id')
-  .exec(function(err, foundDimensions){
-    queryTotal = schema.find();
-    if(foundDimensions.length > 0){
-      queryTotal = queryTotal.where({dimension: {$in: foundDimensions}});
-    }
-    if(name && name!==''){
-      queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
-    }
-    queryTotal.where({totalValues: { $gt: 0 }});
-    
-    queryTotal
-    .count()
-    .exec(function(err, total){
-      var query = schema.find({});
-      if(foundDimensions.length>0){
-        query = query.where({dimension: {$in: foundDimensions}});
-      }
-      if(name && name!==''){
-        query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
-      }
-      query.where({totalValues: { $gt: 0 }});
-
-      query.limit(resultsPerPage)
-      .skip((page-1)*resultsPerPage)
-      .sort('-totalValues')
-      .exec(function(err, datas){
-        cb(err, datas, total);
-      });
-    
-    });
-  
-  });  
-};
-
-
-DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
+DataSchema.statics.listSubjective = function(page, resultsPerPage, dimensions, name, cb){
   var schema = this;
 
   var excluded = [];
@@ -212,33 +166,56 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, name, cb){
     excluded.push('p'+i);
   };
 
-  DatasetMongo.findOne({type:2}, function(err, dataset){
-    console.log(err);
-    var queryTotal = schema.find({dataset: dataset['_id']});
-    
-    if(name && name!==''){
-      queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
-    }
-    queryTotal.where({'$where': "this.optionValues.length > 0" });
-    queryTotal.where({name:{'$nin':excluded}});
-    queryTotal
-    .count()
-    .exec(function(err, total){
-      var query = schema.find({dataset: dataset['_id']});
-      if(name && name!==''){
-        query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
-      }
-      query.where({'$where': "this.optionValues.length > 0"});
-      query.where({name:{'$nin':excluded}});
+  for (var i = 0; i < dimensions.length; i++) {
+    dimensions[i] = dimensions[i].trim();
+  }
+  if(dimensions.length == 1 && dimensions[0] == ''){
+    dimensions = [];
+  }
 
-      query.limit(resultsPerPage)
-      .skip((page-1)*resultsPerPage)
-      .sort('-totalValues')
-      .exec(function(err, datas){
-        console.log('228', err);
-        cb(err, datas, total);
-      });
+
+  DatasetMongo.findOne({type:2}, function(err, dataset){
     
+    DimensionMongo.find({name: {$in: dimensions}})
+    .select('_id')
+    .exec(function(err, foundDimensions){
+    
+
+
+      console.log(err);
+      var queryTotal = schema.find({dataset: dataset['_id']});
+      
+      if(foundDimensions.length > 0){
+        queryTotal = queryTotal.where({dimension: {$in: foundDimensions}});
+      }
+      if(name && name!==''){
+        queryTotal = queryTotal.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+      }
+
+      queryTotal.where({'$where': "this.optionValues.length > 0" });
+      queryTotal.where({name:{'$nin':excluded}});
+      queryTotal
+      .count()
+      .exec(function(err, total){
+        var query = schema.find({dataset: dataset['_id']});
+        if(foundDimensions.length>0){
+          query = query.where({dimension: {$in: foundDimensions}});
+        }
+        if(name && name!==''){
+          query = query.or([{name: new RegExp(name, 'i')}, {description: new RegExp(name, 'i')}]);
+        }
+        query.where({'$where': "this.optionValues.length > 0"});
+        query.where({name:{'$nin':excluded}});
+
+        query.limit(resultsPerPage)
+        .skip((page-1)*resultsPerPage)
+        .sort('-totalValues')
+        .exec(function(err, datas){
+          console.log('228', err);
+          cb(err, datas, total);
+        });
+      });
+      
     });
   });
 

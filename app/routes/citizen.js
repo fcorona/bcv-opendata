@@ -119,7 +119,7 @@ var datasetsSubjective = function(req, res){
       tags += tag+';';
     }
   };
-  dataset.DataMongo.listSubjective(page, resultsPerPage, name,
+  dataset.DataMongo.listSubjective(page, resultsPerPage, tags.split(';'), name,
   function(err, datasets, total){
     console.log('total', total);
     if(err){
