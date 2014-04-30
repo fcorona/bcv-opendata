@@ -53,6 +53,78 @@ var exportCSV = function(foundDataset, res){
   });
 }
 
+
+var exportAllCSV = function(res){
+
+  dataset.DatasetMongo.findOne({'name':'iicv'}, function(err, datasetFound){
+    dataset.DataMongo.find({'dataset': datasetFound}, {}, {sort:{'dimension':1,'category':1}})
+      .populate('dataset')
+      .populate('dimension')
+      .populate('category')
+      .populate('optionValues')
+      .exec(function (err, foundDatas){
+        var headers = ['ID', 'Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
+        for(var i=1998; i<2015;i++){
+          headers.push(''+i);
+        }
+
+        dataset.ValuesMongo.find({dataset: datasetFound},{},{sort:{year: 1}},
+        function(err, values){
+          if(err){
+            res.send(500, err);
+            return;
+          }
+
+          var content = [];
+          var theCSV = [];
+          theCSV.push(headers);
+          for(var j=0; j<foundDatas.length; j++){
+            var content = [];
+            var foundData = foundDatas[j];
+            var id = foundData['_id'];
+            content.push(id);
+            content.push(foundData.dimension.name);
+            content.push(foundData.category.name);
+            content.push(foundData.name);
+            content.push(foundData.description);
+            content.push(foundData.measureType);
+            content.push(foundData.source);
+            content.push(foundData.coverage);
+            content.push(foundData.period);
+            
+            
+            for(var i = 0; i < values.length; i++){
+              var value = values[i];
+              content.push(value.getValue(''+id));
+            };
+            theCSV.push(content);
+          }
+          
+          res.set('Content-Type', 'text/csv');
+          res.set('Content-Disposition', 'attachment; filename=iicv.csv');
+          var iconv = new Iconv('UTF-8', 'ISO-8859-1');
+          var result = [];
+          csv()
+          .from(theCSV, { delimiter: ';'})
+          .on('data', function(data) {
+            result.push(data);
+          })
+          .on('end', function() {
+            var buffer = iconv.convert(result.join(''));
+            res.send(buffer);
+          });
+        });
+      });
+  });
+
+
+}
+
+exports.exportIICV = function(req, res, next){
+  exportAllCSV(res);
+  return;
+}
+
 exports.showDataset = function(req, res, next){
   var format = req.params.format || 'html';
   format = format ==='html' || format==='csv' ? format : 'html';

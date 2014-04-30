@@ -9,7 +9,8 @@ var fs = require('fs'),
     ValuesModel = datasetModels.ValuesMongo,
     apps = require('../models/apps'),
     ChallengeModel = require('../models/challenges').ChallengeModel,
-    UserModel = require('../models/user').User;
+    UserModel = require('../models/user').User,
+    datasetRoute = require('./dataset');
 
 var validAdmin = function(req, res, next){
   if(!req.isAuthenticated()){
@@ -33,7 +34,7 @@ module.exports = function(app){
   app.get('/admin/datasets/:datasetId/countData', validAdmin, countDataDataset);
   app.post('/admin/datasets/:datasetId/edit', validAdmin, updateDataset);
   app.get('/admin/datasets/:dataset/metrics', validAdmin, metrics);
-
+  app.get('/admin/exportIICV', datasetRoute.exportIICV);
   app.get('/admin/apps', validAdmin, listApps);
   app.get('/admin/apps/:appId', validAdmin, viewApp);
   app.post('/admin/apps/:appId/toggleBlock', validAdmin, toggleBlockApp);
