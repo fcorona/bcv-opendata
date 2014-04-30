@@ -179,10 +179,11 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, dimensions, n
     DimensionMongo.find({name: {$in: dimensions}})
     .select('_id')
     .exec(function(err, foundDimensions){
+      console.log('182', err);
+      console.log('fd', foundDimensions.length);
     
 
 
-      console.log(err);
       var queryTotal = schema.find({dataset: dataset['_id']});
       
       if(foundDimensions.length > 0){
@@ -196,7 +197,10 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, dimensions, n
       queryTotal.where({name:{'$nin':excluded}});
       queryTotal
       .count()
-      .exec(function(err, total){
+      .exec(function(err2, total){
+        console.log('200', err2);
+        console.log('202', total);
+        
         var query = schema.find({dataset: dataset['_id']});
         if(foundDimensions.length>0){
           query = query.where({dimension: {$in: foundDimensions}});
@@ -210,11 +214,11 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, dimensions, n
         query.limit(resultsPerPage)
         .skip((page-1)*resultsPerPage)
         .sort('-totalValues')
-        .exec(function(err, datas){
-          console.log('214', err);
-          console.log('228', datas);
-          console.log('228', total);
+        .exec(function(err3, datas){
+          console.log('214', err3);
           console.log('228', cb);
+          console.log('228', total);
+          console.log('228', datas);
           cb(err, datas, total);
         });
       });
