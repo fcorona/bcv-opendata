@@ -46,6 +46,9 @@ module.exports = function(app){
   app.get('/admin/upload', validAdmin, uploadFileForm);
   app.post('/admin/upload', validAdmin, uploadFile);
 
+  app.get('/admin/iicv/update', validAdmin, uploadIICVForm);
+  app.post('/admin/iicv/update', validAdmin, updateIICV);
+
   app.get('/admin/challenges', validAdmin, listChallenges);
   app.get('/admin/challenges/create', validAdmin, formChallenge);
   app.post('/admin/challenges/create', validAdmin, createChallenge);
@@ -407,7 +410,24 @@ var uploadFile = function(req, res, next){
   res.redirect('/admin/upload/');
 };
 
-var originalHeaders= ['Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
+var uploadIICVForm = function(req, res){
+  res.render('admin/updateIICV', {title:'Plataforma de openData', messages: req.flash(), menu: MENU_STATES.DATAS });
+};
+
+var updateIICV = function(req, res, next){
+  if(req.files.file.path.indexOf('.csv')==-1&&req.files.file.path.indexOf('.CSV')==-1){
+    req.flash('error', req.files.file.name +' no es un archivo valido, por favor suba un archivo CSV.')
+    res.redirect('/admin/iicv/update');
+    return;
+  }
+
+  fs.readFile(req.files.file.path, processIICV);
+
+  req.flash('info', 'Procesando el archivo.');
+  res.redirect('/admin/iicv/update');
+};
+
+var originalHeaders= ['ID', 'Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
 var validateHeaders = function(headers){
   if(headers.length < originalHeaders.length){
     return false;
@@ -442,6 +462,7 @@ var Category = function(){
 };
 var Indicator = function(){
   return {
+    id: '',
     name: '',
     description: '',
     measureType: '',
@@ -459,9 +480,10 @@ var Data = function(){
 };
 
 var parseRowData = function(rows, years){
-  var dimensions = [];
+  var datas = [];
   var crudeData = function(){
     return {
+      id: '',
       dimension: '',
       category: '',
       indicator: '',
@@ -473,26 +495,32 @@ var parseRowData = function(rows, years){
     };
   };
   for(var i = 1; i < rows.length; i++){
-    var row = rows[i].split(';');
-    var crude = crudeData();
-    if(row.length < 8+years.length){
+    try{
+      var row = rows[i].split(';');
+      var crude = crudeData();
+
+      crude.id = parseInt(row[0].trim());
+      if(!crude.id){
+        continue;
+      }
+      crude.dimension = row[1].trim();
+      crude.category = row[2].trim();
+      crude.indicator = row[3].trim();
+      crude.description = row[4].trim();
+      crude.measureType = row[5].trim();
+      crude.source = row[6].trim();
+      crude.coverage = row[7].trim();
+      crude.period = row[8].trim();
+
+      for (var j = 0; j < years.length; j++) {
+        crude[years[j]] = row[9+j]||'';
+      };
+      datas.push(crude);
+    }catch(err){
       continue;
     }
-    crude.dimension = row[0].trim();
-    crude.category = row[1].trim();
-    crude.indicator = row[2].trim();
-    crude.description = row[3].trim();
-    crude.measureType = row[4].trim();
-    crude.source = row[5].trim();
-    crude.coverage = row[6].trim();
-    crude.period = row[7].trim();
-
-    for (var j = 0; j < years.length; j++) {
-      crude[years[j]] = row[8+j];
-    };
-    dimensions.push(crude);
   };
-  return dimensions;
+  return datas;
 };
 
 var nonValueValues = ['N.D', 'N.D.', 'N.A', 'por confirmar', 'ND', ''];
@@ -645,6 +673,68 @@ var transformData = function(parsedData, years){
         }; 
       });
   };
+};
+
+var updateIICVData = function(parsedData, years){
+  var myProcessedData = processedData();
+
+  var docYears = [];
+  
+  DatasetModel.findOne({name: 'iicv'}, function(err, datasetDB){
+    for(var i = 0; i<years.length; i++){
+      var docYear = {year: years[i], dataset: datasetDB};
+      docYears.push(docYear);
+    };
+    console.log('err', err);
+    for(var i=0; i<parsedData.length; i++){
+      var crudeData = parsedData[i];
+      var processFunction = MEASURE_TYPES[crudeData.measureType];
+      var processedIndicator = Indicator();
+      processedIndicator.id = crudeData.id;
+      processedIndicator.name = crudeData.indicator;
+      processedIndicator.description = crudeData.description;
+      processedIndicator.measureType = crudeData.measureType;
+      processedIndicator.source = crudeData.source;
+      processedIndicator.coverage = crudeData.coverage;
+      processedIndicator.period = crudeData.period;
+      //console.log(crudeData);
+
+      for(var j=0; j<years.length; j++){
+        var year = years[j];
+        var docYear = docYears[j];
+        docYear[''+processedIndicator.id] = processFunction(crudeData[year].trim());
+      }
+    };
+    ValuesModel.find({dataset:datasetDB},{},{sort:{year:1}}, function(err2, valueses){
+      if(err2){
+        console.log(err2);
+        res.send(err2);
+        return;
+      }
+
+      for (var j = 0; j < docYears.length; j++) {
+        var docYear = docYears[j];
+        var updated = false;
+        for(var i = 0; i < valueses.length; i++){
+          var values = valueses[i];
+          if(values.year == docYear.year){
+            values.update(docYear, function(err5, updated){
+              if(err5){
+                console.log(err5);
+                return;
+              }
+            });
+            updated = true;
+            break;
+          }
+        };
+        if(!updated){
+          (new ValuesModel(docYear)).save();
+        }
+      };
+      //console.log(docYears);
+    });
+  });
 };
 
 
@@ -973,4 +1063,24 @@ var processFile = function (err, data) {
   
   transformData(parsedData, years);
 };
+
+var processIICV = function (err, data) {
+  // node no soporta encoding iso-8859-1
+  var iconv = new Iconv('ISO-8859-1', 'UTF-8');
+  var buffer = iconv.convert(data);
+
+  var rows = buffer.toString('utf8').split('\n');
+  var headers = rows[0].split(';');
+  var validated = validateHeaders(headers);
+  if(!validated){
+    //req.flash('error', 'las cabeceras del archivo no son correctas.');
+    return;
+  }
+  var years = getYears(headers);
+  console.log(rows.length, years.length);
+  var parsedData = parseRowData(rows, years);
+  updateIICVData(parsedData, years);
+};
+
+
 exports.validateHeaders = validateHeaders;

@@ -105,7 +105,7 @@ var exportAllCSV = function(res){
           var iconv = new Iconv('UTF-8', 'ISO-8859-1');
           var result = [];
           csv()
-          .from(theCSV, { delimiter: ';'})
+          .from(theCSV, { delimiter: ';', rowDelimiter:'\r'})
           .on('data', function(data) {
             result.push(data);
           })
