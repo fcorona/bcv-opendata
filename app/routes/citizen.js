@@ -86,7 +86,8 @@ var datasets = function(req, res){
     }
 
     var total = Math.ceil(total/resultsPerPage);
-    dataset.DimensionMongo.find(function(err, allTags){
+    var datasetDB = datasets[0].dataset;
+    dataset.DimensionMongo.find({dataset:datasetDB},function(err, allTags){
       if(err){
         res.send(500, err);
         return;
@@ -109,7 +110,15 @@ var datasetsSubjective = function(req, res){
   var name = req.query.name || '';
   var page = parseInt(req.query.page) || 1;
   var resultsPerPage = 10;
-
+  var tags = req.query.tags || '';
+  var tagsToArray = tags.split(';');
+  tags = '';
+  for(var i = 0; i < tagsToArray.length; i++){
+    var tag = (tagsToArray[i] || '').trim();
+    if(tag !== ''){
+      tags += tag+';';
+    }
+  };
   dataset.DataMongo.listSubjective(page, resultsPerPage, name,
   function(err, datasets, total){
     console.log('total', total);
@@ -119,13 +128,21 @@ var datasetsSubjective = function(req, res){
     }
 
     var total = Math.ceil(total/resultsPerPage);
-    res.render('citizen/datasetsSubjective', {
-      datasets: datasets,
-      current: page,
-      total: total,
-      name: name,
-      menuSelected: 'datasets',
-      allTags:[]
+    var datasetDB = datasets[0].dataset;
+    dataset.DimensionMongo.find({dataset:datasetDB},function(err, allTags){
+      if(err){
+        res.send(500, err);
+        return;
+      }
+      res.render('citizen/datasetsSubjective', {
+        datasets: datasets,
+        current: page,
+        total: total,
+        name: name,
+        tags: tags,
+        menuSelected: 'datasets',
+        allTags:allTags
+      });
     });
   });  
 }
