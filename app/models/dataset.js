@@ -212,6 +212,9 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, dimensions, n
         .sort('-totalValues')
         .exec(function(err, datas){
           console.log('228', err);
+          console.log('228', datas);
+          console.log('228', total);
+          console.log('228', cb);
           cb(err, datas, total);
         });
       });
