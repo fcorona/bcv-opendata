@@ -86,22 +86,24 @@ var datasets = function(req, res){
     }
 
     var total = Math.ceil(total/resultsPerPage);
-    var datasetDB = datasets[0].dataset;
-    dataset.DimensionMongo.find({dataset:datasetDB},function(err, allTags){
-      if(err){
-        res.send(500, err);
-        return;
-      }
-      res.render('citizen/datasets', {
-        datasets: datasets,
-        current: page,
-        total: total,
-        tags: tags,
-        name: name,
-        menuSelected: 'datasets',
-        allTags: allTags
+    dataset.DatasetMongo.findOne({type:1}, function(err, datasetDB){
+
+      dataset.DimensionMongo.find({dataset:datasetDB},function(err, allTags){
+        if(err){
+          res.send(500, err);
+          return;
+        }
+        res.render('citizen/datasets', {
+          datasets: datasets,
+          current: page,
+          total: total,
+          tags: tags,
+          name: name,
+          menuSelected: 'datasets',
+          allTags: allTags
+        });
       });
-    });
+    })
   });
 };
 
@@ -128,20 +130,22 @@ var datasetsSubjective = function(req, res){
     }
 
     var total = Math.ceil(total/resultsPerPage);
-    var datasetDB = datasets[0].dataset;
-    dataset.DimensionMongo.find({dataset:datasetDB},function(err, allTags){
-      if(err){
-        res.send(500, err);
-        return;
-      }
-      res.render('citizen/datasetsSubjective', {
-        datasets: datasets,
-        current: page,
-        total: total,
-        name: name,
-        tags: tags,
-        menuSelected: 'datasets',
-        allTags:allTags
+    dataset.DatasetMongo.findOne({type:2}, function(err, datasetDB){
+
+      dataset.DimensionMongo.find({dataset:datasetDB},function(err, allTags){
+        if(err){
+          res.send(500, err);
+          return;
+        }
+        res.render('citizen/datasetsSubjective', {
+          datasets: datasets,
+          current: page,
+          total: total,
+          name: name,
+          tags: tags,
+          menuSelected: 'datasets',
+          allTags:allTags
+        });
       });
     });
   });  

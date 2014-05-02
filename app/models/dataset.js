@@ -180,7 +180,7 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, dimensions, n
     .select('_id')
     .exec(function(err, foundDimensions){
       console.log('182', err);
-      console.log('fd', foundDimensions.length);
+      console.log('fd', foundDimensions);
     
 
 
@@ -200,7 +200,7 @@ DataSchema.statics.listSubjective = function(page, resultsPerPage, dimensions, n
       .exec(function(err2, total){
         console.log('200', err2);
         console.log('202', total);
-        
+
         var query = schema.find({dataset: dataset['_id']});
         if(foundDimensions.length>0){
           query = query.where({dimension: {$in: foundDimensions}});
