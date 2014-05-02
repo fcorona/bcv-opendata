@@ -193,6 +193,11 @@ var multipleValueStrategy = function(res, data, filter){
     function(err, results){
       if (err) console.log(err);
       var jsonResponse = data.toJSON();
+      jsonResponse['dimensionId'] = jsonResponse.dimension.dimensionId;
+      delete jsonResponse['dimension'];
+      jsonResponse['categoryId'] = jsonResponse.category.categoryId;
+      delete jsonResponse['category'];
+
       var datasByYear = {};
       for(var i=0; i<results.length; i++){
         var result = results[i];
