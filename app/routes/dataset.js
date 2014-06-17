@@ -8,8 +8,8 @@ var flash = require('connect-flash'),
 var exportCSV = function(foundDataset, res){
   var headers = ['Dimensión', 'Categoría','Indicador','Descripción','Unidad de Medida','Fuente','Cobertura','Periodicidad'];
   var content = [];
-  content.push(foundDataset.dimension.name);
-  content.push(foundDataset.category.name);
+  content.push(foundDataset.dimension ? foundDataset.dimension.name : '');
+  content.push(foundDataset.category ? foundDataset.category.name : '');
   content.push(foundDataset.name);
   content.push(foundDataset.description);
   content.push(foundDataset.measureType);
